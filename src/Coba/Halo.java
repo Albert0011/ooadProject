@@ -5,7 +5,7 @@ public class Halo {
 	public Halo() {
 		// TODO Auto-generated constructor stub
 		System.out.println("halo bocil");
-		System.out.println("halo lagii");
+		System.out.println("halo lagi");
 	}
 
 }
