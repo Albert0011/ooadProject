@@ -25,7 +25,7 @@ public class Connector {
 			new Connector();
 		}
 		
-		System.out.println("halo");
+		System.out.println("haloo");
 		return connection;
 	}
 	
