@@ -25,11 +25,6 @@ public class Connector {
 			new Connector();
 		}
 		
-		System.out.println("yeeeee");
-		System.out.println("noo");
-		System.out.println("cek ini albert yg ubah");
-		System.out.println("cek ini albert yg ubah coba lagi");
-		System.out.println("haleluya");
 		return connection;
 	}
 	
