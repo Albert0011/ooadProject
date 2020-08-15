@@ -25,7 +25,6 @@ public class Connector {
 			new Connector();
 		}
 		
-		System.out.println("haloo ini albert");
 		return connection;
 	}
 	

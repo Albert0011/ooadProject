@@ -1,5 +1,6 @@
 package controllers;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import views.MainDisplay;
@@ -25,6 +26,12 @@ public class MainController {
 		mainDisplay.revalidate();
 		mainDisplay.repaint();
 	}
+	
+//	public void addFrame(JFrame frame) {
+//		mainDisplay.add(frame);
+//		mainDisplay.revalidate();
+//		mainDisplay.repaint();
+//	}
 	
 	public static final MainDisplay getMainDisplay() {
 		return mainDisplay;
