@@ -29,9 +29,14 @@ public class Connector {
 		System.out.println("noo");
 		System.out.println("cek ini albert yg ubah");
 		System.out.println("cek ini albert yg ubah coba lagi");
+
 		System.out.println("ian yang gantiii");
 		System.out.println("ianianian");
 		System.out.println("hahaha");
+
+		System.out.println("haleluya");
+		
+		System.out.println("sudah ???");
 		return connection;
 	}
 	
