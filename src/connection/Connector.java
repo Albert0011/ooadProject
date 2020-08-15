@@ -31,6 +31,7 @@ public class Connector {
 		System.out.println("cek ini albert yg ubah coba lagi");
 		System.out.println("ian yang gantiii");
 		System.out.println("ianianian");
+		System.out.println("haha");
 		return connection;
 	}
 	
