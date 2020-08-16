@@ -1,13 +1,19 @@
 package controllers;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Date;
+
+import javax.swing.JFrame;
+
 import models.User;
+import views.AllUserDisplay;
 import views.CreateUserDisplay;
 import views.ProfileDisplay;
 
 public class UserController {
 
+	
 	public UserController() {
 		
 	}
@@ -32,14 +38,39 @@ public class UserController {
 		});
 	}
 	
+	public static void openAllUserDisplay() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AllUserDisplay frame = new AllUserDisplay(getAllUser());
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
 	public static User getUser(String userID) {
-		return User.getUser(userID);
+		return User.get(userID);
 	}
 	
 	public static void createUser(String username, String role, Date DOB, String address, String telp) {
 		User user = new User(null, username, null, role, address, null, telp);
-		user.createUser(username, role, DOB, address, telp);
+		user.create(username, role, DOB, address, telp);
 		
+	}
+	
+	public static ArrayList<User> getAllUser(){
+		return User.getAll();
+	}
+	
+	public static void deleteUser(String id) {
+		User user = getUser(id);
+		user.delete(id);
+		AllUserDisplay frame = new AllUserDisplay(getAllUser());
+		frame.setVisible(false);
 	}
 
 }

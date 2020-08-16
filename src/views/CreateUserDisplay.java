@@ -2,7 +2,6 @@ package views;
 
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
@@ -16,28 +15,13 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controllers.UserController;
 
 public class CreateUserDisplay extends JFrame{
-	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					CreateUserDisplay frame = new CreateUserDisplay();
-//					frame.setVisible(true);
-//					frame.setResizable(false);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-	
+
 	/**
 	 * 
 	 */
@@ -93,23 +77,23 @@ public class CreateUserDisplay extends JFrame{
 		
 		
 		
-		JComboBox roleChoice = new JComboBox();
-		roleChoice.setModel(new DefaultComboBoxModel(new String[] {"Worker", "Supervisor"}));
+		JComboBox<Object> roleChoice = new JComboBox<Object>();
+		roleChoice.setModel(new DefaultComboBoxModel<Object>(new String[] {"Worker", "Supervisor"}));
 		roleChoice.setBounds(102, 140, 175, 20);
 		this.getContentPane().add(roleChoice);
 		
-		JComboBox yearChoose = new JComboBox();
-		yearChoose.setModel(new DefaultComboBoxModel(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
+		JComboBox<Object> yearChoose = new JComboBox<Object>();
+		yearChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
 		yearChoose.setBounds(102, 170, 69, 20);
 		this.getContentPane().add(yearChoose);
 		
-		JComboBox monthChoose = new JComboBox();
-		monthChoose.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
+		JComboBox<Object> monthChoose = new JComboBox<Object>();
+		monthChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		monthChoose.setBounds(175, 170, 53, 20);
 		this.getContentPane().add(monthChoose);
 		
-		JComboBox dayChoose = new JComboBox();
-		dayChoose.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+		JComboBox<Object> dayChoose = new JComboBox<Object>();
+		dayChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
 		dayChoose.setBounds(232, 170, 45, 20);
 		this.getContentPane().add(dayChoose);
 		
@@ -118,9 +102,6 @@ public class CreateUserDisplay extends JFrame{
 		this.getContentPane().add(unamefield);
 		unamefield.setColumns(10);
 		
-		JScrollBar addressBar = new JScrollBar();
-		addressBar.setBounds(259, 219, 17, 48);
-		this.getContentPane().add(addressBar);
 		
 		JTextArea addressField = new JTextArea();
 		addressField.setForeground(Color.BLACK);
@@ -171,7 +152,10 @@ public class CreateUserDisplay extends JFrame{
 					
 					Date date1 = new GregorianCalendar(year, month, day).getTime();
 					UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());
-
+					
+					unamefield.setText("");
+					addressField.setText("");
+					telpField.setText("");
 				}
 			}
 		});

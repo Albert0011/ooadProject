@@ -1,16 +1,15 @@
 package ooad;
 
-import controllers.MainController;
+
 import controllers.UserController;
-import views.CreateUserDisplay;
-import views.ProfileDisplay;
 
 public class Main {
 	
 
 	public Main() {
-		UserController.openProfileDisplay();
-		UserController.openCreateUserDisplay();
+		//UserController.openProfileDisplay();
+		//UserController.openCreateUserDisplay();
+		UserController.openAllUserDisplay();
 	}
 	
 	public static void main(String[] args) {

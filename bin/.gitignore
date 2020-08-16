@@ -1,6 +1,4 @@
-/connection/
-/controllers/
-/helpers/
-/models/
-/ooad/
 /views/
+/models/
+/controllers/
+/ooad/

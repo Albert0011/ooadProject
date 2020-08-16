@@ -21,16 +21,18 @@ public class MainController {
 		return mainController;
 	}
 	
+	
+	
 	public void addPanel(JPanel panel) {
 		mainDisplay.add(panel);
 		mainDisplay.revalidate();
 		mainDisplay.repaint();
 	}
 	
-//	public void addFrame(JFrame frame) {
-//		mainDisplay.add(frame);
-//		mainDisplay.revalidate();
-//		mainDisplay.repaint();
+//	public void updateFrame(JFrame frame) {
+//		frame.invalidate();
+//		frame.validate();
+//		frame.repaint();
 //	}
 	
 	public static final MainDisplay getMainDisplay() {

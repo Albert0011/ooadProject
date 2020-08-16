@@ -1,15 +1,12 @@
 package models;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
 import javax.swing.JOptionPane;
-
 import com.mysql.jdbc.PreparedStatement;
-
 import connection.Connector;
 
 public class User {
@@ -35,7 +32,7 @@ public class User {
 	}
 
 
-	public static User getUser(String id) {
+	public static User get(String id) {
 		String query = "SELECT * from users where id  = ?";
 		
 		try {
@@ -58,7 +55,8 @@ public class User {
 			
 			return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
 			
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		
@@ -66,9 +64,8 @@ public class User {
 		
 	}
 	
-	public void createUser(String username, String role, Date dob, String address, String telp) {
+	public void create(String username, String role, Date dob, String address, String telp) {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
-		
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
@@ -84,18 +81,45 @@ public class User {
 			ps.setString(7, telp);
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Add User Success!!");
-
-			
-//			System.out.println("username " + username);
-//			System.out.println("role " + role);
-//			System.out.println("date " + dob);
-//			System.out.println("add " + address);
-//			System.out.println("telp " + telp);
-			
-			
-		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Add User Success!!");			
+		} 
+		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Add User Failed!! "+e.getMessage());
+		}
+	}
+	
+	public static ArrayList<User> getAll() {
+		ArrayList<User> listUser = new ArrayList<User>();
+		String query = "select * from users";
+		try {
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery(query);
+			User user;
+			while(rs.next()) {
+				user = new User(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7));
+				listUser.add(user);
+			}
+			ps.close();
+			rs.close();
+			return listUser;	
+		} 
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Get All User Failed "+e.getMessage());
+		}
+		return null;
+	}
+	
+	public void delete(String id) {
+		String query = "delete from users where id = ?";
+		try {
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, id.toString());
+			
+			ps.execute();
+			JOptionPane.showMessageDialog(null, "Delete User Success!!");			
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
 		}
 	}
 	
