@@ -10,7 +10,7 @@ public class Main {
 
 	public Main() {
 		UserController.openProfileDisplay();
-		//UserController.openCreateUserDisplay();
+		UserController.openCreateUserDisplay();
 	}
 	
 	public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.EventQueue;
 import java.util.Date;
 import models.User;
 import views.CreateUserDisplay;
@@ -17,10 +18,19 @@ public class UserController {
 		MainController.getInstance().addPanel(profileDisplay);
 	}
 	
-//	public static void openCreateUserDisplay() {
-//		CreateUserDisplay createUserDisplay = new CreateUserDisplay();
-//		MainController.getInstance().addFrame(createUserDisplay);
-//	}
+	public static void openCreateUserDisplay() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateUserDisplay frame = new CreateUserDisplay();
+					frame.setVisible(true);
+					frame.setResizable(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	
 	public static User getUser(String userID) {
 		return User.getUser(userID);

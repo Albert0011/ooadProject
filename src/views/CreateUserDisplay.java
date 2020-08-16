@@ -24,19 +24,19 @@ import controllers.UserController;
 
 public class CreateUserDisplay extends JFrame{
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateUserDisplay frame = new CreateUserDisplay();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					CreateUserDisplay frame = new CreateUserDisplay();
+//					frame.setVisible(true);
+//					frame.setResizable(false);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 	
 	/**
 	 * 
