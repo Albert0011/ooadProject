@@ -123,6 +123,20 @@ public class User {
 		}
 	}
 	
+	public void update(String id) {
+		String query = "update users set password = ? where id = ?";
+		try {
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, id.toString());
+			
+			ps.execute();
+			JOptionPane.showMessageDialog(null, "Reset password Success!!");			
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
+		}
+	}
+	
 
 	public UUID getId() {
 		return id;
