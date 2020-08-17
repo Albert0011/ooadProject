@@ -121,6 +121,22 @@ public class User {
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
 		}
+
+	}
+	
+	public void update(String id) {
+		String query = "update users set password = ? where id = ?";
+		try {
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, id.toString());
+			
+			ps.execute();
+			JOptionPane.showMessageDialog(null, "Reset password Success!!");			
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
+		}
+
 	}
 	
 

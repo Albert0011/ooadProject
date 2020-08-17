@@ -1,4 +1,10 @@
 /views/
+<<<<<<< HEAD
 /models/
 /controllers/
 /ooad/
+=======
+/controllers/
+/models/
+>>>>>>> refs/remotes/origin/master
+/helpers/

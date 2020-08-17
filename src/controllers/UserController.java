@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 import models.User;
 import views.AllUserDisplay;
@@ -39,16 +40,9 @@ public class UserController {
 	}
 	
 	public static void openAllUserDisplay() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AllUserDisplay frame = new AllUserDisplay(getAllUser());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		ArrayList<User> user = getAllUser();
+		AllUserDisplay frame = new AllUserDisplay(user);
+		frame.setVisible(true);
 	}
 
 	
@@ -69,8 +63,12 @@ public class UserController {
 	public static void deleteUser(String id) {
 		User user = getUser(id);
 		user.delete(id);
-		AllUserDisplay frame = new AllUserDisplay(getAllUser());
-		frame.setVisible(false);
 	}
+	
+//	public static void resetPassword(String id) {
+//		User user = getUser(id);
+//	}
+	
+	
 
 }
