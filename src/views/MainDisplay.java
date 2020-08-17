@@ -8,7 +8,7 @@ public class MainDisplay extends JFrame{
 	
 	public MainDisplay() {
 		
-		this.setSize(500, 500);
+		this.setSize(570, 500);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
