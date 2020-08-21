@@ -26,10 +26,34 @@ public class CreateUserDisplay extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final int[] JUMLAHHARI = {
+			31,28,31,30,31,30,31,31,30,31,30,31
+	};
+	
+	public static boolean isLeapYear(int year) {
+		if(((year%4 == 0) && !(year%100 == 0)) || year%400 == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isValidDate(int day, int month, int year) {
+		if(month == 2 && isLeapYear(year)) {
+			if(day > 29 || day < 1) return false;
+		}
+		else if(month == 2 && !isLeapYear(year)) {
+			if(day > 28 || day < 1) return false;
+		}
+		else {
+			if(day < 1 || day > JUMLAHHARI[month-1]) return false;
+		}
+		return true;
+	}
 
 	public CreateUserDisplay() {
 		this.getContentPane().setBackground(new Color(70, 130, 180));
-		this.setBounds(100, 100, 352, 449);
+		this.setBounds(100, 100, 413, 449);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
@@ -37,7 +61,7 @@ public class CreateUserDisplay extends JFrame{
 		titleCreateUser.setBackground(new Color(70, 130, 180));
 		titleCreateUser.setFont(new Font("Snap ITC", Font.BOLD, 22));
 		titleCreateUser.setForeground(new Color(255, 255, 255));
-		titleCreateUser.setBounds(53, 45, 243, 22);
+		titleCreateUser.setBounds(83, 45, 243, 22);
 		this.getContentPane().add(titleCreateUser);
 		
 		Label uname = new Label("Username");
@@ -113,7 +137,7 @@ public class CreateUserDisplay extends JFrame{
 		JButton backButton = new JButton("Back");
 		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		backButton.setBackground(new Color(255, 255, 255));
-		backButton.setBounds(65, 325, 85, 35);
+		backButton.setBounds(83, 325, 85, 35);
 		this.getContentPane().add(backButton);
 		
 		JLabel lblNewLabel = new JLabel("yyyy");
@@ -134,6 +158,25 @@ public class CreateUserDisplay extends JFrame{
 		lblNewLabel_2.setBounds(232, 194, 46, 14);
 		this.getContentPane().add(lblNewLabel_2);
 		
+
+		JLabel limitUname = new JLabel("5 - 15 characters");
+		limitUname.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		limitUname.setForeground(Color.WHITE);
+		limitUname.setBounds(285, 112, 107, 14);
+		this.getContentPane().add(limitUname);
+		
+		JLabel limitAddr = new JLabel("10 - 100 characters");
+		limitAddr.setForeground(Color.WHITE);
+		limitAddr.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		limitAddr.setBounds(285, 220, 107, 14);
+		this.getContentPane().add(limitAddr);
+		
+		JLabel limitNo = new JLabel("10 - 13 characters");
+		limitNo.setForeground(Color.WHITE);
+		limitNo.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		limitNo.setBounds(287, 284, 107, 14);
+		this.getContentPane().add(limitNo);
+		
 		JButton createUserButton = new JButton("Create User");
 		createUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -147,21 +190,29 @@ public class CreateUserDisplay extends JFrame{
 				}
 				else {
 					int year = Integer.parseInt(yearChoose.getSelectedItem().toString());
-					int month = Integer.parseInt(monthChoose.getSelectedItem().toString()) - 1;
+					int month = Integer.parseInt(monthChoose.getSelectedItem().toString());
 					int day = Integer.parseInt(dayChoose.getSelectedItem().toString());
 					
-					Date date1 = new GregorianCalendar(year, month, day).getTime();
-					UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());
+
 					
-					unamefield.setText("");
-					addressField.setText("");
-					telpField.setText("");
+					if(isValidDate(day, month, year) == true) {
+						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
+						UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
+					
+						unamefield.setText("");
+						addressField.setText("");
+						telpField.setText("");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Date is not valid!");
+					}
+					
 				}
 			}
 		});
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createUserButton.setBackground(new Color(255, 255, 255));
-		createUserButton.setBounds(163, 325, 120, 35);
+		createUserButton.setBounds(200, 325, 117, 35);
 		this.getContentPane().add(createUserButton);
 		
 		
