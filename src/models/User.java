@@ -74,11 +74,7 @@ public class User {
 	
 	public User save() {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
-		if(username.length() < 5 || username.length() > 15 || address.length() < 10 || 
-				address.length()>100 || telp.length()<10 || telp.length()>13) {
-			JOptionPane.showMessageDialog(null, "data not valid!! ");
-			return null;
-		}
+
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
