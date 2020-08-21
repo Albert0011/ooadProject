@@ -29,11 +29,6 @@ public class MainController {
 		mainDisplay.repaint();
 	}
 	
-//	public void updateFrame(JFrame frame) {
-//		frame.invalidate();
-//		frame.validate();
-//		frame.repaint();
-//	}
 	
 	public static final MainDisplay getMainDisplay() {
 		return mainDisplay;
