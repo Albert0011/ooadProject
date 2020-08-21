@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.PreparedStatement;
 import connection.Connector;
 
@@ -64,28 +65,41 @@ public class User {
 		
 	}
 	
-	public void create(String username, String role, Date dob, String address, String telp) {
+	public static User create(String username, String role, Date dob, String address, String telp) {
+		UUID userId = UUID.randomUUID();
+		java.sql.Date date= new java.sql.Date(dob.getTime());
+		String password = date.toString();
+		
+		User user = new User(userId, username, password, role, address, date, telp);
+		return user;
+	}
+	
+	public User save() {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
+		if(username.length() < 5 || username.length() > 15 || address.length() < 10 || 
+				address.length()>100 || telp.length()<10 || telp.length()>13) {
+			JOptionPane.showMessageDialog(null, "data not valid!! ");
+			return null;
+		}
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
-			UUID userId = UUID.randomUUID();
-			java.sql.Date date= new java.sql.Date(dob.getTime());
-			String password = date.toString();
-			ps.setString(1, userId.toString());
+			ps.setString(1, id.toString());
 			ps.setString(2, username);
 			ps.setString(3, password);
 			ps.setString(4, role);
 			ps.setString(5, address);
-			ps.setDate(6, date);
+			ps.setDate(6, (java.sql.Date) DOB);
 			ps.setString(7, telp);
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Add User Success!!");			
-		} 
+			JOptionPane.showMessageDialog(null, "Add User Success!!");		
+			return new User(id, username, password, role, address, DOB, telp);
+		}
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Add User Failed!! "+e.getMessage());
 		}
+		return null;
 	}
 	
 	public static ArrayList<User> getAll() {
@@ -109,11 +123,11 @@ public class User {
 		return null;
 	}
 	
-	public void delete(String id) {
+	public void delete() {
 		String query = "delete from users where id = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, id.toString());
+			ps.setString(1, this.id.toString());
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Delete User Success!!");			
@@ -121,22 +135,24 @@ public class User {
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
 		}
-
 	}
 	
-	public void update(String id) {
+	public void update() {
 		String query = "update users set password = ? where id = ?";
 		try {
+
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, id.toString());
+			ps.setString(1, this.password);
+			ps.setString(2, this.id.toString());
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Reset password Success!!");			
+			JOptionPane.showMessageDialog(null, "Reset password Success!!");
+			
+						
 		} 
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
 		}
-
 	}
 	
 
