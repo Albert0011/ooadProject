@@ -2,6 +2,9 @@ package views;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -54,6 +57,11 @@ public class ProfileDisplay extends JPanel{
 		add(telp);
 		
 		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//setVisible(false); //you can't see me!
+			}
+		});
 		backButton.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		backButton.setBounds(231, 375, 89, 41);
 		add(backButton);
