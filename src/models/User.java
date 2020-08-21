@@ -51,8 +51,6 @@ public class User {
 			java.sql.Date DOB = rs.getDate("DOB");
 			String telp = rs.getString("telp");
 			
-			System.out.println(role);
-			System.out.println(address);
 			
 			return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
 			
@@ -93,7 +91,7 @@ public class User {
 			ps.setString(7, telp);
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Add User Success!!");		
+			JOptionPane.showMessageDialog(null, "Create User Success!");
 			return new User(id, username, password, role, address, DOB, telp);
 		}
 		catch (SQLException e) {
@@ -138,15 +136,19 @@ public class User {
 	}
 	
 	public void update() {
-		String query = "update users set password = ? where id = ?";
+		String query = "update users set password = ?, username = ?, address = ?, DOB = ?, telp = ? where id = ?";
 		try {
 
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			ps.setString(1, this.password);
-			ps.setString(2, this.id.toString());
+			ps.setString(2, this.username);
+			ps.setString(3, this.address);
+			ps.setDate(4, (java.sql.Date) this.DOB);
+			ps.setString(5, this.telp);
+			ps.setString(6, this.id.toString());
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Reset password Success!!");
+			
 			
 						
 		} 
@@ -218,8 +220,9 @@ public class User {
 	}
 
 
-	public void setDOB(java.sql.Date dOB) {
-		DOB = dOB;
+	public void setDOB(Date dOB2) {
+		java.sql.Date date= new java.sql.Date(dOB2.getTime());
+		DOB = date;
 	}
 
 
