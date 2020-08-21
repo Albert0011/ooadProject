@@ -4,9 +4,6 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
-
 import models.User;
 import views.AllUserDisplay;
 import views.CreateUserDisplay;
@@ -40,9 +37,12 @@ public class UserController {
 	}
 	
 	public static void openAllUserDisplay() {
+		
 		ArrayList<User> user = getAllUser();
 		AllUserDisplay frame = new AllUserDisplay(user);
 		frame.setVisible(true);
+	
+	
 	}
 
 	
@@ -50,9 +50,9 @@ public class UserController {
 		return User.get(userID);
 	}
 	
-	public static void createUser(String username, String role, Date DOB, String address, String telp) {
-		User user = new User(null, username, null, role, address, null, telp);
-		user.create(username, role, DOB, address, telp);
+	public static User createUser(String username, String role, Date DOB, String address, String telp) {
+		User user = User.create(username, role, DOB, address, telp);
+		return user.save(); 
 		
 	}
 	
@@ -62,12 +62,18 @@ public class UserController {
 	
 	public static void deleteUser(String id) {
 		User user = getUser(id);
-		user.delete(id);
+		user.delete();
 	}
 	
-//	public static void resetPassword(String id) {
-//		User user = getUser(id);
-//	}
+	public static User resetPassword(String id) {
+		User user = getUser(id);
+		
+		java.sql.Date date= new java.sql.Date(user.getDOB().getTime());
+		String defaultPassword = date.toString();
+		user.setPassword(defaultPassword);
+		user.update();
+		return user;
+	}
 	
 	
 
