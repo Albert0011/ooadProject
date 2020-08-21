@@ -81,6 +81,13 @@ public class UserController {
 	}
 	
 	public static User createUser(String username, String role, Date DOB, String address, String telp) {
+	
+		if(username.length() < 5 || username.length() > 15 || address.length() < 10 || 
+				address.length()>100 || telp.length()<10 || telp.length()>13) {
+			JOptionPane.showMessageDialog(null, "data not valid!! ");
+			return null;
+		}
+		
 		User user = User.create(username, role, DOB, address, telp);
 		return user.save(); 
 		
