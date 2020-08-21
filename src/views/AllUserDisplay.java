@@ -288,6 +288,8 @@ public class AllUserDisplay extends JFrame {
 							DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
 							model.setValueAt(dobField.getText(), row, 2);
 							passField.setText(dobField.getText());	
+							
+							JOptionPane.showMessageDialog(null, "Reset password Success!!");
 						break;
 					case JOptionPane.NO_OPTION:
 						
