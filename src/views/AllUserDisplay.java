@@ -5,41 +5,37 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import java.awt.Font;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import controllers.UserController;
 import models.User;
+
 import java.awt.Color;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.border.LineBorder;
 
 public class AllUserDisplay extends JFrame {
 
-	private JPanel contentPane;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable viewAllTable;
-	private JTextField txtNo;
-	private JTextField txtId;
-	private JTextField txtUsername;
-	private JTextField txtTelp;
-	private JTextField txtDob;
-	private JTextField txtAddress;
-	private JTextField txtRole;
 	private JButton btnDeleteUser;
 	private JButton btnResetPassword;
 	private JTextField idField;
@@ -49,17 +45,10 @@ public class AllUserDisplay extends JFrame {
 	private JTextField addrField;
 	private JTextField dobField;
 	private JTextField telpField;
-
-
-	public AllUserDisplay(ArrayList<User> list) {
-
-		getContentPane().setBackground(new Color(230, 230, 250));
-		setBackground(new Color(250, 250, 210));
-		this.setBounds(100, 100, 850, 500);
-		getContentPane().setLayout(null);
-		
+	private JScrollPane scrollPane;
 	
-		DefaultTableModel model = new DefaultTableModel();
+	public void load_table(ArrayList<User> list) {
+		DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
 		model.addColumn("username");
 		model.addColumn("password");
@@ -67,16 +56,6 @@ public class AllUserDisplay extends JFrame {
 		model.addColumn("address");
 		model.addColumn("DOB");
 		model.addColumn("telp");
-		
-		viewAllTable = new JTable() {
-			private static final long serialVersionUID = 1L;
-			
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			};
-		};
-		
-		
 		
 		Object[] row = new Object[7];
 		for(int i=0; i<list.size(); i++) {
@@ -89,7 +68,7 @@ public class AllUserDisplay extends JFrame {
 			row[6] = list.get(i).getTelp();
 			model.addRow(row);
 		}
-
+		
 		viewAllTable.setEnabled(true);
 		viewAllTable.setRowSelectionAllowed(true);
 		viewAllTable.setModel(model);
@@ -100,70 +79,39 @@ public class AllUserDisplay extends JFrame {
 		viewAllTable.setAutoResizeMode(0);
 		viewAllTable.setBorder(new LineBorder(new Color(0, 0, 0)));
 		viewAllTable.setBounds(10, 79, 507, 289);
-		add(viewAllTable);
+		
+	}
+
+	public AllUserDisplay(ArrayList<User> list) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				load_table(list);
+			}
+		});
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 850, 500);
+		
+		getContentPane().setBackground(new Color(230, 230, 250));
+		setBackground(new Color(250, 250, 210));
+		getContentPane().setLayout(null);
+		
+	
+		
+		
+		viewAllTable = new JTable() {
+			private static final long serialVersionUID = 1L;
+			
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		
 		
 		Label label = new Label("All User Display");
 		label.setFont(new Font("Dialog", Font.PLAIN, 18));
 		label.setBounds(10, 10, 129, 22);
 		add(label);
-		
-		
-		txtNo = new JTextField();
-		txtNo.setHorizontalAlignment(SwingConstants.CENTER);
-		txtNo.setText("No");
-		txtNo.setEditable(false);
-		txtNo.setBounds(213, 58, 63, 22);
-		add(txtNo);
-		txtNo.setColumns(10);
-		
-		txtId = new JTextField();
-		txtId.setHorizontalAlignment(SwingConstants.CENTER);
-		txtId.setText("id");
-		txtId.setEditable(false);
-		txtId.setColumns(10);
-		txtId.setBounds(10, 58, 131, 22);
-		add(txtId);
-		
-		txtUsername = new JTextField();
-		txtUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		txtUsername.setText("username");
-		txtUsername.setEditable(false);
-		txtUsername.setColumns(10);
-		txtUsername.setBounds(140, 58, 74, 22);
-		add(txtUsername);
-		
-		txtTelp = new JTextField();
-		txtTelp.setHorizontalAlignment(SwingConstants.CENTER);
-		txtTelp.setText("telp");
-		txtTelp.setEditable(false);
-		txtTelp.setColumns(10);
-		txtTelp.setBounds(462, 58, 55, 22);
-		add(txtTelp);
-		
-		txtDob = new JTextField();
-		txtDob.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDob.setText("DOB");
-		txtDob.setEditable(false);
-		txtDob.setColumns(10);
-		txtDob.setBounds(401, 58, 62, 22);
-		add(txtDob);
-		
-		txtAddress = new JTextField();
-		txtAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		txtAddress.setText("address");
-		txtAddress.setEditable(false);
-		txtAddress.setColumns(10);
-		txtAddress.setBounds(336, 58, 66, 22);
-		add(txtAddress);
-		
-		txtRole = new JTextField();
-		txtRole.setHorizontalAlignment(SwingConstants.CENTER);
-		txtRole.setText("role");
-		txtRole.setEditable(false);
-		txtRole.setColumns(10);
-		txtRole.setBounds(275, 58, 62, 22);
-		add(txtRole);
 		
 		JLabel lblNewLabel = new JLabel("id");
 		lblNewLabel.setBounds(544, 91, 46, 14);
@@ -237,22 +185,35 @@ public class AllUserDisplay extends JFrame {
 		getContentPane().add(telpField);
 		
 		
-		JButton btnNewButton = new JButton("Back");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnNewButton.setBounds(125, 391, 89, 34);
-		add(btnNewButton);
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false); //you can't see me!
+				dispose();
+			}
+		});
+		backButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		backButton.setBounds(125, 391, 89, 34);
+		add(backButton);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 58, 507, 289);
+		getContentPane().add(scrollPane);
+		
+
 		
 		viewAllTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				int row = viewAllTable.getSelectedRow();
-				String userId = (viewAllTable.getValueAt(row, 0)).toString();
-				String username = (viewAllTable.getValueAt(row, 1)).toString();
-				String password = (viewAllTable.getValueAt(row, 2)).toString();
-				String role = (viewAllTable.getValueAt(row, 3)).toString();
-				String addr = (viewAllTable.getValueAt(row, 4)).toString();
-				String dob = (viewAllTable.getValueAt(row, 5)).toString();
-				String telp = (viewAllTable.getValueAt(row, 6)).toString();
+				TableModel model = viewAllTable.getModel();
+				String userId = (model.getValueAt(row, 0)).toString();
+				String username = (model.getValueAt(row, 1)).toString();
+				String password = (model.getValueAt(row, 2)).toString();
+				String role = (model.getValueAt(row, 3)).toString();
+				String addr = (model.getValueAt(row, 4)).toString();
+				String dob = (model.getValueAt(row, 5)).toString();
+				String telp = (model.getValueAt(row, 6)).toString();
 				idField.setText(userId);
 				unameField.setText(username);
 				passField.setText(password);
@@ -271,16 +232,23 @@ public class AllUserDisplay extends JFrame {
 					JOptionPane.showMessageDialog(null, "Please Select User");
 				}
 				else {
-					
-					
-					
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to delete this user?");
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						int row = viewAllTable.getSelectedRow();
 						String userId = (viewAllTable.getValueAt(row, 0)).toString();
 							UserController.deleteUser(userId);
+							
+							DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
 							model.removeRow(row);
+							idField.setText("");
+							unameField.setText("");
+							passField.setText("");
+							roleField.setText("");
+							addrField.setText("");
+							dobField.setText("");
+							telpField.setText("");
+							
 						break;
 					case JOptionPane.NO_OPTION:
 					
@@ -301,11 +269,46 @@ public class AllUserDisplay extends JFrame {
 		add(btnDeleteUser);
 		
 		btnResetPassword = new JButton("Reset Password");
+		btnResetPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(viewAllTable.getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select User");
+				}
+				else if((passField.getText()).equals(dobField.getText())){
+						JOptionPane.showMessageDialog(null, "Password still default!");
+				}
+				else {
+
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reset this user password?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+						int row = viewAllTable.getSelectedRow();
+						String userId = (viewAllTable.getValueAt(row, 0)).toString();
+							UserController.resetPassword(userId);
+							DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
+							model.setValueAt(dobField.getText(), row, 2);
+							passField.setText(dobField.getText());	
+						break;
+					case JOptionPane.NO_OPTION:
+						
+						break;
+					case JOptionPane.CANCEL_OPTION:
+					
+						break;
+	
+					default:
+						break;
+						
+					}
+
+				}
+			}
+		});
 		btnResetPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnResetPassword.setBounds(544, 391, 162, 34);
 		add(btnResetPassword);
 
-
+		scrollPane.setViewportView(viewAllTable);
 		
 		
 		this.setVisible(true);
