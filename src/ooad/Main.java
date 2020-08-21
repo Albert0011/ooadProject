@@ -15,9 +15,6 @@ public class Main {
 //		UserController.openAllUserDisplay();
 		TaskController.openCreateTaskForm();
 
-		//UserController.openProfileDisplay();
-		//UserController.openCreateUserDisplay();
-		UserController.openAllUserDisplay();
 	}
 	
 	public static void main(String[] args) {
