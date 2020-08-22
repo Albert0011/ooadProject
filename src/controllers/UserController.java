@@ -17,7 +17,7 @@ public class UserController {
 	}
 	
 	public static void openProfileDisplay() {
-		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
 		ProfileDisplay profileDisplay = new ProfileDisplay(user);
 		MainController.getInstance().addPanel(profileDisplay);
 	}
