@@ -1,0 +1,165 @@
+package views;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import controllers.UserController;
+import models.User;
+
+import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+
+public class AdminHomepage extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+
+
+	private CreateUserDisplay panel;
+	/**
+	 * Create the frame.
+	 */
+	public AdminHomepage(ArrayList<User> list) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 813, 567);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel menuPanel = new JPanel();
+		menuPanel.setBackground(new Color(0, 0, 51));
+		menuPanel.setBounds(0, 0, 179, 528);
+		contentPane.add(menuPanel);
+		menuPanel.setLayout(null);
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setBackground(new Color(153, 153, 153));
+		mainPanel.setBounds(179, 122, 618, 406);
+		contentPane.add(mainPanel);
+		mainPanel.setLayout(null);
+		
+		JButton btnCreateUser = new JButton("Create User");
+		btnCreateUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll();
+				mainPanel.repaint();
+				mainPanel.revalidate();
+				
+				panel = new CreateUserDisplay();
+				panel.setBackground(new Color(51, 102, 153));
+				panel.setSize(618, 406);
+				panel.setLocation(0, 0);
+				mainPanel.add(panel);
+				mainPanel.repaint();
+				mainPanel.revalidate();
+				panel.setLayout(null);
+			}
+		});
+		btnCreateUser.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnCreateUser.setBounds(0, 248, 180, 65);
+		menuPanel.add(btnCreateUser);
+		btnCreateUser.setForeground(new Color(255, 255, 255));
+		btnCreateUser.setBackground(new Color(51, 153, 204));
+		
+		JButton btnViewAllUser = new JButton("View All User");
+		btnViewAllUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainPanel.removeAll();
+				mainPanel.repaint();
+				mainPanel.revalidate();
+
+				AllUserDisplay panel2 = new AllUserDisplay(list);
+				panel2.setBackground(new Color(255, 255, 204));
+				panel2.setSize(618, 406);
+				panel2.setLocation(0, 0);
+				mainPanel.add(panel2);
+				mainPanel.repaint();
+				mainPanel.revalidate();
+				panel2.setLayout(null);
+			}
+		});
+		btnViewAllUser.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnViewAllUser.setBounds(0, 183, 180, 65);
+		menuPanel.add(btnViewAllUser);
+		btnViewAllUser.setForeground(Color.WHITE);
+		btnViewAllUser.setBackground(new Color(51, 153, 204));
+		
+//		JButton btnDeleteUser = new JButton("Delete User");
+//		btnDeleteUser.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				mainPanel.removeAll();
+//				mainPanel.repaint();
+//				mainPanel.revalidate();
+//			}
+//		});
+//		btnDeleteUser.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		btnDeleteUser.setBounds(0, 313, 180, 65);
+//		menuPanel.add(btnDeleteUser);
+//		btnDeleteUser.setForeground(new Color(255, 255, 255));
+//		btnDeleteUser.setBackground(new Color(51, 153, 204));
+		
+//		JButton btnResetPassword = new JButton("Reset Password");
+//		btnResetPassword.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				mainPanel.removeAll();
+//				mainPanel.repaint();
+//				mainPanel.revalidate();
+//			}
+//		});
+//		btnResetPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		btnResetPassword.setBounds(0, 378, 180, 65);
+//		menuPanel.add(btnResetPassword);
+//		btnResetPassword.setForeground(Color.WHITE);
+//		btnResetPassword.setBackground(new Color(51, 153, 204));
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setIcon(new ImageIcon(AdminHomepage.class.getResource("/ICON.jpg")));
+		lblNewLabel_1.setBounds(43, 25, 95, 87);
+		menuPanel.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Cyber Whale");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(new Color(255, 255, 255));
+		lblNewLabel_2.setFont(new Font("Sylfaen", Font.BOLD, 17));
+		lblNewLabel_2.setBounds(24, 134, 129, 25);
+		menuPanel.add(lblNewLabel_2);
+		
+
+		
+		JPanel titlePanel = new JPanel();
+		titlePanel.setBackground(new Color(51, 153, 204));
+		titlePanel.setBounds(179, 43, 618, 79);
+		contentPane.add(titlePanel);
+		titlePanel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Admin Homepage");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Dubai Medium", Font.BOLD, 30));
+		lblNewLabel.setBounds(10, 11, 323, 57);
+		titlePanel.add(lblNewLabel);
+		
+		JPanel topPanel = new JPanel();
+		topPanel.setBackground(new Color(255, 255, 255));
+		topPanel.setBounds(179, 0, 618, 42);
+		contentPane.add(topPanel);
+	}
+}
