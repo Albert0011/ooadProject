@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import models.User;
+import views.AdminHomepage;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
 import views.CreateUserDisplay;
@@ -20,6 +22,12 @@ public class UserController {
 		
 	}
 	
+	public static void openAdminHomepage() {
+		ArrayList<User> user = getAllUser();
+		AdminHomepage frame = new AdminHomepage(user);
+		frame.setVisible(true);
+	}
+	
 	public static void openProfileDisplay() {
 		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		ProfileDisplay profileDisplay = new ProfileDisplay(user);
@@ -27,17 +35,9 @@ public class UserController {
 	}
 	
 	public static void openCreateUserDisplay() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateUserDisplay frame = new CreateUserDisplay();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		CreateUserDisplay panel = new CreateUserDisplay();
+		//MainController.getInstance().addAdminPanel(panel);
+		
 	}
 	
 	public static void openAllUserDisplay() {
@@ -45,7 +45,6 @@ public class UserController {
 		ArrayList<User> user = getAllUser();
 		AllUserDisplay frame = new AllUserDisplay(user);
 		frame.setVisible(true);
-	
 	
 	}
 	
