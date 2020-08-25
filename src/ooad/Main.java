@@ -9,6 +9,7 @@ public class Main {
 
 	public Main() {
 //		UserController.openProfileDisplay();
+		UserController.openAdminHomepage();
 //		UserController.openCreateUserDisplay();
 //		UserController.openAllUserDisplay();
 //		UserController.openChangePasswordForm();

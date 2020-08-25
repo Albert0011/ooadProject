@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
 
-public class AllUserDisplay extends JFrame {
+public class AllUserDisplay extends JPanel {
 
 
 	/**
@@ -46,8 +47,26 @@ public class AllUserDisplay extends JFrame {
 	private JTextField dobField;
 	private JTextField telpField;
 	private JScrollPane scrollPane;
+	private JPanel panel;
+	private JPanel panel_1;
+
 	
-	public void load_table(ArrayList<User> list) {
+	
+	public AllUserDisplay(ArrayList<User> list) {
+		
+		setBackground(new Color(255, 255, 204));
+		setBounds(100, 100, 618, 406);
+		setLayout(null);
+		
+	
+		viewAllTable = new JTable() {
+			private static final long serialVersionUID = 1L;
+			
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
+		
 		DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
 		model.addColumn("username");
@@ -80,125 +99,93 @@ public class AllUserDisplay extends JFrame {
 		viewAllTable.setBorder(new LineBorder(new Color(0, 0, 0)));
 		viewAllTable.setBounds(10, 79, 507, 289);
 		
-	}
-
-	public AllUserDisplay(ArrayList<User> list) {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-				load_table(list);
-			}
-		});
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 500);
-		
-		getContentPane().setBackground(new Color(230, 230, 250));
-		setBackground(new Color(250, 250, 210));
-		getContentPane().setLayout(null);
-		
-	
 		
 		
-		viewAllTable = new JTable() {
-			private static final long serialVersionUID = 1L;
-			
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			};
-		};
+		
+		
 		
 		
 		Label label = new Label("All User Display");
-		label.setFont(new Font("Dialog", Font.PLAIN, 18));
-		label.setBounds(10, 10, 129, 22);
+		label.setFont(new Font("Dialog", Font.BOLD, 18));
+		label.setBounds(232, 10, 145, 22);
 		add(label);
 		
 		JLabel lblNewLabel = new JLabel("id");
-		lblNewLabel.setBounds(544, 91, 46, 14);
-		getContentPane().add(lblNewLabel);
+		lblNewLabel.setBounds(429, 41, 46, 14);
+		add(lblNewLabel);
 		
 		JLabel lblUsername = new JLabel("username");
-		lblUsername.setBounds(544, 125, 63, 14);
-		getContentPane().add(lblUsername);
+		lblUsername.setBounds(429, 80, 63, 14);
+		add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("password");
-		lblPassword.setBounds(544, 161, 63, 14);
-		getContentPane().add(lblPassword);
+		lblPassword.setBounds(429, 119, 63, 14);
+		add(lblPassword);
 		
 		JLabel lblRole = new JLabel("role");
-		lblRole.setBounds(544, 198, 46, 14);
-		getContentPane().add(lblRole);
+		lblRole.setBounds(429, 158, 46, 14);
+		add(lblRole);
 		
 		JLabel lblAddress = new JLabel("address");
-		lblAddress.setBounds(544, 234, 63, 14);
-		getContentPane().add(lblAddress);
+		lblAddress.setBounds(429, 197, 63, 14);
+		add(lblAddress);
 		
 		JLabel lblDob = new JLabel("DOB");
-		lblDob.setBounds(544, 271, 46, 14);
-		getContentPane().add(lblDob);
+		lblDob.setBounds(429, 236, 46, 14);
+		add(lblDob);
 		
 		JLabel lblTelp = new JLabel("telp");
-		lblTelp.setBounds(544, 309, 46, 14);
-		getContentPane().add(lblTelp);
+		lblTelp.setBounds(429, 275, 46, 14);
+		add(lblTelp);
 		
 		idField = new JTextField();
 		idField.setEditable(false);
-		idField.setBounds(612, 88, 179, 20);
-		getContentPane().add(idField);
+		idField.setBounds(429, 55, 179, 20);
+		add(idField);
 		idField.setColumns(10);
 		
 		
 		unameField = new JTextField();
 		unameField.setEditable(false);
 		unameField.setColumns(10);
-		unameField.setBounds(612, 122, 179, 20);
-		getContentPane().add(unameField);
+		unameField.setBounds(429, 94, 179, 20);
+		add(unameField);
 		
 		passField = new JTextField();
 		passField.setEditable(false);
 		passField.setColumns(10);
-		passField.setBounds(612, 158, 179, 20);
-		getContentPane().add(passField);
+		passField.setBounds(429, 133, 179, 20);
+		add(passField);
 		
 		roleField = new JTextField();
 		roleField.setEditable(false);
 		roleField.setColumns(10);
-		roleField.setBounds(612, 195, 179, 20);
-		getContentPane().add(roleField);
+		roleField.setBounds(429, 172, 179, 20);
+		add(roleField);
 		
 		addrField = new JTextField();
 		addrField.setEditable(false);
 		addrField.setColumns(10);
-		addrField.setBounds(612, 231, 179, 20);
-		getContentPane().add(addrField);
+		addrField.setBounds(429, 211, 179, 20);
+		add(addrField);
 		
 		dobField = new JTextField();
 		dobField.setEditable(false);
 		dobField.setColumns(10);
-		dobField.setBounds(612, 268, 179, 20);
-		getContentPane().add(dobField);
+		dobField.setBounds(429, 250, 179, 20);
+		add(dobField);
 		
 		telpField = new JTextField();
 		telpField.setEditable(false);
 		telpField.setColumns(10);
-		telpField.setBounds(612, 306, 179, 20);
-		getContentPane().add(telpField);
+		telpField.setBounds(429, 289, 179, 20);
+		add(telpField);
 		
-		
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false); //you can't see me!
-				dispose();
-			}
-		});
-		backButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		backButton.setBounds(125, 391, 89, 34);
-		add(backButton);
+	
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 58, 507, 289);
-		getContentPane().add(scrollPane);
+		scrollPane.setBounds(10, 58, 397, 246);
+		add(scrollPane);
 		
 
 		
@@ -265,7 +252,7 @@ public class AllUserDisplay extends JFrame {
 			}
 		});
 		btnDeleteUser.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnDeleteUser.setBounds(312, 391, 129, 34);
+		btnDeleteUser.setBounds(101, 338, 129, 34);
 		add(btnDeleteUser);
 		
 		btnResetPassword = new JButton("Reset Password");
@@ -307,10 +294,20 @@ public class AllUserDisplay extends JFrame {
 			}
 		});
 		btnResetPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnResetPassword.setBounds(544, 391, 162, 34);
+		btnResetPassword.setBounds(351, 338, 162, 34);
 		add(btnResetPassword);
 
 		scrollPane.setViewportView(viewAllTable);
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(255, 255, 204));
+		panel.setBounds(0, 325, 296, 81);
+		add(panel);
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 204));
+		panel_1.setBounds(296, 325, 322, 81);
+		add(panel_1);
 		
 		
 		this.setVisible(true);

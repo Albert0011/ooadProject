@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 
 import models.User;
+import views.AdminHomepage;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
 import views.CreateUserDisplay;
@@ -20,6 +23,12 @@ public class UserController {
 		
 	}
 	
+	public static void openAdminHomepage() {
+		ArrayList<User> user = getAllUser();
+		AdminHomepage frame = new AdminHomepage(user);
+		frame.setVisible(true);
+	}
+	
 	public static void openProfileDisplay() {
 		User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
 		ProfileDisplay profileDisplay = new ProfileDisplay(user);
@@ -27,17 +36,9 @@ public class UserController {
 	}
 	
 	public static void openCreateUserDisplay() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateUserDisplay frame = new CreateUserDisplay();
-					frame.setVisible(true);
-					frame.setResizable(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		CreateUserDisplay panel = new CreateUserDisplay();
+		//MainController.getInstance().addAdminPanel(panel);
+		
 	}
 	
 	public static void openAllUserDisplay() {
@@ -46,7 +47,32 @@ public class UserController {
 		AllUserDisplay frame = new AllUserDisplay(user);
 		frame.setVisible(true);
 	
+	}
 	
+	public static void openChangePasswordForm() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ChangePasswordForm frame = new ChangePasswordForm();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void openUpdateProfileForm() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					UpdateProfileForm frame = new UpdateProfileForm();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public static void openChangePasswordForm() {

@@ -19,17 +19,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import controllers.UserController;
+import javax.swing.JPanel;
 
-public class CreateUserDisplay extends JFrame{
+public class CreateUserDisplay extends JPanel{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private JTextField unameField;
+	private JTextField telpField;
+	
 	public static final int[] JUMLAHHARI = {
 			31,28,31,30,31,30,31,31,30,31,30,31
 	};
+	
 	
 	public static boolean isLeapYear(int year) {
 		if(((year%4 == 0) && !(year%100 == 0)) || year%400 == 0) {
@@ -52,132 +57,133 @@ public class CreateUserDisplay extends JFrame{
 	}
 
 	public CreateUserDisplay() {
-		this.getContentPane().setBackground(new Color(70, 130, 180));
-		this.setBounds(100, 100, 413, 449);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.getContentPane().setLayout(null);
-		
-		Label titleCreateUser = new Label("CREATE USER FORM");
-		titleCreateUser.setBackground(new Color(70, 130, 180));
-		titleCreateUser.setFont(new Font("Snap ITC", Font.BOLD, 22));
+		setBackground(new Color(70, 130, 180));
+		setBounds(100, 100, 618, 406);
+		setLayout(null);
+
+		JLabel titleCreateUser = new JLabel("CREATE USER FORM");
 		titleCreateUser.setForeground(new Color(255, 255, 255));
-		titleCreateUser.setBounds(83, 45, 243, 22);
-		this.getContentPane().add(titleCreateUser);
-		
-		Label uname = new Label("Username");
-		uname.setForeground(new Color(255, 255, 255));
-		uname.setFont(new Font("Dialog", Font.BOLD, 12));
-		uname.setBounds(27, 109, 62, 22);
-		this.getContentPane().add(uname);
-		
-		Label role = new Label("Role");
-		role.setForeground(new Color(255, 255, 255));
-		role.setFont(new Font("Dialog", Font.BOLD, 12));
-		role.setBounds(27, 139, 62, 22);
-		this.getContentPane().add(role);
-		
-		Label dob = new Label("DOB");
-		dob.setForeground(new Color(255, 255, 255));
-		dob.setFont(new Font("Dialog", Font.BOLD, 12));
-		dob.setBounds(27, 169, 62, 22);
-		this.getContentPane().add(dob);
-		
-		Label address = new Label("Address");
-		address.setForeground(new Color(255, 255, 255));
-		address.setFont(new Font("Dialog", Font.BOLD, 12));
-		address.setBounds(27, 220, 62, 22);
-		this.getContentPane().add(address);
+		titleCreateUser.setFont(new Font("Tahoma", Font.BOLD, 20));
+		titleCreateUser.setBounds(186, 24, 212, 35);
+		add(titleCreateUser);
 		
 		Label telp = new Label("Telp");
-		telp.setForeground(new Color(255, 255, 255));
+		telp.setForeground(Color.WHITE);
 		telp.setFont(new Font("Dialog", Font.BOLD, 12));
-		telp.setBounds(27, 279, 62, 22);
-		this.getContentPane().add(telp);
+		telp.setBounds(127, 280, 62, 22);
+		add(telp);
 		
-		JTextField telpField = new JTextField();
-		telpField.setBounds(102, 280, 175, 20);
-		this.getContentPane().add(telpField);
-		telpField.setColumns(10);
+		Label address = new Label("Address");
+		address.setForeground(Color.WHITE);
+		address.setFont(new Font("Dialog", Font.BOLD, 12));
+		address.setBounds(127, 222, 62, 22);
+		add(address);
 		
+		Label dob = new Label("DOB");
+		dob.setForeground(Color.WHITE);
+		dob.setFont(new Font("Dialog", Font.BOLD, 12));
+		dob.setBounds(127, 170, 62, 22);
+		add(dob);
 		
+		Label role = new Label("Role");
+		role.setForeground(Color.WHITE);
+		role.setFont(new Font("Dialog", Font.BOLD, 12));
+		role.setBounds(127, 137, 62, 22);
+		add(role);
 		
-		JComboBox<Object> roleChoice = new JComboBox<Object>();
-		roleChoice.setModel(new DefaultComboBoxModel<Object>(new String[] {"Worker", "Supervisor"}));
-		roleChoice.setBounds(102, 140, 175, 20);
-		this.getContentPane().add(roleChoice);
-		
-		JComboBox<Object> yearChoose = new JComboBox<Object>();
-		yearChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
-		yearChoose.setBounds(102, 170, 69, 20);
-		this.getContentPane().add(yearChoose);
-		
-		JComboBox<Object> monthChoose = new JComboBox<Object>();
-		monthChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
-		monthChoose.setBounds(175, 170, 53, 20);
-		this.getContentPane().add(monthChoose);
+		Label uname = new Label("Username");
+		uname.setForeground(Color.WHITE);
+		uname.setFont(new Font("Dialog", Font.BOLD, 12));
+		uname.setBounds(127, 110, 62, 22);
+		add(uname);
 		
 		JComboBox<Object> dayChoose = new JComboBox<Object>();
 		dayChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		dayChoose.setBounds(232, 170, 45, 20);
-		this.getContentPane().add(dayChoose);
+		dayChoose.setBounds(331, 170, 45, 20);
+		add(dayChoose);
 		
-		JTextField unamefield = new JTextField();
-		unamefield.setBounds(102, 110, 175, 18);
-		this.getContentPane().add(unamefield);
-		unamefield.setColumns(10);
+		JComboBox<Object> monthChoose = new JComboBox<Object>();
+		monthChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
+		monthChoose.setBounds(275, 170, 53, 20);
+		add(monthChoose);
 		
+		JComboBox<Object> yearChoose = new JComboBox<Object>();
+		yearChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
+		yearChoose.setBounds(201, 170, 69, 20);
+		add(yearChoose);
+		
+		JComboBox<Object> roleChoice = new JComboBox<Object>();
+		roleChoice.setModel(new DefaultComboBoxModel<Object>(new String[] {"Worker", "Supervisor"}));
+		roleChoice.setBounds(201, 139, 175, 20);
+		add(roleChoice);
+		
+		unameField = new JTextField();
+		unameField.setColumns(10);
+		unameField.setBounds(201, 110, 175, 18);
+		add(unameField);
 		
 		JTextArea addressField = new JTextArea();
-		addressField.setForeground(Color.BLACK);
 		addressField.setWrapStyleWord(true);
 		addressField.setLineWrap(true);
-		addressField.setBounds(102, 219, 174, 50);
-		this.getContentPane().add(addressField);
+		addressField.setForeground(Color.BLACK);
+		addressField.setBounds(201, 217, 174, 50);
+		add(addressField);
 		
+<<<<<<< HEAD
 		
+=======
+>>>>>>> refs/remotes/origin/master
 		
-		JLabel lblNewLabel = new JLabel("yyyy");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(104, 194, 46, 14);
-		this.getContentPane().add(lblNewLabel);
+		telpField = new JTextField();
+		telpField.setColumns(10);
+		telpField.setBounds(201, 280, 175, 20);
+		add(telpField);
 		
-		JLabel lblNewLabel_1 = new JLabel("mm");
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(175, 194, 46, 14);
-		this.getContentPane().add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("dd");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setBounds(232, 194, 46, 14);
-		this.getContentPane().add(lblNewLabel_2);
-		
-
 		JLabel limitUname = new JLabel("5 - 15 characters");
-		limitUname.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		limitUname.setForeground(Color.WHITE);
-		limitUname.setBounds(285, 112, 107, 14);
-		this.getContentPane().add(limitUname);
-		
-		JLabel limitAddr = new JLabel("10 - 100 characters");
-		limitAddr.setForeground(Color.WHITE);
-		limitAddr.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		limitAddr.setBounds(285, 220, 107, 14);
-		this.getContentPane().add(limitAddr);
+		limitUname.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		limitUname.setBounds(386, 112, 107, 14);
+		add(limitUname);
 		
 		JLabel limitNo = new JLabel("10 - 13 characters");
 		limitNo.setForeground(Color.WHITE);
 		limitNo.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		limitNo.setBounds(287, 284, 107, 14);
-		this.getContentPane().add(limitNo);
+		limitNo.setBounds(386, 283, 107, 14);
+		add(limitNo);
+		
+		JLabel limitAddr = new JLabel("10 - 100 characters");
+		limitAddr.setForeground(Color.WHITE);
+		limitAddr.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		limitAddr.setBounds(386, 222, 107, 14);
+		add(limitAddr);
+		
+		JLabel lblNewLabel = new JLabel("yyyy");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setBounds(201, 196, 46, 14);
+		add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("mm");
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setBounds(275, 196, 46, 14);
+		add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("dd");
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_2.setBounds(331, 196, 46, 14);
+		add(lblNewLabel_2);
+		
+		
+		
+		
 		
 		JButton createUserButton = new JButton("Create User");
 		createUserButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if(unamefield.getText().isEmpty() || ((String) roleChoice.getSelectedItem()).isEmpty() || 
+				if(unameField.getText().isEmpty() || ((String) roleChoice.getSelectedItem()).isEmpty() || 
 						addressField.getText().isEmpty() || ((String) dayChoose.getSelectedItem()).isEmpty() || 
 						((String) monthChoose.getSelectedItem()).isEmpty() || ((String) yearChoose.getSelectedItem()).isEmpty()) {
 					
@@ -193,9 +199,15 @@ public class CreateUserDisplay extends JFrame{
 					
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
+<<<<<<< HEAD
 						UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
 						
 						unamefield.setText("");
+=======
+						UserController.createUser(unameField.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
+						
+						unameField.setText("");
+>>>>>>> refs/remotes/origin/master
 						addressField.setText("");
 						telpField.setText("");
 						
@@ -208,6 +220,7 @@ public class CreateUserDisplay extends JFrame{
 			}
 		});
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+<<<<<<< HEAD
 		createUserButton.setBackground(new Color(255, 255, 255));
 		createUserButton.setBounds(200, 325, 117, 35);
 		
@@ -224,10 +237,15 @@ public class CreateUserDisplay extends JFrame{
 		this.getContentPane().add(backButton);
 		
 		this.getContentPane().add(createUserButton);
+=======
+		createUserButton.setBackground(Color.WHITE);
+		createUserButton.setBounds(230, 323, 117, 35);
+		add(createUserButton);
+	
+>>>>>>> refs/remotes/origin/master
 		
-		
+		this.setVisible(true);
 		
 		
 	}
-
 }
