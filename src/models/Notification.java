@@ -1,6 +1,8 @@
 package models;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -13,15 +15,50 @@ public class Notification {
 
 	private String userID;
 	private String message;
-	private String readAt;
+	private Timestamp readAt;
 
-	public Notification(String userID, String message, String readAt) {
+	public Notification(String userID, String message, Timestamp readAt) {
 		super();
 		this.userID = userID;
 		this.message = message;
-		this.readAt = readAt;
+		this.readAt = null;
+	}
+	
+	public Notification save() {
+		String query = "insert into notification values (?,?,?)";
+
+		try {
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			
+			ps.setString(1, userID.toString());
+			ps.setString(2, message);
+			ps.setTimestamp(3, readAt);
+			
+			ps.execute();
+			JOptionPane.showMessageDialog(null, "Create Notification Success!");
+			return new Notification(userID, message, readAt);
+		}
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Add Notification Failed! "+e.getMessage());
+		}
+		return null;
 	}
 
+	public void update() {
+		String query = "update notification set message = ?";
+		try {
+
+			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, this.message);
+			ps.execute();
+						
+		} 
+		catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
+		}
+	}
+	
+	
 	public static ArrayList<Notification> getAll(String userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
 		String query = "select * from task where userID = " + userID;
@@ -30,7 +67,7 @@ public class Notification {
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {
-				notification = new Notification(rs.getString(1), rs.getString(2), rs.getString(3));
+				notification = new Notification(rs.getString(1), rs.getString(2), rs.getTimestamp(3));
 				listNotification.add(notification);
 			}
 			ps.close();
@@ -51,7 +88,7 @@ public class Notification {
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {
-				notification = new Notification(rs.getString(1), rs.getString(2), rs.getString(3));
+				notification = new Notification(rs.getString(1), rs.getString(2), rs.getTimestamp(3));
 				listNotification.add(notification);
 			}
 			ps.close();
@@ -59,7 +96,7 @@ public class Notification {
 			return listNotification;	
 		} 
 		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Get All Notification Failed "+e.getMessage());
+			JOptionPane.showMessageDialog(null, "Get All Unread Notification Failed "+e.getMessage());
 		}
 		return null;
 	}
@@ -80,14 +117,15 @@ public class Notification {
 		this.message = message;
 	}
 
-	public String getReadAt() {
+	public Timestamp getReadAt() {
 		return readAt;
 	}
 
-	public void setReadAt(String readAt) {
+	public void setReadAt(Timestamp readAt) {
 		this.readAt = readAt;
 	}
 
+	
 		
 	
 	

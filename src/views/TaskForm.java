@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import controllers.TaskController;
+import controllers.TaskHandler;
 import controllers.UserController;
 
 public class TaskForm extends JFrame{
@@ -113,7 +113,7 @@ public class TaskForm extends JFrame{
 				
 				}
 				else {
-					TaskController.createTask(titleField.getText(), supervisorIDField.getText(), workerIDField.getText(), noteField.getText());
+					TaskHandler.createTask(titleField.getText(), supervisorIDField.getText(), workerIDField.getText(), noteField.getText());
 					
 					titleField.setText("");
 					supervisorIDField.setText("");

@@ -134,11 +134,7 @@ public class CreateUserDisplay extends JFrame{
 		addressField.setBounds(102, 219, 174, 50);
 		this.getContentPane().add(addressField);
 		
-		JButton backButton = new JButton("Back");
-		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		backButton.setBackground(new Color(255, 255, 255));
-		backButton.setBounds(83, 325, 85, 35);
-		this.getContentPane().add(backButton);
+		
 		
 		JLabel lblNewLabel = new JLabel("yyyy");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -198,10 +194,11 @@ public class CreateUserDisplay extends JFrame{
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
-					
+						
 						unamefield.setText("");
 						addressField.setText("");
 						telpField.setText("");
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Date is not valid!");
@@ -213,6 +210,19 @@ public class CreateUserDisplay extends JFrame{
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createUserButton.setBackground(new Color(255, 255, 255));
 		createUserButton.setBounds(200, 325, 117, 35);
+		
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false); //you can't see me!
+				dispose();
+			}
+		});
+		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		backButton.setBackground(new Color(255, 255, 255));
+		backButton.setBounds(83, 325, 85, 35);
+		this.getContentPane().add(backButton);
+		
 		this.getContentPane().add(createUserButton);
 		
 		
