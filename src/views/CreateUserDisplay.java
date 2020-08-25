@@ -129,7 +129,7 @@ public class CreateUserDisplay extends JPanel{
 		addressField.setBounds(201, 217, 174, 50);
 		add(addressField);
 		
-
+<<<<<<< HEAD
 		
 		telpField = new JTextField();
 		telpField.setColumns(10);
