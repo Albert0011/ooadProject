@@ -21,7 +21,7 @@ public class Notification {
 		super();
 		this.userID = userID;
 		this.message = message;
-		this.readAt = null;
+		this.readAt = readAt;
 	}
 	
 	public Notification save() {
@@ -44,18 +44,22 @@ public class Notification {
 		return null;
 	}
 
-	public void update() {
-		String query = "update notification set message = ?";
+	public Notification update() {
+		String query = "update notification set userID =?, message = ?, readAt = ?";
 		try {
 
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, this.message);
+			ps.setString(1, userID.toString());
+			ps.setString(2, message);
+			ps.setTimestamp(3, readAt);
 			ps.execute();
-						
+			
+			
 		} 
 		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
+			JOptionPane.showMessageDialog(null, "Update Notification Failed!!" +e.getMessage());
 		}
+		return null;
 	}
 	
 	
