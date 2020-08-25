@@ -37,9 +37,10 @@ public class Task {
 
 	public static ArrayList<Task> getAll(String userID){
 		ArrayList<Task> listTask = new ArrayList<Task>();
-		String query = "select * from task where userID = " + userID;
+		String query = "select * from task where userID = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, userID);
 			ResultSet rs = ps.executeQuery(query);
 			Task task;
 			while(rs.next()) {
@@ -57,14 +58,19 @@ public class Task {
 		return null;
 	}
 	
-	public void create(String title, String supervisorID, String workerID, String note){
+	public static Task  create(String title,String supervisorID, String workerID, String note){
+		Task task = new Task(title, supervisorID, workerID, note);
+		return task;
+	}
+	
+	public void save(){
 		String query = "insert into task values (?,?,?,?)";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
 			ps.setString(1, title);
-			ps.setString(2, supervisorID.toString());
-			ps.setString(3, workerID.toString());
+			ps.setString(2, supervisorID);
+			ps.setString(3, workerID);
 			ps.setString(4, note);
 			
 			ps.execute();

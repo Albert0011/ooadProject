@@ -129,10 +129,7 @@ public class CreateUserDisplay extends JPanel{
 		addressField.setBounds(201, 217, 174, 50);
 		add(addressField);
 		
-<<<<<<< HEAD
-		
-=======
->>>>>>> refs/remotes/origin/master
+
 		
 		telpField = new JTextField();
 		telpField.setColumns(10);
@@ -199,15 +196,15 @@ public class CreateUserDisplay extends JPanel{
 					
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
-<<<<<<< HEAD
-						UserController.createUser(unamefield.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
-						
-						unamefield.setText("");
-=======
+
 						UserController.createUser(unameField.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
 						
 						unameField.setText("");
->>>>>>> refs/remotes/origin/master
+
+						UserController.createUser(unameField.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
+						
+						unameField.setText("");
+
 						addressField.setText("");
 						telpField.setText("");
 						
@@ -220,7 +217,6 @@ public class CreateUserDisplay extends JPanel{
 			}
 		});
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-<<<<<<< HEAD
 		createUserButton.setBackground(new Color(255, 255, 255));
 		createUserButton.setBounds(200, 325, 117, 35);
 		
@@ -237,12 +233,10 @@ public class CreateUserDisplay extends JPanel{
 		this.getContentPane().add(backButton);
 		
 		this.getContentPane().add(createUserButton);
-=======
 		createUserButton.setBackground(Color.WHITE);
 		createUserButton.setBounds(230, 323, 117, 35);
 		add(createUserButton);
 	
->>>>>>> refs/remotes/origin/master
 		
 		this.setVisible(true);
 		
