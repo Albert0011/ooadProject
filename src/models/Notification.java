@@ -54,7 +54,8 @@ public class Notification {
 			ps.setTimestamp(3, readAt);
 			ps.execute();
 			
-			
+			JOptionPane.showMessageDialog(null, "Update Notification Success!");
+			return new Notification(userID, message, readAt);
 		} 
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Notification Failed!!" +e.getMessage());
