@@ -2,6 +2,7 @@ package ooad;
 
 
 
+import controllers.MainController;
 import controllers.UserController;
 
 public class Main {
@@ -9,7 +10,8 @@ public class Main {
 
 	public Main() {
 //		UserController.openProfileDisplay();
-		UserController.openAdminHomepage();
+		MainController.getInstance().displayAdminHomepage();
+//		MainController.getInstance().displayLogin();
 //		UserController.openCreateUserDisplay();
 //		UserController.openAllUserDisplay();
 //		UserController.openChangePasswordForm();
