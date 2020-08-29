@@ -33,35 +33,46 @@ public class User {
 	}
 
 
-	public static User get(String id) {
+	public static User get(String id) throws SQLException {
 		String query = "SELECT * from users where id  = ?";
+	
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ps.setString(1, id);
 		
-		try {
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			rs.next();
-			String userID = rs.getString("id");
-			String username = rs.getString("username");
-			String password = rs.getString("password");
-			String role = rs.getString("role");
-			String address = rs.getString("address");
-			java.sql.Date DOB = rs.getDate("DOB");
-			String telp = rs.getString("telp");
-			
-			
-			return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
-			
-		} 
-		catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		ResultSet rs = ps.executeQuery();
 		
-		return null;
+		rs.next();
+		String userID = rs.getString("id");
+		String username = rs.getString("username");
+		String password = rs.getString("password");
+		String role = rs.getString("role");
+		String address = rs.getString("address");
+		java.sql.Date DOB = rs.getDate("DOB");
+		String telp = rs.getString("telp");
+		
+		return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
+	}
+	
+	public static User getBy(String uname, String pass, String roleName) throws SQLException {
+		String query = "SELECT * from users where username = ? and password = ? and role = ?";
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ps.setString(1, uname);
+		ps.setString(2, pass);
+		ps.setString(3, roleName);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		rs.next();
+		String userID = rs.getString("id");
+		String address = rs.getString("address");
+		java.sql.Date DOB = rs.getDate("DOB");
+		String telp = rs.getString("telp");
+		
+		User user = new User(UUID.fromString(userID), uname, pass, roleName, address, DOB, telp);
+		return user;
 		
 	}
+	
 	
 	public static User create(String username, String role, Date dob, String address, String telp) {
 		UUID userId = UUID.randomUUID();
@@ -72,85 +83,62 @@ public class User {
 		return user;
 	}
 	
-	public User save() {
+	public User save() throws SQLException {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
 
-		try {
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			
-			ps.setString(1, id.toString());
-			ps.setString(2, username);
-			ps.setString(3, password);
-			ps.setString(4, role);
-			ps.setString(5, address);
-			ps.setDate(6, (java.sql.Date) DOB);
-			ps.setString(7, telp);
-			
-			ps.execute();
-			JOptionPane.showMessageDialog(null, "Create User Success!");
-			return new User(id, username, password, role, address, DOB, telp);
-		}
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Add User Failed!! "+e.getMessage());
-		}
-		return null;
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		
+		ps.setString(1, id.toString());
+		ps.setString(2, username);
+		ps.setString(3, password);
+		ps.setString(4, role);
+		ps.setString(5, address);
+		ps.setDate(6, (java.sql.Date) DOB);
+		ps.setString(7, telp);
+		
+		ps.execute();
+		JOptionPane.showMessageDialog(null, "Create User Success!");
+		return new User(id, username, password, role, address, DOB, telp);
+
 	}
 	
-	public static ArrayList<User> getAll() {
+	public static ArrayList<User> getAll() throws SQLException {
 		ArrayList<User> listUser = new ArrayList<User>();
 		String query = "select * from users";
-		try {
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ResultSet rs = ps.executeQuery(query);
-			User user;
-			while(rs.next()) {
-				user = new User(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7));
-				listUser.add(user);
-			}
-			ps.close();
-			rs.close();
-			return listUser;	
-		} 
-		catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Get All User Failed "+e.getMessage());
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ResultSet rs = ps.executeQuery(query);
+		User user;
+		while(rs.next()) {
+			user = new User(UUID.fromString(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7));
+			listUser.add(user);
 		}
-		return null;
-	}
-	
-	public void delete() {
-		String query = "delete from users where id = ?";
-		try {
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, this.id.toString());
-			
-			ps.execute();
-			JOptionPane.showMessageDialog(null, "Delete User Success!!");			
-		} 
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
-		}
-	}
-	
-	public void update() {
-		String query = "update users set password = ?, username = ?, address = ?, DOB = ?, telp = ? where id = ?";
-		try {
+		ps.close();
+		rs.close();
+		return listUser;	
 
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, this.password);
-			ps.setString(2, this.username);
-			ps.setString(3, this.address);
-			ps.setDate(4, (java.sql.Date) this.DOB);
-			ps.setString(5, this.telp);
-			ps.setString(6, this.id.toString());
-			
-			ps.execute();
-			
-			
-						
-		} 
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Reset password Failed!! "+e.getMessage());
-		}
+	}
+	
+	public void delete() throws SQLException {
+		String query = "delete from users where id = ?";
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ps.setString(1, this.id.toString());
+		ps.execute();
+
+	}
+	
+	public void update() throws SQLException {
+		String query = "update users set password = ?, username = ?, address = ?, DOB = ?, telp = ? where id = ?";
+
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ps.setString(1, this.password);
+		ps.setString(2, this.username);
+		ps.setString(3, this.address);
+		ps.setDate(4, (java.sql.Date) this.DOB);
+		ps.setString(5, this.telp);
+		ps.setString(6, this.id.toString());
+		
+		ps.execute();
+	
 	}
 	
 
