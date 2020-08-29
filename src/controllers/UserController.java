@@ -1,15 +1,13 @@
 package controllers;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-
 import models.User;
-import views.AdminHomepage;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
 import views.CreateUserDisplay;
@@ -18,34 +16,112 @@ import views.UpdateProfileForm;
 
 public class UserController {
 
+	private static UserController uc;
 	
 	public UserController() {
 		
 	}
-	
-	public static void openAdminHomepage() {
-		ArrayList<User> user = getAllUser();
-		AdminHomepage frame = new AdminHomepage(user);
-		frame.setVisible(true);
+
+	public static UserController getInstance() {
+		if(uc == null) {
+			uc = new UserController();
+		}
+		return uc;
 	}
 	
 	public static void openProfileDisplay() {
-		User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
+		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		ProfileDisplay profileDisplay = new ProfileDisplay(user);
 		MainController.getInstance().addPanel(profileDisplay);
 	}
 	
-	public static void openCreateUserDisplay() {
-		CreateUserDisplay panel = new CreateUserDisplay();
-		//MainController.getInstance().addAdminPanel(panel);
-		
+	public CreateUserDisplay openCreateUserDisplay() {
+		CreateUserDisplay createUserDisplay = new CreateUserDisplay();
+
+		return createUserDisplay;
 	}
 	
-	public static void openAllUserDisplay() {
+	public AllUserDisplay openAllUserDisplay() {
 		
 		ArrayList<User> user = getAllUser();
-		AllUserDisplay frame = new AllUserDisplay(user);
-		frame.setVisible(true);
+		AllUserDisplay allUserDisplay = new AllUserDisplay(user);
+		
+		allUserDisplay.getBtnDeleteUser().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allUserDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select User");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to delete this user?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allUserDisplay.getViewAllTable().getSelectedRow();
+							String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							UserController.deleteUser(userId);
+							
+							MainController.getInstance().refreshContent(openAllUserDisplay());
+							JOptionPane.showMessageDialog(null, "Delete User Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+					
+						break;
+					case JOptionPane.CANCEL_OPTION:
+					
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		allUserDisplay.getBtnResetPassword().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(allUserDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select User");
+				}
+				else if((allUserDisplay.getPassField().getText()).equals(allUserDisplay.getDobField().getText())){
+						JOptionPane.showMessageDialog(null, "Password still default!");
+				}
+				else {
+
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reset this user password?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+						int row = allUserDisplay.getViewAllTable().getSelectedRow();
+						String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							UserController.resetPassword(userId);
+							
+							MainController.getInstance().refreshContent(openAllUserDisplay());				
+							JOptionPane.showMessageDialog(null, "Reset password Success!!");
+						break;
+					case JOptionPane.NO_OPTION:
+						
+						break;
+					case JOptionPane.CANCEL_OPTION:
+					
+						break;
+	
+					default:
+						break;
+						
+					}
+
+				}
+		
+			}
+		});
+		
+		
+		return allUserDisplay;
 	
 	}
 	
@@ -75,35 +151,49 @@ public class UserController {
 		});
 	}
 	
-	public static void openChangePasswordForm() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChangePasswordForm frame = new ChangePasswordForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public static void openUpdateProfileForm() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UpdateProfileForm frame = new UpdateProfileForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public User getUserBy(String uname, String pass, String roleName) {
+		User user;
+		try {
+			user = User.getBy(uname, pass, roleName);
+			JOptionPane.showMessageDialog(null, "Login success!");
+			MainController.getInstance().disposeLoginFrame();
+			MainController.getInstance().displayAdminHomepage();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "User not found!");
+			return null;
+		}
+		return user;
 	}
 
 	
 	public static User getUser(String userID) {
-		return User.get(userID);
+		User user;
+		try {
+			user = User.get(userID);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return null;
+		}
+		return user;
+	}
+	
+	public static void updateUser(User user) {
+		
+		try {
+			user.update();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Update failed!! "+e.getMessage());
+		}
+	}
+	
+	public static User saveUser(User user) {
+		try {
+			user.save();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Save failed!! "+e.getMessage());
+			return null;
+		} 
+		return user;
 	}
 	
 	public static User createUser(String username, String role, Date DOB, String address, String telp) {
@@ -115,17 +205,28 @@ public class UserController {
 		}
 		
 		User user = User.create(username, role, DOB, address, telp);
-		return user.save(); 
-		
+		return saveUser(user);
 	}
 	
 	public static ArrayList<User> getAllUser(){
-		return User.getAll();
+		ArrayList<User> user = null;
+		try {
+			user = User.getAll();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Get All User Failed "+e.getMessage());
+			return null;
+		}
+		return user;
 	}
 	
 	public static void deleteUser(String id) {
 		User user = getUser(id);
-		user.delete();
+		try {
+			user.delete();
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
+		}
 	}
 	
 	public static User resetPassword(String id) {
@@ -134,7 +235,8 @@ public class UserController {
 		java.sql.Date date= new java.sql.Date(user.getDOB().getTime());
 		String defaultPassword = date.toString();
 		user.setPassword(defaultPassword);
-		user.update();
+		
+		updateUser(user);
 		
 		return user;
 	}
@@ -143,7 +245,7 @@ public class UserController {
 		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
-			user.update();
+			updateUser(user);
 			JOptionPane.showMessageDialog(null, "Change password Success!!");
 			return user;
 		}
@@ -163,7 +265,7 @@ public class UserController {
 		user.setAddress(address);
 		user.setTelp(telp);
 		
-		user.update();
+		updateUser(user);
 		return user;
 	}
 	
