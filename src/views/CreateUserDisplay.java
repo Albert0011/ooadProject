@@ -4,21 +4,12 @@ package views;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Label;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import controllers.UserController;
 import javax.swing.JPanel;
 
 public class CreateUserDisplay extends JPanel{
@@ -30,6 +21,13 @@ public class CreateUserDisplay extends JPanel{
 	
 	private JTextField unameField;
 	private JTextField telpField;
+	private JButton createUserButton;
+	private JComboBox<Object> roleChoice;
+	private JTextArea addressField;
+	private JComboBox<Object> dayChoose;
+	private JComboBox<Object> monthChoose;
+	private JComboBox<Object> yearChoose;
+	
 	
 	public static final int[] JUMLAHHARI = {
 			31,28,31,30,31,30,31,31,30,31,30,31
@@ -57,10 +55,10 @@ public class CreateUserDisplay extends JPanel{
 	}
 
 	public CreateUserDisplay() {
-		setBackground(new Color(70, 130, 180));
-		setBounds(100, 100, 618, 406);
-		setLayout(null);
-
+		this.setBackground(new Color(70, 130, 180));
+		this.setSize(618, 406);
+		this.setLayout(null);
+		
 		JLabel titleCreateUser = new JLabel("CREATE USER FORM");
 		titleCreateUser.setForeground(new Color(255, 255, 255));
 		titleCreateUser.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -97,22 +95,22 @@ public class CreateUserDisplay extends JPanel{
 		uname.setBounds(127, 110, 62, 22);
 		add(uname);
 		
-		JComboBox<Object> dayChoose = new JComboBox<Object>();
+		dayChoose = new JComboBox<Object>();
 		dayChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
 		dayChoose.setBounds(331, 170, 45, 20);
 		add(dayChoose);
 		
-		JComboBox<Object> monthChoose = new JComboBox<Object>();
+		monthChoose = new JComboBox<Object>();
 		monthChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
 		monthChoose.setBounds(275, 170, 53, 20);
 		add(monthChoose);
 		
-		JComboBox<Object> yearChoose = new JComboBox<Object>();
+		yearChoose = new JComboBox<Object>();
 		yearChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
 		yearChoose.setBounds(201, 170, 69, 20);
 		add(yearChoose);
 		
-		JComboBox<Object> roleChoice = new JComboBox<Object>();
+		roleChoice = new JComboBox<Object>();
 		roleChoice.setModel(new DefaultComboBoxModel<Object>(new String[] {"Worker", "Supervisor"}));
 		roleChoice.setBounds(201, 139, 175, 20);
 		add(roleChoice);
@@ -122,14 +120,13 @@ public class CreateUserDisplay extends JPanel{
 		unameField.setBounds(201, 110, 175, 18);
 		add(unameField);
 		
-		JTextArea addressField = new JTextArea();
+		addressField = new JTextArea();
 		addressField.setWrapStyleWord(true);
 		addressField.setLineWrap(true);
 		addressField.setForeground(Color.BLACK);
 		addressField.setBounds(201, 217, 174, 50);
 		add(addressField);
 		
-<<<<<<< HEAD
 		
 		telpField = new JTextField();
 		telpField.setColumns(10);
@@ -173,66 +170,8 @@ public class CreateUserDisplay extends JPanel{
 		add(lblNewLabel_2);
 		
 		
-		
-		
-		
-		JButton createUserButton = new JButton("Create User");
-		createUserButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				if(unameField.getText().isEmpty() || ((String) roleChoice.getSelectedItem()).isEmpty() || 
-						addressField.getText().isEmpty() || ((String) dayChoose.getSelectedItem()).isEmpty() || 
-						((String) monthChoose.getSelectedItem()).isEmpty() || ((String) yearChoose.getSelectedItem()).isEmpty()) {
-					
-					JOptionPane.showMessageDialog(null, "Please Complete All Data");
-				
-				}
-				else {
-					int year = Integer.parseInt(yearChoose.getSelectedItem().toString());
-					int month = Integer.parseInt(monthChoose.getSelectedItem().toString());
-					int day = Integer.parseInt(dayChoose.getSelectedItem().toString());
-					
-
-					
-					if(isValidDate(day, month, year) == true) {
-						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
-
-						UserController.createUser(unameField.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
-						
-						unameField.setText("");
-
-						UserController.createUser(unameField.getText(), roleChoice.getSelectedItem().toString(), date1 , addressField.getText(), telpField.getText());		
-						
-						unameField.setText("");
-
-						addressField.setText("");
-						telpField.setText("");
-						
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Date is not valid!");
-					}
-					
-				}
-			}
-		});
+		createUserButton = new JButton("Create User");
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		createUserButton.setBackground(new Color(255, 255, 255));
-		createUserButton.setBounds(200, 325, 117, 35);
-		
-		JButton backButton = new JButton("Back");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false); //you can't see me!
-				dispose();
-			}
-		});
-		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		backButton.setBackground(new Color(255, 255, 255));
-		backButton.setBounds(83, 325, 85, 35);
-		this.getContentPane().add(backButton);
-		
-		this.getContentPane().add(createUserButton);
 		createUserButton.setBackground(Color.WHITE);
 		createUserButton.setBounds(230, 323, 117, 35);
 		add(createUserButton);
@@ -242,4 +181,72 @@ public class CreateUserDisplay extends JPanel{
 		
 		
 	}
+
+	public JButton getCreateUserButton() {
+		return createUserButton;
+	}
+
+	public void setCreateUserButton(JButton createUserButton) {
+		this.createUserButton = createUserButton;
+	}
+
+	public JTextField getUnameField() {
+		return unameField;
+	}
+
+	public void setUnameField(JTextField unameField) {
+		this.unameField = unameField;
+	}
+
+	public JTextField getTelpField() {
+		return telpField;
+	}
+
+	public void setTelpField(JTextField telpField) {
+		this.telpField = telpField;
+	}
+
+	public JComboBox<Object> getRoleChoice() {
+		return roleChoice;
+	}
+
+	public void setRoleChoice(JComboBox<Object> roleChoice) {
+		this.roleChoice = roleChoice;
+	}
+
+	public JTextArea getAddressField() {
+		return addressField;
+	}
+
+	public void setAddressField(JTextArea addressField) {
+		this.addressField = addressField;
+	}
+
+	public JComboBox<Object> getDayChoose() {
+		return dayChoose;
+	}
+
+	public void setDayChoose(JComboBox<Object> dayChoose) {
+		this.dayChoose = dayChoose;
+	}
+
+	public JComboBox<Object> getMonthChoose() {
+		return monthChoose;
+	}
+
+	public void setMonthChoose(JComboBox<Object> monthChoose) {
+		this.monthChoose = monthChoose;
+	}
+
+	public JComboBox<Object> getYearChoose() {
+		return yearChoose;
+	}
+
+	public void setYearChoose(JComboBox<Object> yearChoose) {
+		this.yearChoose = yearChoose;
+	}
+	
+	
+	
+	
 }
