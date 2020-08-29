@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.swing.JOptionPane;
 import models.User;
 import views.AllUserDisplay;
@@ -36,9 +38,42 @@ public class UserController {
 	}
 	
 	public CreateUserDisplay openCreateUserDisplay() {
-		CreateUserDisplay createUserDisplay = new CreateUserDisplay();
+		CreateUserDisplay cud = new CreateUserDisplay();
+		
+		cud.getCreateUserButton().addActionListener(new ActionListener() {
+			
+			
+			@SuppressWarnings("static-access")
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(cud.getUnameField().getText().isEmpty() || ((String) cud.getRoleChoice().getSelectedItem()).isEmpty() || 
+						cud.getAddressField().getText().isEmpty() || ((String) cud.getDayChoose().getSelectedItem()).isEmpty() || 
+						((String) cud.getMonthChoose().getSelectedItem()).isEmpty() || ((String) cud.getYearChoose().getSelectedItem()).isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null, "Please Complete All Data");
+				
+				}
+				else {
+					int year = Integer.parseInt(cud.getYearChoose().getSelectedItem().toString());
+					int month = Integer.parseInt(cud.getMonthChoose().getSelectedItem().toString());
+					int day = Integer.parseInt(cud.getDayChoose().getSelectedItem().toString());
+				
+					
+					if(cud.isValidDate(day, month, year) == true) {
+						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
+						UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());		
+						
+						MainController.getInstance().refreshContent(openCreateUserDisplay());
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Date is not valid!");
+					}
+					
+				}
+			}
+		});
 
-		return createUserDisplay;
+		return cud;
 	}
 	
 	public AllUserDisplay openAllUserDisplay() {
