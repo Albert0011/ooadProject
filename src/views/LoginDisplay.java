@@ -1,13 +1,9 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.TextField;
-import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -18,49 +14,33 @@ import javax.swing.SwingConstants;
 import controllers.MainController;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
-public class LoginDisplay {
-
-	private JFrame frame;
+public class LoginDisplay extends JFrame{
 
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginDisplay window = new LoginDisplay();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+	private JButton loginButton;
+	private JPasswordField passField;
+	private JComboBox<Object> roleChoose;
+	private JTextField unameField;
 
-	/**
-	 * Create the application.
-	 */
+	
+
 	public LoginDisplay() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBackground(new Color(30, 144, 255));
-		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.getContentPane().setLayout(null);
+		this.setBackground(new Color(30, 144, 255));
+		this.getContentPane().setBackground(new Color(255, 255, 255));
+		this.getContentPane().setLayout(null);
 		
 		JPanel panelTitle = new JPanel();
 		panelTitle.setBackground(new Color(51, 153, 204));
 		panelTitle.setBounds(0, 0, 324, 190);
-		frame.getContentPane().add(panelTitle);
+		this.getContentPane().add(panelTitle);
 		panelTitle.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("WELCOME TO");
@@ -90,7 +70,7 @@ public class LoginDisplay {
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(new Color(0, 0, 51));
 		panelLogin.setBounds(323, 0, 307, 407);
-		frame.getContentPane().add(panelLogin);
+		this.getContentPane().add(panelLogin);
 		panelLogin.setLayout(null);
 		
 		JLabel uname = new JLabel("Username");
@@ -112,7 +92,7 @@ public class LoginDisplay {
 		panelLogin.add(lblRole);
 		lblRole.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		JPasswordField passField = new JPasswordField();
+		passField = new JPasswordField();
 		passField.setForeground(new Color(255, 255, 255));
 		passField.setBackground(new Color(0, 0, 51));
 		passField.setBounds(37, 190, 235, 30);
@@ -124,22 +104,22 @@ public class LoginDisplay {
 		panelLogin.add(pass);
 		pass.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
-		Button loginButton = new Button("Login");
+		loginButton = new JButton("Login");
 		loginButton.setBounds(91, 324, 133, 38);
 		panelLogin.add(loginButton);
 		loginButton.setForeground(new Color(255, 255, 255));
 		loginButton.setBackground(new Color(51, 153, 204));
 		loginButton.setFont(new Font("Dubai Light", Font.PLAIN, 19));
 		
-		JComboBox roleChoose = new JComboBox();
+		roleChoose = new JComboBox<Object>();
 		roleChoose.setForeground(new Color(255, 255, 255));
 		roleChoose.setBackground(new Color(0, 0, 51));
 		roleChoose.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		roleChoose.setBounds(37, 255, 235, 30);
 		panelLogin.add(roleChoose);
-		roleChoose.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Worker", "Supervisor"}));
+		roleChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"Admin", "Worker", "Supervisor"}));
 		
-		TextField unameField = new TextField();
+		unameField = new JTextField();
 		unameField.setForeground(new Color(255, 255, 255));
 		unameField.setBackground(new Color(0, 0, 51));
 		unameField.setBounds(37, 125, 235, 30);
@@ -147,7 +127,7 @@ public class LoginDisplay {
 		
 		JPanel panelGambar = new JPanel();
 		panelGambar.setBounds(0, 189, 324, 218);
-		frame.getContentPane().add(panelGambar);
+		this.getContentPane().add(panelGambar);
 		panelGambar.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
@@ -161,7 +141,48 @@ public class LoginDisplay {
 				}
 			}
 		});
-		frame.setBounds(100, 100, 646, 446);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100, 100, 646, 446);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setVisible(true);
+		
+		
 	}
+
+	public JButton getLoginButton() {
+		return loginButton;
+	}
+
+	public void setLoginButton(JButton loginButton) {
+		this.loginButton = loginButton;
+	}
+
+	public JPasswordField getPassField() {
+		return passField;
+	}
+
+	public void setPassField(JPasswordField passField) {
+		this.passField = passField;
+	}
+
+	public JComboBox<Object> getRoleChoose() {
+		return roleChoose;
+	}
+
+	public void setRoleChoose(JComboBox<Object> roleChoose) {
+		this.roleChoose = roleChoose;
+	}
+
+	public JTextField getUnameField() {
+		return unameField;
+	}
+
+	public void setUnameField(JTextField unameField) {
+		this.unameField = unameField;
+	}
+	
+	
+	
+
+
 }
