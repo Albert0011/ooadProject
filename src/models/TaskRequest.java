@@ -13,28 +13,34 @@ import connection.Connector;
 
 public class TaskRequest {
 
+	private UUID id;
 	private UUID workerID;
 	private UUID supervisorID;
 	private String title;
 	private String note;
 	
-	public TaskRequest(UUID workerID, UUID supervisorID, String title, String note) {
+	
+	public TaskRequest(UUID id, UUID workerID, UUID supervisorID, String title, String note) {
 		super();
+		this.id = id;
 		this.workerID = workerID;
 		this.supervisorID = supervisorID;
 		this.title = title;
 		this.note = note;
 	}
-	
-	public static ArrayList<TaskRequest> getAll(String userID){
+
+	public static ArrayList<TaskRequest> getAll(UUID userID){
 		ArrayList<TaskRequest> listTaskRequest = new ArrayList<TaskRequest>();
-		String query = "select * from taskRequest where userID = " + userID;
+		
+		String query = "select * from task_requests where supervisor_id = ?";
+        
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, userID.toString());
 			ResultSet rs = ps.executeQuery(query);
 			TaskRequest taskRequest;
 			while(rs.next()) {
-				taskRequest = new TaskRequest(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)), rs.getString(3), rs.getString(4));
+				taskRequest = new TaskRequest(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)), UUID.fromString(rs.getString(3)), rs.getString(4), rs.getString(5));
 				listTaskRequest.add(taskRequest);
 			}
 			ps.close();
@@ -47,22 +53,22 @@ public class TaskRequest {
 		return null;
 	}
 	
-	public TaskRequest get(String id) {
-		String query = "SELECT * from users where id  = ?";
+	public static TaskRequest get(UUID id) {
+		String query = "SELECT * from task_requests where id  = ?";
 		
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, id);
+			ps.setString(1, id.toString());
 			
 			ResultSet rs = ps.executeQuery();
 			
 			rs.next();
-			String workerID = rs.getString("workerID");
-			String supervisorID = rs.getString("supervisorID");
+			String workerID = rs.getString("worker_id");
+			String supervisorID = rs.getString("supervisor_id");
 			String title = rs.getString("title");
 			String note = rs.getString("note");
 			
-			return new TaskRequest(UUID.fromString(workerID), UUID.fromString(supervisorID), title, note);
+			return new TaskRequest(id, UUID.fromString(workerID), UUID.fromString(supervisorID), title, note);
 			
 		} 
 		catch (SQLException e) {
@@ -74,19 +80,20 @@ public class TaskRequest {
 	}
 	
 	public TaskRequest save() {
-		String query = "insert into taskRequest values (?,?,?,?)";
+		String query = "insert into task_requests values (?,?,?,?,?)";
 
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
-			ps.setString(1, workerID.toString());
-			ps.setString(2, supervisorID.toString());
-			ps.setString(3, title);
-			ps.setString(4, note);
+			ps.setString(1, id.toString());
+			ps.setString(2, workerID.toString());
+			ps.setString(3, supervisorID.toString());
+			ps.setString(4, title);
+			ps.setString(5, note);
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Create Task Request Success!");
-			return new TaskRequest(workerID, supervisorID, title, note);
+			return new TaskRequest(id, workerID, supervisorID, title, note);
 		}
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Add Task Request Failed! "+e.getMessage());
@@ -95,7 +102,7 @@ public class TaskRequest {
 	}
 
 	public TaskRequest update() {
-		String query = "update taskRequest set workerID = ?, supervisorID = ?, title = ?, note = ?";
+		String query = "update task_requests set worker_id = ?, supervisor_id = ?, title = ?, note = ? where id = ?";
 		try {
 
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -103,11 +110,11 @@ public class TaskRequest {
 			ps.setString(2, supervisorID.toString());
 			ps.setString(3, title);
 			ps.setString(4, note);
+			ps.setString(4, id.toString());
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Update Task Request Success!");
-			return new TaskRequest(workerID, supervisorID, title, note);
-			
+			return new TaskRequest(id, workerID, supervisorID, title, note);
 		} 
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Task Request Failed!!" +e.getMessage());
@@ -116,11 +123,10 @@ public class TaskRequest {
 	}
 	
 	public void delete() {
-		String query = "delete from taskRequest where workerID = ?, supervisorID = ?";
+		String query = "delete from task_requests where id = ?";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, this.workerID.toString());
-			ps.setString(2, this.supervisorID.toString());
+			ps.setString(1, this.id.toString());
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Delete Task Request Success!!");			
@@ -130,8 +136,20 @@ public class TaskRequest {
 		}
 	}
 	
+	public static TaskRequest create(UUID workerID, UUID supervisorID, String title, String note) {
+		UUID taskReqID = UUID.randomUUID();
+		TaskRequest taskReq = new TaskRequest(taskReqID, workerID, supervisorID, title, note);
+		return taskReq;
+	}
 	
-	
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
 	public UUID getWorkerID() {
 		return workerID;
 	}

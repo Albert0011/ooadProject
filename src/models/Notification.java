@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import java.util.UUID;
+
 import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -13,30 +15,34 @@ import connection.Connector;
 
 public class Notification {
 
-	private String userID;
+	private UUID id;
+	private UUID userID;
 	private String message;
 	private Timestamp readAt;
 
-	public Notification(String userID, String message, Timestamp readAt) {
+	
+	public Notification(UUID id, UUID userID, String message, Timestamp readAt) {
 		super();
+		this.id = id;
 		this.userID = userID;
 		this.message = message;
 		this.readAt = readAt;
 	}
-	
+
 	public Notification save() {
-		String query = "insert into notification values (?,?,?)";
+		String query = "insert into notifications values (?,?,?,?)";
 
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
-			ps.setString(1, userID.toString());
-			ps.setString(2, message);
-			ps.setTimestamp(3, readAt);
+			ps.setString(1, id.toString());
+			ps.setString(2, userID.toString());
+			ps.setString(3, message);
+			ps.setTimestamp(4, readAt);
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Create Notification Success!");
-			return new Notification(userID, message, readAt);
+			return new Notification(id, userID, message, readAt);
 		}
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Add Notification Failed! "+e.getMessage());
@@ -45,17 +51,18 @@ public class Notification {
 	}
 
 	public Notification update() {
-		String query = "update notification set userID =?, message = ?, readAt = ?";
+		String query = "update notifications set user_id =?, message = ?, read_at = ? where id = ?";
 		try {
 
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			ps.setString(1, userID.toString());
 			ps.setString(2, message);
 			ps.setTimestamp(3, readAt);
+			ps.setString(4, id.toString());
 			ps.execute();
 			
 			JOptionPane.showMessageDialog(null, "Update Notification Success!");
-			return new Notification(userID, message, readAt);
+			return new Notification(id, userID, message, readAt);
 		} 
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Update Notification Failed!!" +e.getMessage());
@@ -63,16 +70,25 @@ public class Notification {
 		return null;
 	}
 	
+	public static Notification create(UUID userID, String message, Timestamp readAt) {
+		UUID notifID = UUID.randomUUID();
+		Notification notif = new Notification(notifID, userID, message, readAt);
+		return notif;
+	}
 	
-	public static ArrayList<Notification> getAll(String userID){
+	public static ArrayList<Notification> getAll(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
-		String query = "select * from task where userID = " + userID;
+		
+		
+		String query = "select * from notifications where user_id = ?";
+        
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			ps.setString(1, userID.toString());
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {
-				notification = new Notification(rs.getString(1), rs.getString(2), rs.getTimestamp(3));
+				notification = new Notification(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)), rs.getString(3), rs.getTimestamp(4));
 				listNotification.add(notification);
 			}
 			ps.close();
@@ -85,15 +101,15 @@ public class Notification {
 		return null;
 	}
 	
-	public static ArrayList<Notification> getAllUnread(String userID){
+	public static ArrayList<Notification> getAllUnread(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
-		String query = "select * from task where userID = " + userID + "AND readAt = NULL";
+		String query = "select * from task where user_id = " + userID.toString() + "AND read_at = NULL";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {
-				notification = new Notification(rs.getString(1), rs.getString(2), rs.getTimestamp(3));
+				notification = new Notification(UUID.fromString(rs.getString(1)), UUID.fromString(rs.getString(2)), rs.getString(3), rs.getTimestamp(4));
 				listNotification.add(notification);
 			}
 			ps.close();
@@ -106,11 +122,19 @@ public class Notification {
 		return null;
 	}
 
-	public String getUserID() {
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public UUID getUserID() {
 		return userID;
 	}
 
-	public void setUserID(String userID) {
+	public void setUserID(UUID userID) {
 		this.userID = userID;
 	}
 
@@ -130,8 +154,6 @@ public class Notification {
 		this.readAt = readAt;
 	}
 
-	
-		
 	
 	
 	
