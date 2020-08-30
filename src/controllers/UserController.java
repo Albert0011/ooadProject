@@ -11,10 +11,10 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import models.User;
 import views.AllUserDisplay;
-import views.ChangePasswordForm;
+//import views.ChangePasswordForm;
 import views.CreateUserDisplay;
 import views.ProfileDisplay;
-import views.UpdateProfileForm;
+//import views.UpdateProfileForm;
 
 public class UserController {
 
@@ -164,8 +164,8 @@ public class UserController {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChangePasswordForm frame = new ChangePasswordForm();
-					frame.setVisible(true);
+//					ChangePasswordForm frame = new ChangePasswordForm();
+//					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -177,8 +177,8 @@ public class UserController {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UpdateProfileForm frame = new UpdateProfileForm();
-					frame.setVisible(true);
+//					UpdateProfileForm frame = new UpdateProfileForm();
+//					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
