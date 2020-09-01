@@ -2,6 +2,9 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NoSuchObjectException;
+import java.sql.SQLException;
+
 import javax.swing.JPanel;
 import views.AdminHomepage;
 import views.LoginDisplay;
@@ -76,7 +79,12 @@ public class MainController {
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				try {
+					supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -93,7 +101,12 @@ public class MainController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				try {
+					supervisorHomepage.refreshContent(TaskRequestHandler.getInstance().openAllTaskRequestDisplay());
+				} catch (NoSuchObjectException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -115,7 +128,12 @@ public class MainController {
 		workerHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				workerHomepage.refreshContent(UserController.getInstance().openProfileDisplay());
+				try {
+					workerHomepage.refreshContent(UserController.getInstance().openProfileDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				//supervisorHomepage.refreshContent(UserController.getInstance().openChangePasswordForm());
 				//supervisorHomepage.refreshContent(UserController.getInstance().openUpdateProfileForm());
 			}

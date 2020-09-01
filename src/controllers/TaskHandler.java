@@ -48,12 +48,12 @@ public class TaskHandler {
 	}
 
 	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) throws RequestFailedException, SQLException{
-		if(title.length() < 10){
-			throw new RequestFailedException("Title cannot be less than 15 characters");
-		}
-		if(note.length() > 10 && note.length() < 100){
-			throw new RequestFailedException("note must be between 10 - 100 characters");
-		}
+//		if(title.length() < 10){
+//			throw new RequestFailedException("Title cannot be less than 15 characters");
+//		}
+//		if(note.length() > 10 && note.length() < 100){
+//			throw new RequestFailedException("note must be between 10 - 100 characters");
+//		}
 		Task task = Task.create(supervisorID, workerID, title, note);
 		task.save();
 		return task;

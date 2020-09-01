@@ -3,6 +3,7 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NoSuchObjectException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import helpers.Log;
 import models.User;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
@@ -61,7 +63,7 @@ public class UserController {
 	}
 	
 
-	public UserProfileDisplay openUserProfileDisplay() {
+	public UserProfileDisplay openUserProfileDisplay() throws NoSuchObjectException {
 		UserProfileDisplay up = new UserProfileDisplay();
 		
 			up.refreshContent(openProfileDisplay());
@@ -70,7 +72,12 @@ public class UserController {
 				
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						up.refreshContent(openProfileDisplay());
+						try {
+							up.refreshContent(openProfileDisplay());
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						MainController.getInstance().supervisorRefreshContent(up);
 					}
 				});
@@ -97,12 +104,13 @@ public class UserController {
 	}
 	
 	
-	public ProfileDisplay openProfileDisplay() {
+	public ProfileDisplay openProfileDisplay() throws NoSuchObjectException {
 		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
 			//User user = getUser(thisUserID);
 	
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");//ini ganti-ganti idnya yg ada di db kalian
+//			User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");//ini ganti-ganti idnya yg ada di db kalian
+			User user = Log.getInstance().getCurrentUser();
 		ProfileDisplay pd = new ProfileDisplay(user);
 
 		return pd;
@@ -253,7 +261,12 @@ public class UserController {
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?");
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
-						UserController.changePassword(oldPass, newPass);	
+						try {
+							UserController.changePassword(oldPass, newPass);
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
 						
 						
 						//JOptionPane.showMessageDialog(null, "Change Password Success!");
@@ -299,7 +312,12 @@ public class UserController {
 						
 						if(isValidDate(day, month, year) == true) {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
-							UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+							try {
+								UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+							} catch (NoSuchObjectException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							
 							//MainController.getInstance().supervisorRefreshContent(openUpdateProfileForm());
 							
@@ -335,6 +353,8 @@ public class UserController {
 		User user;
 		try {
 			user = User.getBy(uname, pass, roleName);
+			Log.createLog(user);
+			
 			JOptionPane.showMessageDialog(null, "Login success!");
 			MainController.getInstance().disposeLoginFrame();
 			if(roleName.equalsIgnoreCase("Admin")) {
@@ -431,12 +451,13 @@ public class UserController {
 		return user;
 	}
 	
-	public static User changePassword(String oldPassword, String newPassword) {
+	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException {
 		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
 			//User user = getUser(thisUserID);
 	
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+//			User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
+		User user = Log.getInstance().getCurrentUser();
 			
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
@@ -450,12 +471,14 @@ public class UserController {
 		}
 	}
 	
-	public static User updateProfile(String username, Date DOB, String address, String telp) {
+	public static User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
 		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
 			//User user = getUser(thisUserID);
 		
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+//		User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
+		User user = Log.getInstance().getCurrentUser();
+		
 		java.sql.Date date= new java.sql.Date(DOB.getTime());
 		String defaultPassword = date.toString();
 		user.setPassword(defaultPassword);

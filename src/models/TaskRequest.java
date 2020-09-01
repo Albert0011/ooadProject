@@ -31,12 +31,12 @@ public class TaskRequest {
 
 	public static ArrayList<TaskRequest> getAll(UUID userID){
 		ArrayList<TaskRequest> listTaskRequest = new ArrayList<TaskRequest>();
-		
-		String query = "select * from task_requests where supervisor_id = ?";
         
+		String query = "select * from task_requests where supervisor_id ='"+userID.toString()+"'";
 		try {
+//			String query = "select * from task_requests where supervisor_id =?";
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, userID.toString());
+//			ps.setString(1, userID.toString());
 			ResultSet rs = ps.executeQuery(query);
 			TaskRequest taskRequest;
 			while(rs.next()) {
@@ -54,11 +54,11 @@ public class TaskRequest {
 	}
 	
 	public static TaskRequest get(UUID id) {
-		String query = "SELECT * from task_requests where id  = ?";
+		String query = "SELECT * from task_requests where id  ='"+ id.toString()+"'";
 		
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, id.toString());
+//			ps.setString(1, id.toString());
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -102,7 +102,7 @@ public class TaskRequest {
 	}
 
 	public TaskRequest update() {
-		String query = "update task_requests set worker_id = ?, supervisor_id = ?, title = ?, note = ? where id = ?";
+		String query = "update task_requests set worker_id =?, supervisor_id =?, title =?, note =? where id =?";
 		try {
 
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -123,7 +123,7 @@ public class TaskRequest {
 	}
 	
 	public void delete() {
-		String query = "delete from task_requests where id = ?";
+		String query = "delete from task_requests where id =?";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			ps.setString(1, this.id.toString());
