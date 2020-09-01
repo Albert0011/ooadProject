@@ -71,7 +71,7 @@ public class MainController {
 	public SupervisorHomepage displaySupervisorHomepage() {
 		supervisorHomepage = new SupervisorHomepage();
 		
-		supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+		//supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 		
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

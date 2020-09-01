@@ -2,6 +2,8 @@ package views;
 
 import java.awt.Color;
 import java.awt.Font;
+
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,7 +19,8 @@ public class ProfileDisplay extends JPanel{
 	public ProfileDisplay(User user) {
 		
 		this.setBackground(new Color(255, 255, 224));
-		this.setSize(628, 416);
+		this.setSize(628, 376);
+		this.setLocation(0, 0);
 		this.setLayout(null);
 		
 		mainPanel = new JPanel();

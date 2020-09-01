@@ -10,8 +10,10 @@ public class Main {
 
 	public Main() {
 //		UserController.openProfileDisplay();
-		MainController.getInstance().displayAdminHomepage();
-//		MainController.getInstance().displaySupervisorHomepage();
+		
+//		UserController.openUserProfileDisplay();
+//		MainController.getInstance().displayAdminHomepage();
+		MainController.getInstance().displaySupervisorHomepage();
 //		MainController.getInstance().displayWorkerHomepage();
 //		MainController.getInstance().displayLogin();
 //		UserController.openCreateUserDisplay();
