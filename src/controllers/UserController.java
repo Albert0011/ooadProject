@@ -1,6 +1,6 @@
 package controllers;
 
-import java.awt.EventQueue;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -9,12 +9,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import models.User;
 import views.AllUserDisplay;
-//import views.ChangePasswordForm;
+import views.ChangePasswordForm;
 import views.CreateUserDisplay;
 import views.ProfileDisplay;
-//import views.UpdateProfileForm;
+import views.SupervisorHomepage;
+import views.UpdateProfileForm;
+import views.UserProfileDsiplay;
 
 public class UserController {
 
@@ -23,6 +27,11 @@ public class UserController {
 	public UserController() {
 		
 	}
+	private static String thisUserID;
+	
+	public static final int[] JUMLAHHARI = {
+			31,28,31,30,31,30,31,31,30,31,30,31
+	};
 
 	public static UserController getInstance() {
 		if(uc == null) {
@@ -31,10 +40,71 @@ public class UserController {
 		return uc;
 	}
 	
-	public static void openProfileDisplay() {
-		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
-		ProfileDisplay profileDisplay = new ProfileDisplay(user);
-		MainController.getInstance().addPanel(profileDisplay);
+	
+	public static boolean isLeapYear(int year) {
+		if(((year%4 == 0) && !(year%100 == 0)) || year%400 == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isValidDate(int day, int month, int year) {
+		if(month == 2 && isLeapYear(year)) {
+			if(day > 29 || day < 1) return false;
+		}
+		else if(month == 2 && !isLeapYear(year)) {
+			if(day > 28 || day < 1) return false;
+		}
+		else {
+			if(day < 1 || day > JUMLAHHARI[month-1]) return false;
+		}
+		return true;
+	}
+	
+
+	public UserProfileDsiplay openUserProfileDisplay() {
+		UserProfileDsiplay up = new UserProfileDsiplay();
+		
+				up.getViewProfileBtn().addActionListener(new ActionListener() {
+				
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						up.getMainPanel().add(openProfileDisplay());
+						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+					}
+				});
+			
+				up.getChangePassBtn().addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						up.getMainPanel().add(openChangePasswordForm());
+						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+					}
+				});
+				
+				up.getUpdateProfileBtn().addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						up.getMainPanel().add(openUpdateProfileForm());
+						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+					}
+				});
+		
+		return up;
+	}
+	
+	
+	public ProfileDisplay openProfileDisplay() {
+		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
+			//User user = getUser(thisUserID);
+	
+		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
+			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");//ini ganti-ganti idnya yg ada di db kalian
+		ProfileDisplay pd = new ProfileDisplay(user);
+
+		return pd;
 	}
 	
 	public CreateUserDisplay openCreateUserDisplay() {
@@ -43,7 +113,7 @@ public class UserController {
 		cud.getCreateUserButton().addActionListener(new ActionListener() {
 			
 			
-			@SuppressWarnings("static-access")
+		
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if(cud.getUnameField().getText().isEmpty() || ((String) cud.getRoleChoice().getSelectedItem()).isEmpty() || 
@@ -59,7 +129,7 @@ public class UserController {
 					int day = Integer.parseInt(cud.getDayChoose().getSelectedItem().toString());
 				
 					
-					if(cud.isValidDate(day, month, year) == true) {
+					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());		
 						
@@ -160,30 +230,104 @@ public class UserController {
 	
 	}
 	
-	public static void openChangePasswordForm() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					ChangePasswordForm frame = new ChangePasswordForm();
-//					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+	public ChangePasswordForm openChangePasswordForm() {
+		
+		ChangePasswordForm cp = new ChangePasswordForm();
+		
+		cp.getChangePassBtn().addActionListener(new ActionListener() {
+			
+			@SuppressWarnings("deprecation")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String oldPass = cp.getOldPassField().getText();
+				String newPass = cp.getNewPassField().getText();
+				
+				if(oldPass.isEmpty() || newPass.isEmpty()) {	
+					JOptionPane.showMessageDialog(null, "Please Complete All Data");
 				}
+				else if(oldPass.length()<8 || oldPass.length()>12 || newPass.length()<8 || newPass.length()>12) {
+					JOptionPane.showMessageDialog(null, "Password length not valid!");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+						UserController.changePassword(oldPass, newPass);	
+						
+						MainController.getInstance().refreshContent(openChangePasswordForm());
+						JOptionPane.showMessageDialog(null, "Change Password Success!");
+						break;
+					case JOptionPane.NO_OPTION:
+						
+						break;
+					case JOptionPane.CANCEL_OPTION:
+					
+						break;
+	
+					default:
+						break;
+						
+					}
+					
+				}
+				
 			}
 		});
+			
+		return cp;
 	}
 	
-	public static void openUpdateProfileForm() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					UpdateProfileForm frame = new UpdateProfileForm();
-//					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+	public UpdateProfileForm openUpdateProfileForm() {
+		UpdateProfileForm up = new UpdateProfileForm();
+		
+		up.getUpdateButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(up.getUnameField().getText().isEmpty() ||up.getAddrField().getText().isEmpty() || up.getTelpField().getText().isEmpty() || ((String) up.getDayChoose().getSelectedItem()).isEmpty() || 
+						((String) up.getMonthChoose().getSelectedItem()).isEmpty() || ((String) up.getYearChoose().getSelectedItem()).isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null, "Please Complete All Data");
+				
 				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to update your profile?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+						int year = Integer.parseInt(up.getYearChoose().getSelectedItem().toString());
+						int month = Integer.parseInt(up.getMonthChoose().getSelectedItem().toString());
+						int day = Integer.parseInt(up.getDayChoose().getSelectedItem().toString());
+						
+						if(isValidDate(day, month, year) == true) {
+							Date date = new GregorianCalendar(year, month-1, day).getTime();
+							UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+							
+							MainController.getInstance().refreshContent(openUpdateProfileForm());
+							
+							JOptionPane.showMessageDialog(null, "Update profile success!");
+							
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Date is not valid!");
+						}
+						
+						break;
+					case JOptionPane.NO_OPTION:
+						
+						break;
+					case JOptionPane.CANCEL_OPTION:
+					
+						break;
+	
+					default:
+						break;
+						
+					}
+					
+					
+				}
+				
 			}
 		});
+		return up;
 	}
 	
 	public User getUserBy(String uname, String pass, String roleName) {
@@ -192,11 +336,21 @@ public class UserController {
 			user = User.getBy(uname, pass, roleName);
 			JOptionPane.showMessageDialog(null, "Login success!");
 			MainController.getInstance().disposeLoginFrame();
-			MainController.getInstance().displayAdminHomepage();
+			if(roleName.equalsIgnoreCase("Admin")) {
+				MainController.getInstance().displayAdminHomepage();
+			}
+			else if(roleName.equalsIgnoreCase("Supervisor")) {
+				MainController.getInstance().displaySupervisorHomepage();
+			}
+			else {
+				MainController.getInstance().displayWorkerHomepage();
+			}
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "User not found!");
 			return null;
 		}
+		thisUserID = user.getId().toString();
 		return user;
 	}
 
@@ -277,7 +431,12 @@ public class UserController {
 	}
 	
 	public static User changePassword(String oldPassword, String newPassword) {
-		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
+			//User user = getUser(thisUserID);
+	
+		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
+			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+			
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
 			updateUser(user);
@@ -291,7 +450,11 @@ public class UserController {
 	}
 	
 	public static User updateProfile(String username, Date DOB, String address, String telp) {
-		User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
+			//User user = getUser(thisUserID);
+		
+		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
+			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		java.sql.Date date= new java.sql.Date(DOB.getTime());
 		String defaultPassword = date.toString();
 		user.setPassword(defaultPassword);

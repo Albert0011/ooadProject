@@ -29,34 +29,11 @@ public class CreateUserDisplay extends JPanel{
 	private JComboBox<Object> yearChoose;
 	
 	
-	public static final int[] JUMLAHHARI = {
-			31,28,31,30,31,30,31,31,30,31,30,31
-	};
-	
-	
-	public static boolean isLeapYear(int year) {
-		if(((year%4 == 0) && !(year%100 == 0)) || year%400 == 0) {
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean isValidDate(int day, int month, int year) {
-		if(month == 2 && isLeapYear(year)) {
-			if(day > 29 || day < 1) return false;
-		}
-		else if(month == 2 && !isLeapYear(year)) {
-			if(day > 28 || day < 1) return false;
-		}
-		else {
-			if(day < 1 || day > JUMLAHHARI[month-1]) return false;
-		}
-		return true;
-	}
+
 
 	public CreateUserDisplay() {
 		this.setBackground(new Color(70, 130, 180));
-		this.setSize(618, 406);
+		this.setSize(628, 416);
 		this.setLayout(null);
 		
 		JLabel titleCreateUser = new JLabel("CREATE USER FORM");

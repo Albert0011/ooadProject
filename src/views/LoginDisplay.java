@@ -10,9 +10,6 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import controllers.MainController;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -34,13 +31,14 @@ public class LoginDisplay extends JFrame{
 
 	public LoginDisplay() {
 		this.setBackground(new Color(30, 144, 255));
-		this.getContentPane().setBackground(new Color(255, 255, 255));
-		this.getContentPane().setLayout(null);
+		this.setBackground(new Color(255, 255, 255));
+		this.setLayout(null);
+		this.setResizable(false);
 		
 		JPanel panelTitle = new JPanel();
 		panelTitle.setBackground(new Color(51, 153, 204));
-		panelTitle.setBounds(0, 0, 324, 190);
-		this.getContentPane().add(panelTitle);
+		panelTitle.setBounds(0, 0, 324, 199);
+		this.add(panelTitle);
 		panelTitle.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("WELCOME TO");
@@ -69,7 +67,7 @@ public class LoginDisplay extends JFrame{
 		
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBackground(new Color(0, 0, 51));
-		panelLogin.setBounds(323, 0, 307, 407);
+		panelLogin.setBounds(323, 0, 317, 417);
 		this.getContentPane().add(panelLogin);
 		panelLogin.setLayout(null);
 		
@@ -126,7 +124,7 @@ public class LoginDisplay extends JFrame{
 		panelLogin.add(unameField);
 		
 		JPanel panelGambar = new JPanel();
-		panelGambar.setBounds(0, 189, 324, 218);
+		panelGambar.setBounds(0, 199, 324, 218);
 		this.getContentPane().add(panelGambar);
 		panelGambar.setLayout(null);
 		

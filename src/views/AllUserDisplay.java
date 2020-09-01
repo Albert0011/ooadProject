@@ -41,7 +41,7 @@ public class AllUserDisplay extends JPanel {
 	public AllUserDisplay(ArrayList<User> list) {
 		
 		this.setBackground(new Color(255, 255, 204));
-		this.setSize(618, 406);
+		this.setSize(628, 416);
 		this.setLayout(null);
 		
 		

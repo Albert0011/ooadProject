@@ -28,9 +28,10 @@ public class AdminHomepage extends JFrame {
 
 	public AdminHomepage() {
 		
-		this.setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		this.setBounds(100, 100, 813, 567);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		
 		
 		contentPane = new JPanel();
@@ -41,13 +42,13 @@ public class AdminHomepage extends JFrame {
 		
 		menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(0, 0, 51));
-		menuPanel.setBounds(0, 0, 179, 528);
+		menuPanel.setBounds(0, 0, 179, 538);
 		contentPane.add(menuPanel);
 		menuPanel.setLayout(null);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(153, 153, 153));
-		mainPanel.setBounds(179, 122, 618, 406);
+		mainPanel.setBounds(179, 122, 628, 416);
 		contentPane.add(mainPanel);
 		mainPanel.setLayout(null);
 		
@@ -87,7 +88,7 @@ public class AdminHomepage extends JFrame {
 		
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(255, 255, 255));
-		topPanel.setBounds(179, 0, 618, 42);
+		topPanel.setBounds(179, 0, 628, 42);
 		contentPane.add(topPanel);
 		
 		
@@ -97,7 +98,7 @@ public class AdminHomepage extends JFrame {
 		titleLable.setBounds(185, 70, 323, 57);
 		contentPane.add(titleLable);
 
-		this.add(contentPane);
+		getContentPane().add(contentPane);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
