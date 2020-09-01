@@ -91,7 +91,7 @@ public class MainController {
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				supervisorHomepage.refreshContent(TaskHandler.getInstance().openCreateTaskForm());
 				
 			}
 		});
