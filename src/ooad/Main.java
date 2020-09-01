@@ -13,7 +13,7 @@ public class Main {
 		
 //		UserController.openUserProfileDisplay();
 //		MainController.getInstance().displayAdminHomepage();
-		MainController.getInstance().displaySupervisorHomepage();
+//		MainController.getInstance().displaySupervisorHomepage();
 //		MainController.getInstance().displayWorkerHomepage();
 //		MainController.getInstance().displayLogin();
 //		UserController.openCreateUserDisplay();
