@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.swing.JOptionPane;
 
 import exceptions.RequestFailedException;
+import helpers.Log;
 import models.Task;
 import models.User;
 import views.TaskForm;
@@ -30,8 +31,8 @@ public class TaskHandler {
 					
 				} else {
 					try {
-						TaskHandler.createTask(UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
-										tf.getTitleField().getText(), tf.getNoteField().getText());
+						TaskHandler.createTask(tf.getTitleField().getText(), UUID.fromString(tf.getWorkerIDField().getText()), UUID.fromString(tf.getSupervisorIDField().getText()), 
+										 tf.getNoteField().getText());
 					} catch (RequestFailedException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
@@ -46,7 +47,7 @@ public class TaskHandler {
 		return tf;
 	}
 
-	public static Task createTask(UUID supervisorID, UUID workerID, String title, String note) throws RequestFailedException, SQLException{
+	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) throws RequestFailedException, SQLException{
 		if(title.length() < 10){
 			throw new RequestFailedException("Title cannot be less than 15 characters");
 		}
@@ -59,8 +60,9 @@ public class TaskHandler {
 	}
 	
 	
-	public static ArrayList<Task> getAllTask() throws NoSuchObjectException{
+	public static ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
+        
         User currentUser = Log.getInstance().getCurrentUser();
         task = Task.getAll(currentUser.getId());
 

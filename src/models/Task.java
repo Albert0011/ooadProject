@@ -19,13 +19,13 @@ public class Task {
 	private String title;
 	private Integer revisionCount;
 	private Integer score;
-	private boolean isSubmitted;
+	private Boolean isSubmitted;
 	private Timestamp approveAt;
 	private String note;
 	
 	
 	public Task(UUID id, UUID workerID, UUID supervisorID, String title, Integer revisionCount, Integer score,
-			boolean isSubmitted, Timestamp approveAt, String note) {
+			Boolean isSubmitted, Timestamp approveAt, String note) {
 		super();
 		this.id = id;
 		this.workerID = workerID;
@@ -55,7 +55,7 @@ public class Task {
 	
 	public static ArrayList<Task> getAll(UUID userID) throws SQLException {
 		ArrayList<Task> listTask = new ArrayList<Task>();
-		String query = "select * from task where userID = ?";
+		String query = "select * from tasks where worker_id = ?";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
@@ -73,7 +73,7 @@ public class Task {
 
     public static Task get(UUID id) {
     	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String query = "SELECT * from task where id  = ?";
+        String query = "SELECT * from tasks where id  = ?";
 
         try {
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -127,7 +127,7 @@ public class Task {
 	}
 	
 	public void delete() {
-        String query = "delete from task where id = ?";
+        String query = "delete from tasks where id = ?";
         try {
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
             ps.setString(1, this.id.toString());
@@ -141,7 +141,7 @@ public class Task {
     }
 	
 	public Task update() {
-        String query = "update task set worker_id = ?, supervisor_id = ?, title = ?, score = ?, note = ? where id = ?";
+        String query = "update tasks set worker_id = ?, supervisor_id = ?, title = ?, score = ?, note = ? where id = ?";
         try {
 
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -161,6 +161,78 @@ public class Task {
         }
         return null;
     }
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public UUID getWorkerID() {
+		return workerID;
+	}
+
+	public void setWorkerID(UUID workerID) {
+		this.workerID = workerID;
+	}
+
+	public UUID getSupervisorID() {
+		return supervisorID;
+	}
+
+	public void setSupervisorID(UUID supervisorID) {
+		this.supervisorID = supervisorID;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Integer getRevisionCount() {
+		return revisionCount;
+	}
+
+	public void setRevisionCount(Integer revisionCount) {
+		this.revisionCount = revisionCount;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public Boolean getIsSubmitted() {
+		return isSubmitted;
+	}
+
+	public void setIsSubmitted(Boolean isSubmitted) {
+		this.isSubmitted = isSubmitted;
+	}
+
+	public Timestamp getApproveAt() {
+		return approveAt;
+	}
+
+	public void setApproveAt(Timestamp approveAt) {
+		this.approveAt = approveAt;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
 	
 	
 	

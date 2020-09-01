@@ -15,7 +15,7 @@ import models.User;
 
 public class TaskRequestHandler {
 
-	public static TaskRequest createTaskRequest(UUID workerID, UUID supervisorID, String title, String note) {
+	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
 		
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
@@ -77,16 +77,11 @@ public class TaskRequestHandler {
 		
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
-		UUID workerID = taskRequest.getWorkerID();
-		UUID supervisorID = taskRequest.getSupervisorID();
-		String taskReqID = taskRequest.getId().toString();
-		
-		
 		try {
 
 			taskRequest.delete();	
-			TaskHandler.createTask("some title", supervisorID, workerID, "some notes");
-			NotificationController.createNotification(workerID, "Your Task Request: "+taskReqID+" has been accepted!.");
+			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getWorkerID(), taskRequest.getSupervisorID(), taskRequest.getNote());
+			NotificationController.createNotification(taskRequest.getWorkerID(), "Your Task Request: "+taskRequest.getId()+" has been accepted!.");
 			JOptionPane.showMessageDialog(null,"Task Accepted!");
 			
 			return taskRequest;
