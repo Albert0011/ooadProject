@@ -17,8 +17,17 @@ import models.User;
 import views.TaskForm;
 
 public class TaskHandler {
-
-	public static TaskForm openCreateTaskForm() {
+	
+	private static TaskHandler th;
+	
+	public static TaskHandler getInstance() {
+		if(th == null) {
+			th = new TaskHandler();
+		}
+		return th;
+	}
+	
+	public TaskForm openCreateTaskForm() {
 		TaskForm tf = new TaskForm();
 		tf.getCreateTaskForm().addActionListener(new ActionListener() {
 			
@@ -48,9 +57,9 @@ public class TaskHandler {
 	}
 
 	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) throws RequestFailedException, SQLException{
-//		if(title.length() < 10){
-//			throw new RequestFailedException("Title cannot be less than 15 characters");
-//		}
+		if(title.length() < 10){
+			throw new RequestFailedException("Title cannot be less than 15 characters");
+		}
 //		if(note.length() > 10 && note.length() < 100){
 //			throw new RequestFailedException("note must be between 10 - 100 characters");
 //		}
@@ -95,7 +104,7 @@ public class TaskHandler {
 	
 	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note){
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, false, timestamp, note);
+		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
 		task.update();
 		return task;
 	}

@@ -19,13 +19,13 @@ public class Task {
 	private String title;
 	private Integer revisionCount;
 	private Integer score;
-	private Boolean isSubmitted;
+	private Integer isSubmitted;
 	private Timestamp approveAt;
 	private String note;
 	
 	
 	public Task(UUID id, UUID workerID, UUID supervisorID, String title, Integer revisionCount, Integer score,
-			Boolean isSubmitted, Timestamp approveAt, String note) {
+			Integer isSubmitted, Timestamp approveAt, String note) {
 		super();
 		this.id = id;
 		this.workerID = workerID;
@@ -45,7 +45,7 @@ public class Task {
 		ResultSet rs = ps.executeQuery(query);
 		Task task;
 		while(rs.next()){
-			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getTimestamp(8), rs.getString(9));
+			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
 			listTask.add(task);
 		}
 		ps.close();
@@ -61,7 +61,7 @@ public class Task {
 		ResultSet rs = ps.executeQuery(query);
 		Task task;
 		while(rs.next()) {
-			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getBoolean(7), rs.getTimestamp(8), rs.getString(9));
+			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
 			listTask.add(task);
 		}
 		ps.close();
@@ -87,7 +87,7 @@ public class Task {
             String title = rs.getString("title");
             String note = rs.getString("note");
 
-            return new Task(id, UUID.fromString(workerID), UUID.fromString(supervisorID), title, 0, 0, false, timestamp, note);
+            return new Task(id, UUID.fromString(workerID), UUID.fromString(supervisorID), title, 0, 0, 0, timestamp, note);
 
         } 
         catch (SQLException e) {
@@ -102,20 +102,25 @@ public class Task {
 	public static Task create(UUID supervisorID, UUID workerID, String title, String note){
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		UUID taskId = UUID.randomUUID();
-		Task task = new Task(taskId, workerID, supervisorID, title, 0, 0, false, timestamp, note);
+		Task task = new Task(taskId, workerID, supervisorID, title, 0, 0, 0, timestamp, note);
 		
 		return task;
 	}
 	
 	public Task save(){
-		String query = "insert into task values (?,?,?,?)";
+		String query = "insert into tasks values (?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
-			ps.setString(1, supervisorID.toString());
-			ps.setString(2, workerID.toString());
-			ps.setString(3, title);
-			ps.setString(4, note);
+			ps.setString(1, id.toString());
+			ps.setString(2, supervisorID.toString());
+			ps.setString(3, workerID.toString());
+			ps.setString(4, title);
+			ps.setString(5, revisionCount.toString());
+			ps.setString(6, score.toString());
+			ps.setString(7, isSubmitted.toString());
+			ps.setString(8, approveAt.toString());
+			ps.setString(9, note);
 			
 			ps.execute();
 			JOptionPane.showMessageDialog(null, "Add task Success!!");			
@@ -154,7 +159,7 @@ public class Task {
 
             ps.execute();
             JOptionPane.showMessageDialog(null, "Update Task Success!");
-            return new Task(id, workerID, supervisorID, title, 0, score, false, approveAt, note);
+            return new Task(id, workerID, supervisorID, title, 0, score, 0, approveAt, note);
         } 
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Update Task Failed!!" +e.getMessage());
@@ -210,11 +215,11 @@ public class Task {
 		this.score = score;
 	}
 
-	public Boolean getIsSubmitted() {
+	public Integer getIsSubmitted() {
 		return isSubmitted;
 	}
 
-	public void setIsSubmitted(Boolean isSubmitted) {
+	public void setIsSubmitted(Integer isSubmitted) {
 		this.isSubmitted = isSubmitted;
 	}
 
