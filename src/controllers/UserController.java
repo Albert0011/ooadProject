@@ -18,8 +18,7 @@ import views.CreateUserDisplay;
 import views.ProfileDisplay;
 import views.SupervisorHomepage;
 import views.UpdateProfileForm;
-import views.UserProfileDsiplay;
-
+import views.UserProfileDisplay;
 public class UserController {
 
 	private static UserController uc;
@@ -62,15 +61,17 @@ public class UserController {
 	}
 	
 
-	public UserProfileDsiplay openUserProfileDisplay() {
-		UserProfileDsiplay up = new UserProfileDsiplay();
+	public UserProfileDisplay openUserProfileDisplay() {
+		UserProfileDisplay up = new UserProfileDisplay();
+		
+			up.refreshContent(openProfileDisplay());
 		
 				up.getViewProfileBtn().addActionListener(new ActionListener() {
 				
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						up.getMainPanel().add(openProfileDisplay());
-						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+						up.refreshContent(openProfileDisplay());
+						MainController.getInstance().supervisorRefreshContent(up);
 					}
 				});
 			
@@ -78,8 +79,8 @@ public class UserController {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						up.getMainPanel().add(openChangePasswordForm());
-						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+						up.refreshContent(openChangePasswordForm());
+						MainController.getInstance().supervisorRefreshContent(up);
 					}
 				});
 				
@@ -87,8 +88,8 @@ public class UserController {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						up.getMainPanel().add(openUpdateProfileForm());
-						MainController.getInstance().supervisorRefreshContent(openUserProfileDisplay());
+						up.refreshContent(openUpdateProfileForm());
+						MainController.getInstance().supervisorRefreshContent(up);
 					}
 				});
 		
@@ -254,8 +255,8 @@ public class UserController {
 					case JOptionPane.YES_OPTION:
 						UserController.changePassword(oldPass, newPass);	
 						
-						MainController.getInstance().refreshContent(openChangePasswordForm());
-						JOptionPane.showMessageDialog(null, "Change Password Success!");
+						
+						//JOptionPane.showMessageDialog(null, "Change Password Success!");
 						break;
 					case JOptionPane.NO_OPTION:
 						
@@ -300,7 +301,7 @@ public class UserController {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
 							UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
 							
-							MainController.getInstance().refreshContent(openUpdateProfileForm());
+							//MainController.getInstance().supervisorRefreshContent(openUpdateProfileForm());
 							
 							JOptionPane.showMessageDialog(null, "Update profile success!");
 							

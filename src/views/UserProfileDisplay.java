@@ -5,9 +5,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class UserProfileDsiplay extends JPanel {
+public class UserProfileDisplay extends JPanel {
 	/**
 	 * 
 	 */
@@ -20,45 +21,46 @@ public class UserProfileDsiplay extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public UserProfileDsiplay() {
-		this.setBackground(Color.white);
+	public UserProfileDisplay() {
+		this.setBackground(Color.LIGHT_GRAY);
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 224));
 		mainPanel.setBounds(0, 40, 628, 376);
-		this.add(mainPanel);
+		add(mainPanel);
 		mainPanel.setLayout(null);
 		
 		
 		topMenuPanel = new JPanel();
 		topMenuPanel.setBackground(new Color(255, 255, 224));
 		topMenuPanel.setBounds(0, 0, 628, 40);
-		this.add(topMenuPanel);
+		add(topMenuPanel);
 		topMenuPanel.setLayout(new GridLayout(0, 3, 0, 0));
 		
 		viewProfileBtn = new JButton("View Profile");
+		topMenuPanel.add(viewProfileBtn);
 		viewProfileBtn.setForeground(new Color(255, 255, 255));
 		viewProfileBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		viewProfileBtn.setBackground(new Color(75, 0, 130));
-		topMenuPanel.add(viewProfileBtn);
 		
 		changePassBtn = new JButton("Change Password");
+		topMenuPanel.add(changePassBtn);
 		changePassBtn.setForeground(new Color(255, 255, 255));
 		changePassBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		changePassBtn.setBackground(new Color(75, 0, 130));
-		topMenuPanel.add(changePassBtn);
 		
 		updateProfileBtn = new JButton("Update Profile");
+		topMenuPanel.add(updateProfileBtn);
 		updateProfileBtn.setBackground(new Color(75, 0, 130));
 		updateProfileBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		updateProfileBtn.setForeground(new Color(255, 255, 255));
-		topMenuPanel.add(updateProfileBtn);
 		
 		
 		this.setVisible(true);
 	}
+	
 	
 	public void refreshContent(JPanel panel) {
 		mainPanel.removeAll();
@@ -69,7 +71,6 @@ public class UserProfileDsiplay extends JPanel {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}
-
 	
 	public JPanel getTopMenuPanel() {
 		return topMenuPanel;
