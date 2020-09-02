@@ -79,19 +79,13 @@ public class MainController {
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				try {
-					supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
-				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 			}
 		});
 		
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				try {
 					supervisorHomepage.refreshContent(TaskHandler.getInstance().openAllTaskDisplay());
 				} catch (NoSuchObjectException e1) {
@@ -101,20 +95,6 @@ public class MainController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-=======
-				
-					try {
-						supervisorHomepage.refreshContent(TaskHandler.getInstance().openAllTaskDisplay());
-					} catch (NoSuchObjectException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				
-				
->>>>>>> refs/remotes/origin/master
 			}
 		});
 		
@@ -122,19 +102,12 @@ public class MainController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				try {
 					supervisorHomepage.refreshContent(TaskRequestHandler.getInstance().openAllTaskRequestDisplay());
 				} catch (NoSuchObjectException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-=======
-				// TODO Auto-generated method stub
-				try {
-					supervisorHomepage.refreshContent(TaskRequestHandler.getInstance().openAllTaskRequestDisplay());
-				} catch (NoSuchObjectException | SQLException e1) {
->>>>>>> refs/remotes/origin/master
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -166,18 +139,7 @@ public class MainController {
 		workerHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-<<<<<<< HEAD
 				workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
-=======
-				try {
-					workerHomepage.refreshContent(UserController.getInstance().openProfileDisplay());
-				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				//supervisorHomepage.refreshContent(UserController.getInstance().openChangePasswordForm());
-				//supervisorHomepage.refreshContent(UserController.getInstance().openUpdateProfileForm());
->>>>>>> refs/remotes/origin/master
 			}
 		});
 		
