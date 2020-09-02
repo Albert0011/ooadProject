@@ -28,7 +28,7 @@ public class UpdateProfileForm extends JPanel {
 	private JComboBox<Object> dayChoose;
 
 	public UpdateProfileForm() {
-		this.setSize(628, 416);
+		this.setSize(628, 376);
 		this.setBackground(new Color(240, 248, 255));
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
@@ -181,6 +181,12 @@ public class UpdateProfileForm extends JPanel {
 
 	public void setDayChoose(JComboBox<Object> dayChoose) {
 		this.dayChoose = dayChoose;
+	}
+	
+	public void emptyUpdateField() {
+		this.unameField.setText("");
+		this.addrField.setText("");
+		this.telpField.setText("");
 	}
 	
 	

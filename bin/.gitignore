@@ -1,3 +1,7 @@
+/connection/
 /controllers/
+/exceptions/
+/helpers/
+/models/
 /ooad/
 /views/

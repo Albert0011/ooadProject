@@ -29,7 +29,7 @@ public class ChangePasswordForm extends JPanel {
 	 * Create the frame.
 	 */
 	public ChangePasswordForm() {
-		this.setSize(628, 416);
+		this.setSize(628, 376);
 		//this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(new BorderLayout(0, 0));
 		
@@ -106,6 +106,11 @@ public class ChangePasswordForm extends JPanel {
 
 	public void setChangePassBtn(JButton changePassBtn) {
 		this.changePassBtn = changePassBtn;
+	}
+	
+	public void emptyPassField() {
+		this.oldPassField.setText("");
+		this.newPassField.setText("");
 	}
 	
 	

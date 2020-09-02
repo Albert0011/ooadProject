@@ -53,22 +53,22 @@ public class User {
 		return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
 	}
 	
-	public static User getBy(String uname, String pass, String roleName) throws SQLException {
-		String query = "SELECT * from users where username = ? and password = ? and role = ?";
+	public static User getBy(String uname, String pass) throws SQLException {
+		String query = "SELECT * from users where username = ? and password = ?";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 		ps.setString(1, uname);
 		ps.setString(2, pass);
-		ps.setString(3, roleName);
 		
 		ResultSet rs = ps.executeQuery();
 		
 		rs.next();
 		String userID = rs.getString("id");
 		String address = rs.getString("address");
+		String role = rs.getString("role");
 		java.sql.Date DOB = rs.getDate("DOB");
 		String telp = rs.getString("telp");
 		
-		User user = new User(UUID.fromString(userID), uname, pass, roleName, address, DOB, telp);
+		User user = new User(UUID.fromString(userID), uname, pass, role, address, DOB, telp);
 		return user;
 		
 	}
@@ -97,7 +97,6 @@ public class User {
 		ps.setString(7, telp);
 		
 		ps.execute();
-		JOptionPane.showMessageDialog(null, "Create User Success!");
 		return new User(id, username, password, role, address, DOB, telp);
 
 	}

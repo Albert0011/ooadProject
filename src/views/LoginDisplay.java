@@ -24,7 +24,6 @@ public class LoginDisplay extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JButton loginButton;
 	private JPasswordField passField;
-	private JComboBox<Object> roleChoose;
 	private JTextField unameField;
 
 	
@@ -32,13 +31,13 @@ public class LoginDisplay extends JFrame{
 	public LoginDisplay() {
 		this.setBackground(new Color(30, 144, 255));
 		this.setBackground(new Color(255, 255, 255));
-		this.setLayout(null);
+		getContentPane().setLayout(null);
 		this.setResizable(false);
 		
 		JPanel panelTitle = new JPanel();
 		panelTitle.setBackground(new Color(51, 153, 204));
 		panelTitle.setBounds(0, 0, 324, 199);
-		this.add(panelTitle);
+		getContentPane().add(panelTitle);
 		panelTitle.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("WELCOME TO");
@@ -73,7 +72,7 @@ public class LoginDisplay extends JFrame{
 		
 		JLabel uname = new JLabel("Username");
 		uname.setForeground(new Color(255, 255, 255));
-		uname.setBounds(37, 105, 71, 20);
+		uname.setBounds(37, 128, 71, 20);
 		panelLogin.add(uname);
 		uname.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
@@ -84,21 +83,15 @@ public class LoginDisplay extends JFrame{
 		panelLogin.add(titleLogin);
 		titleLogin.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		
-		JLabel lblRole = new JLabel("Role");
-		lblRole.setForeground(new Color(255, 255, 255));
-		lblRole.setBounds(37, 235, 90, 25);
-		panelLogin.add(lblRole);
-		lblRole.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		
 		passField = new JPasswordField();
 		passField.setForeground(new Color(255, 255, 255));
 		passField.setBackground(new Color(0, 0, 51));
-		passField.setBounds(37, 190, 235, 30);
+		passField.setBounds(37, 234, 235, 30);
 		panelLogin.add(passField);
 		
 		JLabel pass = new JLabel("Password");
 		pass.setForeground(new Color(255, 255, 255));
-		pass.setBounds(37, 170, 90, 25);
+		pass.setBounds(37, 207, 90, 25);
 		panelLogin.add(pass);
 		pass.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
@@ -109,18 +102,10 @@ public class LoginDisplay extends JFrame{
 		loginButton.setBackground(new Color(51, 153, 204));
 		loginButton.setFont(new Font("Dubai Light", Font.PLAIN, 19));
 		
-		roleChoose = new JComboBox<Object>();
-		roleChoose.setForeground(new Color(255, 255, 255));
-		roleChoose.setBackground(new Color(0, 0, 51));
-		roleChoose.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		roleChoose.setBounds(37, 255, 235, 30);
-		panelLogin.add(roleChoose);
-		roleChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"Admin", "Worker", "Supervisor"}));
-		
 		unameField = new JTextField();
 		unameField.setForeground(new Color(255, 255, 255));
 		unameField.setBackground(new Color(0, 0, 51));
-		unameField.setBounds(37, 125, 235, 30);
+		unameField.setBounds(37, 150, 235, 30);
 		panelLogin.add(unameField);
 		
 		JPanel panelGambar = new JPanel();
@@ -132,13 +117,6 @@ public class LoginDisplay extends JFrame{
 		lblNewLabel_3.setIcon(new ImageIcon(LoginDisplay.class.getResource("/company.jpg")));
 		lblNewLabel_3.setBounds(0, 0, 324, 218);
 		panelGambar.add(lblNewLabel_3);
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(roleChoose.getSelectedItem().equals("Admin")) {
-					
-				}
-			}
-		});
 		this.setBounds(100, 100, 646, 446);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -161,14 +139,6 @@ public class LoginDisplay extends JFrame{
 
 	public void setPassField(JPasswordField passField) {
 		this.passField = passField;
-	}
-
-	public JComboBox<Object> getRoleChoose() {
-		return roleChoose;
-	}
-
-	public void setRoleChoose(JComboBox<Object> roleChoose) {
-		this.roleChoose = roleChoose;
 	}
 
 	public JTextField getUnameField() {

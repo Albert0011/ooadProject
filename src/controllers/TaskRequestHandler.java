@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.NoSuchObjectException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,10 +12,21 @@ import javax.swing.JOptionPane;
 import helpers.Log;
 import models.TaskRequest;
 import models.User;
+import views.AllTaskRequestDisplay;
 
 
 
 public class TaskRequestHandler {
+	
+	private static TaskRequestHandler trh;
+	
+	
+	public static TaskRequestHandler getInstance() {
+		if(trh == null) {
+			trh = new TaskRequestHandler();
+		}
+		return trh;
+	}
 
 	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
 		
@@ -92,5 +105,87 @@ public class TaskRequestHandler {
 		}
 		
 	}
+	
+	public AllTaskRequestDisplay openAllTaskRequestDisplay() throws NoSuchObjectException, SQLException {
+		
+		ArrayList<TaskRequest> taskReq = getAllTaskRequest();
+		AllTaskRequestDisplay allTaskRequestDisplay = new AllTaskRequestDisplay(taskReq);
+		
+		allTaskRequestDisplay.getBtnRejectTaskRequest().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskRequestDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task Request");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reject this task request?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
+							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							TaskRequestHandler.rejectTaskRequest(UUID.fromString(taskRequestID));
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Reject Task Request Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+					
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		allTaskRequestDisplay.getBtnAcceptTaskRequest().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskRequestDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task Request");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to accept this task request?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
+							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							TaskRequestHandler.acceptTaskRequest(UUID.fromString(taskRequestID));
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Accept Task Request Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		
+		return allTaskRequestDisplay;
+	
+	}
+	
 	
 }

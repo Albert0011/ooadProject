@@ -9,16 +9,247 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import exceptions.RequestFailedException;
 import helpers.Log;
 import models.Task;
+import models.TaskRequest;
 import models.User;
+import views.AllTaskDisplay;
+import views.AllTaskRequestDisplay;
 import views.TaskForm;
+import views.UserProfileDisplay;
+import views.UserTaskDisplay;
 
 public class TaskHandler {
+	
+	private static TaskHandler th;
+	
+	public static TaskHandler getInstance() {
+		if(th == null) {
+			th = new TaskHandler();
+		}
+		return th;
+	}
+	
+	public AllTaskDisplay openAllTaskDisplay() throws NoSuchObjectException, SQLException {
+		
+		ArrayList<Task> task = getAllTask();
+		AllTaskDisplay allTaskDisplay = new AllTaskDisplay(task);
+		
+		allTaskDisplay.getBtnApprove().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to approve this task?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							Integer score = 5;//apa ini isinya,kubikin 5 biar ga eror aja wkwk
+							TaskHandler.approveTask(UUID.fromString(taskID), score);
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Approve Task Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+					
+						break;
 
-	public static TaskForm openCreateTaskForm() {
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		allTaskDisplay.getBtnSubmit().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to submit this task?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							TaskHandler.submitTask(UUID.fromString(taskID));
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Submit Task Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		
+		allTaskDisplay.getBtnRequestRevision().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Request revision for this task?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Request Revision Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		allTaskDisplay.getBtnDeleteTask().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Delete this task?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+							TaskHandler.deleteTask(UUID.fromString(taskID));
+							
+						try {
+							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+						} catch (NoSuchObjectException | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							JOptionPane.showMessageDialog(null, "Delete Task Success!! ");
+							
+						break;
+					case JOptionPane.NO_OPTION:
+						break;
+
+					default:
+						break;
+					}
+
+				}
+		
+			}
+		});
+		
+		
+		allTaskDisplay.getBtnUpdate().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		
+		});
+		
+		allTaskDisplay.getBtnSearch().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		
+		});
+		
+		allTaskDisplay.getBtnSortTask().addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		
+		});
+		
+		return allTaskDisplay;
+	
+	}
+
+	
+	
+	public UserTaskDisplay openUserTaskDisplay() throws NoSuchObjectException {
+		UserTaskDisplay up = new UserTaskDisplay();
+		
+			up.refreshContent(openUserTaskDisplay());
+		
+				up.getViewAllTaskBtn().addActionListener(new ActionListener() {
+				
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							up.refreshContent(openAllTaskDisplay());
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						MainController.getInstance().supervisorRefreshContent(up);
+					}
+				});
+			
+				up.getCreateTaskBtn().addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						up.refreshContent(openCreateTaskForm());
+						MainController.getInstance().supervisorRefreshContent(up);
+					}
+				});
+				
+		
+		return up;
+	}
+	
+	
+
+	public TaskForm openCreateTaskForm() {
 		TaskForm tf = new TaskForm();
 		tf.getCreateTaskForm().addActionListener(new ActionListener() {
 			
@@ -51,11 +282,30 @@ public class TaskHandler {
 		if(title.length() < 10){
 			throw new RequestFailedException("Title cannot be less than 15 characters");
 		}
-		if(note.length() > 10 && note.length() < 100){
-			throw new RequestFailedException("note must be between 10 - 100 characters");
-		}
+//		if(note.length() > 10 && note.length() < 100){
+//			throw new RequestFailedException("note must be between 10 - 100 characters");
+//		}
 		Task task = Task.create(supervisorID, workerID, title, note);
 		task.save();
+		
+		try {
+			String role = Log.getInstance().getCurrentUser().getRole();
+			String uname = Log.getInstance().getCurrentUser().getUsername();
+			String message;
+			if(role.equalsIgnoreCase("Supervisor")) {
+				message = "Supervisor " + uname + " has assigned you a new task \"" + title + "\"";
+				NotificationController.createNotification(workerID, message);
+			}
+			else {
+				message = uname +" has requested you to supervise a new task \"" + title + "\"";
+				NotificationController.createNotification(supervisorID, message);
+			}
+			
+		} catch (NoSuchObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return task;
 	}
 	
@@ -93,9 +343,23 @@ public class TaskHandler {
 		return task;
 	}
 	
+	public static Task submitTask(UUID taskID){
+		Task task;
+		task = Task.get(taskID);
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
+			task.update();
+			String message = task.getWorkerID().toString() + " has submitted \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return task;
+	}
+	
 	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note){
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, false, timestamp, note);
+		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
 		task.update();
 		return task;
 	}
@@ -111,6 +375,38 @@ public class TaskHandler {
 		
 	}
 	
+	public static Task approveTask(UUID taskID, Integer score){
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Task task;
+		task = Task.get(taskID);	
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
+			task.update();
+			
+			String message = task.getSupervisorID().toString() + " has approved your task \""+ task.getTitle() + "\"" ;
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return task;	
+	}
+	
+	public static Task requestTaskRevision(UUID taskID){
+		Task task;
+		task = Task.get(taskID);
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
+			task.update();
+			
+			String message = task.getSupervisorID().toString() + " has requested you a revision on task \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return task;
+	}
+
 	
 
 

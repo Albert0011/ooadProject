@@ -2,6 +2,9 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NoSuchObjectException;
+import java.sql.SQLException;
+
 import javax.swing.JPanel;
 import views.AdminHomepage;
 import views.LoginDisplay;
@@ -40,7 +43,7 @@ public class MainController {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText(), loginDisplay.getRoleChoose().getSelectedItem().toString());		
+				UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText());		
 			}
 		});
 		
@@ -71,7 +74,7 @@ public class MainController {
 	public SupervisorHomepage displaySupervisorHomepage() {
 		supervisorHomepage = new SupervisorHomepage();
 		
-		//supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+		supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 		
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -83,8 +86,15 @@ public class MainController {
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				try {
+					supervisorHomepage.refreshContent(TaskHandler.getInstance().openAllTaskDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -92,8 +102,15 @@ public class MainController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				try {
+					supervisorHomepage.refreshContent(TaskRequestHandler.getInstance().openAllTaskRequestDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -101,7 +118,12 @@ public class MainController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				try {
+					supervisorHomepage.refreshContent(NotificationController.openNotificationDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -111,38 +133,34 @@ public class MainController {
 	
 	public WorkerHomepage displayWorkerHomepage() {
 		workerHomepage = new WorkerHomepage();
-		//	supervisorHomepage.refreshContent(UserController.getInstance().openAllUserDisplay());
+		
+		workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+		
 		workerHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				workerHomepage.refreshContent(UserController.getInstance().openProfileDisplay());
-				//supervisorHomepage.refreshContent(UserController.getInstance().openChangePasswordForm());
-				//supervisorHomepage.refreshContent(UserController.getInstance().openUpdateProfileForm());
+				workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 			}
 		});
 		
 		workerHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//workerHomepage.refreshContent(UserController.getInstance().openCreateUserDisplay());
-			}
-		});
-		
-		workerHomepage.getTaskReqBtn().addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				
 			}
 		});
-		
+
 		workerHomepage.getNotifBtn().addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				try {
+					workerHomepage.refreshContent(NotificationController.openNotificationDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -161,10 +179,6 @@ public class MainController {
 		mainDisplay.revalidate();
 		mainDisplay.repaint();
 	}
-	
-//	public void addTopMenuPanel(JPanel panel) {
-//		supervisorHomepage.getTopMenuPanel().add(panel);
-//	}
 
 	
 	public void supervisorRefreshContent(JPanel panel) {

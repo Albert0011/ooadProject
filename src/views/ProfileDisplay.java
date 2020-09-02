@@ -34,33 +34,23 @@ public class ProfileDisplay extends JPanel{
 		mainPanel.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Segoe UI Historic", Font.BOLD, 20));
 		
-		JLabel id = new JLabel("ID             : " + user.getId());
-		id.setBounds(101, 90, 517, 27);
-		mainPanel.add(id);
-		id.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		JLabel uname = new JLabel("Username  : " + user.getUsername());
-		uname.setBounds(101, 128, 517, 27);
+		uname.setBounds(101, 134, 517, 27);
 		mainPanel.add(uname);
 		uname.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JLabel role = new JLabel("Role          : " + user.getRole());
-		role.setBounds(101, 166, 517, 27);
-		mainPanel.add(role);
-		role.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		JLabel addr = new JLabel("Address     : " + user.getAddress());
-		addr.setBounds(101, 204, 517, 27);
+		addr.setBounds(101, 175, 517, 27);
 		mainPanel.add(addr);
 		addr.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel dob = new JLabel("DOB          : " + user.getDOB());
-		dob.setBounds(101, 242, 517, 27);
+		dob.setBounds(101, 213, 517, 27);
 		mainPanel.add(dob);
 		dob.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel telp = new JLabel("Telp          : " + user.getTelp());
-		telp.setBounds(101, 280, 517, 27);
+		telp.setBounds(101, 251, 517, 27);
 		mainPanel.add(telp);
 		telp.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		

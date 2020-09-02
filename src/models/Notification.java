@@ -50,24 +50,20 @@ public class Notification {
 		return null;
 	}
 
-	public Notification update() {
+	public Notification update() throws SQLException {
 		String query = "update notifications set user_id =?, message = ?, read_at = ? where id = ?";
-		try {
+		
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ps.setString(1, userID.toString());
+		ps.setString(2, message);
+		ps.setTimestamp(3, readAt);
+		ps.setString(4, id.toString());
+		ps.execute();
+	
+		return new Notification(id, userID, message, readAt);
+		
+		//try catchnya si throw biar message successnya cuman sekali ga ke loop
 
-			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, userID.toString());
-			ps.setString(2, message);
-			ps.setTimestamp(3, readAt);
-			ps.setString(4, id.toString());
-			ps.execute();
-			
-			JOptionPane.showMessageDialog(null, "Update Notification Success!");
-			return new Notification(id, userID, message, readAt);
-		} 
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Update Notification Failed!!" +e.getMessage());
-		}
-		return null;
 	}
 	
 	public static Notification create(UUID userID, String message, Timestamp readAt) {
@@ -79,12 +75,11 @@ public class Notification {
 	public static ArrayList<Notification> getAll(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
 		
+		String query = "select * from notifications where user_id = '"+userID.toString()+"'";
 		
-		String query = "select * from notifications where user_id = ?";
-        
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-			ps.setString(1, userID.toString());
+			
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {
@@ -103,9 +98,12 @@ public class Notification {
 	
 	public static ArrayList<Notification> getAllUnread(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
-		String query = "select * from task where user_id = " + userID.toString() + "AND read_at = NULL";
+		String query = "select * from notifications where user_id = '" + userID.toString() + "'AND read_at IS NULL";
 		try {
+			
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+			
+			
 			ResultSet rs = ps.executeQuery(query);
 			Notification notification;
 			while(rs.next()) {

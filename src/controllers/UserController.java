@@ -3,6 +3,7 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NoSuchObjectException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import helpers.Log;
 import models.User;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
@@ -64,14 +66,32 @@ public class UserController {
 	public UserProfileDisplay openUserProfileDisplay() {
 		UserProfileDisplay up = new UserProfileDisplay();
 		
-			up.refreshContent(openProfileDisplay());
+			try {
+				up.refreshContent(openProfileDisplay());
+			} catch (NoSuchObjectException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		
 				up.getViewProfileBtn().addActionListener(new ActionListener() {
 				
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						up.refreshContent(openProfileDisplay());
-						MainController.getInstance().supervisorRefreshContent(up);
+						try {
+							up.refreshContent(openProfileDisplay());
+							
+							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
+								MainController.getInstance().workerRefreshContent(up);
+							}
+							else {
+								MainController.getInstance().supervisorRefreshContent(up);
+							}
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
 					}
 				});
 			
@@ -80,7 +100,19 @@ public class UserController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						up.refreshContent(openChangePasswordForm());
-						MainController.getInstance().supervisorRefreshContent(up);
+						
+						try {
+							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
+								MainController.getInstance().workerRefreshContent(up);
+							}
+							else {
+								MainController.getInstance().supervisorRefreshContent(up);
+							}
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					}
 				});
 				
@@ -89,7 +121,17 @@ public class UserController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						up.refreshContent(openUpdateProfileForm());
-						MainController.getInstance().supervisorRefreshContent(up);
+						try {
+							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
+								MainController.getInstance().workerRefreshContent(up);
+							}
+							else {
+								MainController.getInstance().supervisorRefreshContent(up);
+							}
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 		
@@ -97,12 +139,13 @@ public class UserController {
 	}
 	
 	
-	public ProfileDisplay openProfileDisplay() {
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
+	public ProfileDisplay openProfileDisplay() throws NoSuchObjectException {
+
 	
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");//ini ganti-ganti idnya yg ada di db kalian
+			//User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		
+		User user = Log.getInstance().getCurrentUser();
 		ProfileDisplay pd = new ProfileDisplay(user);
 
 		return pd;
@@ -253,7 +296,13 @@ public class UserController {
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?");
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
-						UserController.changePassword(oldPass, newPass);	
+						try {
+							UserController.changePassword(oldPass, newPass);
+							cp.emptyPassField();
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
 						
 						
 						//JOptionPane.showMessageDialog(null, "Change Password Success!");
@@ -299,7 +348,14 @@ public class UserController {
 						
 						if(isValidDate(day, month, year) == true) {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
-							UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+							try {
+								UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+								
+								up.emptyUpdateField();
+							} catch (NoSuchObjectException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							
 							//MainController.getInstance().supervisorRefreshContent(openUpdateProfileForm());
 							
@@ -331,16 +387,20 @@ public class UserController {
 		return up;
 	}
 	
-	public User getUserBy(String uname, String pass, String roleName) {
+	public User getUserBy(String uname, String pass) {
 		User user;
+		
 		try {
-			user = User.getBy(uname, pass, roleName);
+			user = User.getBy(uname, pass);
+			Log.createLog(user);
+			
 			JOptionPane.showMessageDialog(null, "Login success!");
 			MainController.getInstance().disposeLoginFrame();
-			if(roleName.equalsIgnoreCase("Admin")) {
+			
+			if(user.getRole().equalsIgnoreCase("Admin")) {
 				MainController.getInstance().displayAdminHomepage();
 			}
-			else if(roleName.equalsIgnoreCase("Supervisor")) {
+			else if(user.getRole().equalsIgnoreCase("Supervisor")) {
 				MainController.getInstance().displaySupervisorHomepage();
 			}
 			else {
@@ -352,6 +412,8 @@ public class UserController {
 			return null;
 		}
 		thisUserID = user.getId().toString();
+		
+		
 		return user;
 	}
 
@@ -431,12 +493,12 @@ public class UserController {
 		return user;
 	}
 	
-	public static User changePassword(String oldPassword, String newPassword) {
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
+	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException {
 	
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		//	User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+		
+		User user = Log.getInstance().getCurrentUser();
 			
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
@@ -450,12 +512,11 @@ public class UserController {
 		}
 	}
 	
-	public static User updateProfile(String username, Date DOB, String address, String telp) {
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
+	public static User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
 		
 		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-			User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
+			User user = Log.getInstance().getCurrentUser();
+			//User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		java.sql.Date date= new java.sql.Date(DOB.getTime());
 		String defaultPassword = date.toString();
 		user.setPassword(defaultPassword);

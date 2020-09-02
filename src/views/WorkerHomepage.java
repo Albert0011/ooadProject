@@ -26,7 +26,6 @@ public class WorkerHomepage extends JFrame {
 	private JPanel menuPanel;
 	private JPanel mainPanel;
 	private JPanel titlePanel;
-	private JButton taskReqBtn;
 	private JButton notifBtn;
 
 	public WorkerHomepage() {
@@ -83,18 +82,11 @@ public class WorkerHomepage extends JFrame {
 		lblNewLabel_2.setBounds(24, 134, 129, 25);
 		menuPanel.add(lblNewLabel_2);
 		
-		taskReqBtn = new JButton("Task Request");
-		taskReqBtn.setForeground(Color.WHITE);
-		taskReqBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
-		taskReqBtn.setBackground(new Color(51, 153, 204));
-		taskReqBtn.setBounds(0, 269, 180, 44);
-		menuPanel.add(taskReqBtn);
-		
 		notifBtn = new JButton("Notification");
 		notifBtn.setForeground(Color.WHITE);
 		notifBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
 		notifBtn.setBackground(new Color(51, 153, 204));
-		notifBtn.setBounds(0, 312, 180, 44);
+		notifBtn.setBounds(0, 269, 180, 44);
 		menuPanel.add(notifBtn);
 		
 		JPanel headerPanel = new JPanel();
@@ -150,14 +142,6 @@ public class WorkerHomepage extends JFrame {
 
 	public void setProfileBtn(JButton profileBtn) {
 		this.profileBtn = profileBtn;
-	}
-
-	public JButton getTaskReqBtn() {
-		return taskReqBtn;
-	}
-
-	public void setTaskReqBtn(JButton taskReqBtn) {
-		this.taskReqBtn = taskReqBtn;
 	}
 
 	public JButton getNotifBtn() {

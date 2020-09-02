@@ -2,16 +2,14 @@ package views;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
-import controllers.TaskHandler;
 
 public class TaskForm extends JPanel {
 
@@ -27,39 +25,40 @@ public class TaskForm extends JPanel {
 	private JButton createTaskForm;
 
 	public TaskForm() {
-		this.setBackground(new Color(70, 130, 180));
-		this.setSize(618, 406);
+		this.setBackground(Color.CYAN);
+		this.setSize(628, 416);
 		this.setLayout(null);
 
-		JLabel titleTaskForm = new JLabel("CREATE NEW TASK FORM");
-		titleTaskForm.setForeground(new Color(70, 130, 180));
-		titleTaskForm.setFont(new Font("Snap ITC", Font.BOLD, 22));
-		titleTaskForm.setForeground(new Color(255, 255, 255));
-		titleTaskForm.setBounds(20, 45, 300, 22);
+		JLabel titleTaskForm = new JLabel("Create New Task Form");
+		titleTaskForm.setHorizontalAlignment(SwingConstants.CENTER);
+		titleTaskForm.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+		titleTaskForm.setBounds(41, 11, 561, 70);
 		add(titleTaskForm);
-
+		
 		JLabel title = new JLabel("Title");
-		title.setForeground(new Color(255, 255, 255));
-		title.setFont(new Font("Dialog", Font.BOLD, 12));
-		title.setBounds(27, 109, 80, 22);
+		title.setBackground(Color.BLACK);
+		title.setForeground(Color.BLACK);
+		title.setFont(new Font("Dialog", Font.BOLD, 20));
+		title.setBounds(82, 92, 59, 35);
 		add(title);
 
 		JLabel supervisorID = new JLabel("Supervisor ID");
-		supervisorID.setForeground(new Color(255, 255, 255));
-		supervisorID.setFont(new Font("Dialog", Font.BOLD, 12));
-		supervisorID.setBounds(27, 139, 80, 22);
+		supervisorID.setBackground(Color.WHITE);
+		supervisorID.setForeground(Color.BLACK);
+		supervisorID.setFont(new Font("Dialog", Font.BOLD, 20));
+		supervisorID.setBounds(82, 133, 141, 35);
 		add(supervisorID);
 
 		JLabel workerID = new JLabel("Worker ID");
-		workerID.setForeground(new Color(255, 255, 255));
-		workerID.setFont(new Font("Dialog", Font.BOLD, 12));
-		workerID.setBounds(27, 169, 80, 22);
+		workerID.setForeground(Color.BLACK);
+		workerID.setFont(new Font("Dialog", Font.BOLD, 20));
+		workerID.setBounds(82, 179, 105, 32);
 		add(workerID);
 
 		JLabel note = new JLabel("Note");
-		note.setForeground(new Color(255, 255, 255));
-		note.setFont(new Font("Dialog", Font.BOLD, 12));
-		note.setBounds(27, 199, 80, 22);
+		note.setForeground(Color.BLACK);
+		note.setFont(new Font("Dialog", Font.BOLD, 20));
+		note.setBounds(82, 222, 59, 26);
 		add(note);
 
 		// user field
@@ -67,28 +66,28 @@ public class TaskForm extends JPanel {
 		titleField.setForeground(Color.BLACK);
 		titleField.setWrapStyleWord(true);
 		titleField.setLineWrap(true);
-		titleField.setBounds(120, 109, 174, 20);
+		titleField.setBounds(266, 92, 277, 35);
 		add(titleField);
 
 		supervisorIDField = new JTextArea();
 		supervisorIDField.setForeground(Color.BLACK);
 		supervisorIDField.setWrapStyleWord(true);
 		supervisorIDField.setLineWrap(true);
-		supervisorIDField.setBounds(120, 139, 174, 20);
+		supervisorIDField.setBounds(266, 133, 277, 35);
 		add(supervisorIDField);
 
 		workerIDField = new JTextArea();
 		workerIDField.setForeground(Color.BLACK);
 		workerIDField.setWrapStyleWord(true);
 		workerIDField.setLineWrap(true);
-		workerIDField.setBounds(120, 169, 174, 20);
+		workerIDField.setBounds(266, 180, 277, 31);
 		add(workerIDField);
 
 		noteField = new JTextArea();
 		noteField.setForeground(Color.BLACK);
 		noteField.setWrapStyleWord(true);
 		noteField.setLineWrap(true);
-		noteField.setBounds(120, 199, 174, 100);
+		noteField.setBounds(266, 220, 277, 100);
 		add(noteField);
 
 		// button
@@ -97,14 +96,14 @@ public class TaskForm extends JPanel {
 		backButton = new JButton("Back");
 		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		backButton.setBackground(new Color(255, 255, 255));
-		backButton.setBounds(65, 325, 85, 35);
+		backButton.setBounds(266, 343, 85, 35);
 		add(backButton);
 
 		// create
 		createTaskForm = new JButton("Create Task");
 		createTaskForm.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createTaskForm.setBackground(new Color(255, 255, 255));
-		createTaskForm.setBounds(163, 325, 120, 35);
+		createTaskForm.setBounds(423, 343, 120, 35);
 		add(createTaskForm);
 
 		this.setVisible(true);

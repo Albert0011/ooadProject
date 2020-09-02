@@ -35,7 +35,7 @@ public class SupervisorHomepage extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		this.setBounds(100, 100, 813, 567);
 		this.setLocationRelativeTo(null);
-		//this.setResizable(false);
+		this.setResizable(false);
 		
 		
 		contentPane = new JPanel();
