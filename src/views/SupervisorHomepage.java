@@ -1,3 +1,4 @@
+
 package views;
 
 import java.awt.BorderLayout;
@@ -187,6 +188,6 @@ public class SupervisorHomepage extends JFrame {
 		this.mainPanel = mainPanel;
 	}
 
-
 	
 }
+
