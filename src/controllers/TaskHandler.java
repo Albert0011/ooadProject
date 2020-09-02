@@ -50,7 +50,8 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-							TaskHandler.acceptTask(taskID);
+							Integer score = 5;//apa ini isinya,kubikin 5 biar ga eror aja wkwk
+							TaskHandler.approveTask(UUID.fromString(taskID), score);
 							
 						try {
 							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
@@ -86,7 +87,7 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-							TaskHandler.submitTask(taskID);
+							TaskHandler.submitTask(UUID.fromString(taskID));
 							
 						try {
 							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
@@ -122,7 +123,7 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-							TaskHandler.requestRevision(taskID);
+							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
 							
 						try {
 							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
@@ -247,20 +248,6 @@ public class TaskHandler {
 	}
 	
 	
-	protected static void requestRevision(String taskID) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	protected static void submitTask(String taskID) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	protected static void acceptTask(String taskID) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public TaskForm openCreateTaskForm() {
 		TaskForm tf = new TaskForm();
@@ -337,6 +324,20 @@ public class TaskHandler {
 		return task;
 	}
 	
+	public static Task submitTask(UUID taskID){
+		Task task;
+		task = Task.get(taskID);
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
+			task.update();
+			String message = task.getWorkerID().toString() + " has submitted \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return task;
+	}
+	
 	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note){
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
@@ -353,6 +354,38 @@ public class TaskHandler {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
+	}
+	
+	public static Task approveTask(UUID taskID, Integer score){
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Task task;
+		task = Task.get(taskID);	
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
+			task.update();
+			
+			String message = task.getSupervisorID().toString() + " has approved your task \""+ task.getTitle() + "\"" ;
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return task;	
+	}
+	
+	public static Task requestTaskRevision(UUID taskID){
+		Task task;
+		task = Task.get(taskID);
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
+			task.update();
+			
+			String message = task.getSupervisorID().toString() + " has requested you a revision on task \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(taskID, message);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return task;
 	}
 
 	

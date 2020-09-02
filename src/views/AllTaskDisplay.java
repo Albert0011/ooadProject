@@ -54,7 +54,7 @@ public class AllTaskDisplay extends JPanel {
 	
 	public AllTaskDisplay(ArrayList<Task> list) {
 		this.setBackground(Color.CYAN);
-		this.setSize(628, 416);
+		this.setSize(628, 376);
 		this.setLayout(null);
 		
 		
@@ -113,29 +113,29 @@ public class AllTaskDisplay extends JPanel {
 		
 		//FORM YG KANAN
 		JLabel lblNewLabel = new JLabel("id");
-		lblNewLabel.setBounds(433, 109, 46, 14);
+		lblNewLabel.setBounds(429, 92, 46, 14);
 		add(lblNewLabel);
 		
 		JLabel workerID = new JLabel("worker_id");
-		workerID.setBounds(433, 148, 63, 14);
+		workerID.setBounds(429, 131, 63, 14);
 		add(workerID);
 		
 		JLabel supervisorID = new JLabel("supervisor_id");
-		supervisorID.setBounds(433, 187, 83, 14);
+		supervisorID.setBounds(429, 170, 83, 14);
 		add(supervisorID);
 		
 		JLabel title = new JLabel("title");
-		title.setBounds(433, 226, 46, 14);
+		title.setBounds(429, 209, 46, 14);
 		add(title);
 		
 		JLabel note = new JLabel("note");
-		note.setBounds(433, 271, 69, 14);
+		note.setBounds(429, 254, 69, 14);
 		add(note);
 		
 		//field
 		idField = new JTextField();
 		idField.setEditable(false);
-		idField.setBounds(433, 123, 179, 20);
+		idField.setBounds(429, 106, 179, 20);
 		add(idField);
 		idField.setColumns(10);
 		
@@ -143,47 +143,47 @@ public class AllTaskDisplay extends JPanel {
 		workerIDField = new JTextField();
 		workerIDField.setEditable(false);
 		workerIDField.setColumns(10);
-		workerIDField.setBounds(433, 162, 179, 20);
+		workerIDField.setBounds(429, 145, 179, 20);
 		add(workerIDField);
 		
 		supervisorIDField = new JTextField();
 		supervisorIDField.setEditable(false);
 		supervisorIDField.setColumns(10);
-		supervisorIDField.setBounds(433, 201, 179, 20);
+		supervisorIDField.setBounds(429, 184, 179, 20);
 		add(supervisorIDField);
 		
 		titleField = new JTextField();
 		titleField.setEditable(false);
 		titleField.setColumns(10);
-		titleField.setBounds(433, 240, 179, 20);
+		titleField.setBounds(429, 223, 179, 20);
 		add(titleField);
 		
 		noteField = new JTextField();
 		noteField.setEditable(false);
 		noteField.setColumns(10);
-		noteField.setBounds(433, 296, 179, 75);
+		noteField.setBounds(429, 279, 179, 75);
 		add(noteField);
 		
 		searchField = new JTextField();
-		searchField.setBounds(14, 61, 118, 22);
+		searchField.setBounds(10, 44, 118, 22);
 		add(searchField);
 		searchField.setColumns(10);
 		
 		//sortBox
 		sortByBox = new JComboBox<String>();
 //		SORT_BY
-		sortByBox.setBounds(241, 62, 78, 20);
+		sortByBox.setBounds(237, 45, 78, 20);
 		add(sortByBox);
 		
 		sortDirBox = new JComboBox<String>();
 //		SORT_DIR
-		sortDirBox.setBounds(329, 62, 78, 20);
+		sortDirBox.setBounds(325, 45, 78, 20);
 		add(sortDirBox);
 		
 	
 		//BUAT SCROLLPANE TABEL
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(14, 125, 397, 246);
+		scrollPane.setBounds(10, 108, 397, 246);
 		add(scrollPane);
 		
 
@@ -209,34 +209,34 @@ public class AllTaskDisplay extends JPanel {
 		//button
 		btnSortTask = new JButton("Sort");
 		btnSortTask.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSortTask.setBounds(417, 61, 69, 22);
+		btnSortTask.setBounds(413, 44, 69, 22);
 		add(btnSortTask);
 		
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSubmit.setBounds(495, 61, 96, 23);
+		btnSubmit.setBounds(491, 44, 96, 23);
 		add(btnSubmit);
 		
 		btnSearch = new JButton("Search");
-		btnSearch.setBounds(142, 61, 89, 23);
+		btnSearch.setBounds(138, 44, 89, 23);
 		add(btnSearch);
 		
 		btnRequestRevision = new JButton("Request Revision");
-		btnRequestRevision.setBounds(473, 94, 118, 23);
+		btnRequestRevision.setBounds(469, 77, 118, 23);
 		add(btnRequestRevision);
 		
 		btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(152, 93, 118, 23);
+		btnUpdate.setBounds(148, 76, 118, 23);
 		add(btnUpdate);
 		
 		btnApprove = new JButton("Approve");
-		btnApprove.setBounds(14, 94, 118, 23);
+		btnApprove.setBounds(10, 77, 118, 23);
 		add(btnApprove);
 		
 		scrollPane.setViewportView(viewAllTable);
 		
 		btnDeleteTask = new JButton("Delete");
-		btnDeleteTask.setBounds(292, 93, 118, 23);
+		btnDeleteTask.setBounds(288, 76, 118, 23);
 		add(btnDeleteTask);
 		
 		this.setVisible(true);
