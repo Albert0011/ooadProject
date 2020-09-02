@@ -188,4 +188,8 @@ public class TaskRequestHandler {
 	}
 	
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/remotes/origin/master
