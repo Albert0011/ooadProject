@@ -169,11 +169,13 @@ public class AllTaskDisplay extends JPanel {
 		searchField.setColumns(10);
 		
 		//sortBox
-		sortByBox = new JComboBox<String>(SORT_BY);
+		sortByBox = new JComboBox<String>();
+//		SORT_BY
 		sortByBox.setBounds(241, 62, 78, 20);
 		add(sortByBox);
 		
-		sortDirBox = new JComboBox<String>(SORT_DIR);
+		sortDirBox = new JComboBox<String>();
+//		SORT_DIR
 		sortDirBox.setBounds(329, 62, 78, 20);
 		add(sortDirBox);
 		
@@ -206,12 +208,12 @@ public class AllTaskDisplay extends JPanel {
 		//button
 		btnSortTask = new JButton("Sort");
 		btnSortTask.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSortTask.setBounds(417, 64, 69, 20);
+		btnSortTask.setBounds(417, 61, 69, 22);
 		add(btnSortTask);
 		
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSubmit.setBounds(496, 64, 95, 20);
+		btnSubmit.setBounds(495, 61, 96, 23);
 		add(btnSubmit);
 		
 		btnSearch = new JButton("Search");
