@@ -43,7 +43,12 @@ public class MainController {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText());		
+				try {
+					UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}		
 			}
 		});
 		
@@ -71,7 +76,7 @@ public class MainController {
 	}
 	
 	
-	public SupervisorHomepage displaySupervisorHomepage() {
+	public SupervisorHomepage displaySupervisorHomepage() throws NoSuchObjectException {
 		supervisorHomepage = new SupervisorHomepage();
 		
 		supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
@@ -79,7 +84,12 @@ public class MainController {
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				try {
+					supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -131,7 +141,7 @@ public class MainController {
 		return supervisorHomepage;
 	}
 	
-	public WorkerHomepage displayWorkerHomepage() {
+	public WorkerHomepage displayWorkerHomepage() throws NoSuchObjectException {
 		workerHomepage = new WorkerHomepage();
 		
 		workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
@@ -139,7 +149,12 @@ public class MainController {
 		workerHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				try {
+					workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		

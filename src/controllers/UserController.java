@@ -79,7 +79,7 @@ public class UserController {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							up.refreshContent(openProfileDisplay());
-<<<<<<< HEAD
+
 							
 							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
 								MainController.getInstance().workerRefreshContent(up);
@@ -92,14 +92,10 @@ public class UserController {
 							e1.printStackTrace();
 						}
 						
-						
-=======
-						} catch (NoSuchObjectException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					
+				 
 						MainController.getInstance().supervisorRefreshContent(up);
->>>>>>> refs/remotes/origin/master
+
 					}
 				});
 			
@@ -148,22 +144,9 @@ public class UserController {
 	
 	
 	public ProfileDisplay openProfileDisplay() throws NoSuchObjectException {
-<<<<<<< HEAD
-
-=======
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
->>>>>>> refs/remotes/origin/master
-	
-		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-<<<<<<< HEAD
-			//User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
 		
 		User user = Log.getInstance().getCurrentUser();
-=======
-//			User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");//ini ganti-ganti idnya yg ada di db kalian
-			User user = Log.getInstance().getCurrentUser();
->>>>>>> refs/remotes/origin/master
+
 		ProfileDisplay pd = new ProfileDisplay(user);
 
 		return pd;
@@ -316,10 +299,8 @@ public class UserController {
 					case JOptionPane.YES_OPTION:
 						try {
 							UserController.changePassword(oldPass, newPass);
-<<<<<<< HEAD
 							cp.emptyPassField();
-=======
->>>>>>> refs/remotes/origin/master
+
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -371,11 +352,9 @@ public class UserController {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
 							try {
 								UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
-<<<<<<< HEAD
 								
 								up.emptyUpdateField();
-=======
->>>>>>> refs/remotes/origin/master
+
 							} catch (NoSuchObjectException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -411,15 +390,12 @@ public class UserController {
 		return up;
 	}
 	
-	public User getUserBy(String uname, String pass) {
+	public User getUserBy(String uname, String pass) throws NoSuchObjectException {
 		User user;
 		
 		try {
-<<<<<<< HEAD
+			
 			user = User.getBy(uname, pass);
-=======
-			user = User.getBy(uname, pass, roleName);
->>>>>>> refs/remotes/origin/master
 			Log.createLog(user);
 			
 			JOptionPane.showMessageDialog(null, "Login success!");
@@ -522,19 +498,7 @@ public class UserController {
 	}
 	
 	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException {
-<<<<<<< HEAD
-=======
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
->>>>>>> refs/remotes/origin/master
-	
-		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-<<<<<<< HEAD
-		//	User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
-		
-=======
-//			User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
->>>>>>> refs/remotes/origin/master
+
 		User user = Log.getInstance().getCurrentUser();
 			
 		if(oldPassword.equals(user.getPassword())) {
@@ -550,21 +514,9 @@ public class UserController {
 	}
 	
 	public static User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
-<<<<<<< HEAD
-=======
-		//KALO MAU BUKA INI LEWAT LOGIN PAKENYA INI
-			//User user = getUser(thisUserID);
->>>>>>> refs/remotes/origin/master
-		
-		//INI BUAT COBA-COBA LANGSUNG KE HOMEPAGE TANPA LEWAT LOGIN
-<<<<<<< HEAD
-			User user = Log.getInstance().getCurrentUser();
-			//User user = getUser("09c64781-a6c8-41d3-991b-3ba2cfbab67a");
-=======
-//		User user = getUser("d49da081-7223-4b4a-9d72-bb4c2a7c427a");
+
 		User user = Log.getInstance().getCurrentUser();
 		
->>>>>>> refs/remotes/origin/master
 		java.sql.Date date= new java.sql.Date(DOB.getTime());
 		String defaultPassword = date.toString();
 		user.setPassword(defaultPassword);

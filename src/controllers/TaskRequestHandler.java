@@ -184,12 +184,5 @@ public class TaskRequestHandler {
 		
 		
 		return allTaskRequestDisplay;
-	
 	}
-	
-	
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/remotes/origin/master

@@ -31,21 +31,11 @@ public class TaskRequest {
 
 	public static ArrayList<TaskRequest> getAll(UUID userID){
 		ArrayList<TaskRequest> listTaskRequest = new ArrayList<TaskRequest>();
-<<<<<<< HEAD
-		
-		String query = "select * from task_requests where supervisor_id = '"+userID.toString()+"'";
-=======
->>>>>>> refs/remotes/origin/master
-        
+
 		String query = "select * from task_requests where supervisor_id ='"+userID.toString()+"'";
 		try {
-//			String query = "select * from task_requests where supervisor_id =?";
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-<<<<<<< HEAD
-			//ps.setString(1, userID.toString());
-=======
-//			ps.setString(1, userID.toString());
->>>>>>> refs/remotes/origin/master
+
 			ResultSet rs = ps.executeQuery(query);
 			TaskRequest taskRequest;
 			while(rs.next()) {
