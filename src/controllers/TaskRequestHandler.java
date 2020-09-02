@@ -64,18 +64,18 @@ public class TaskRequestHandler {
 		
 	}
 	
-	public static TaskRequest rejectTaskRequest(UUID taskRequestID) {
+	public static TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
 		
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
 		UUID workerID = taskRequest.getWorkerID();
-		String taskReqID = taskRequest.getId().toString();
-		
+		UUID supervisorID = taskRequest.getSupervisorID();
+		User supervisor = User.get(supervisorID.toString());
 		
 		try {
 
 			taskRequest.delete();	
-			NotificationController.createNotification(workerID, "Your Task Request: "+taskReqID+" has been rejected.");
+			NotificationController.createNotification(workerID, supervisor.getUsername()+"has rejected your task request "+taskRequest.getTitle());
 			JOptionPane.showMessageDialog(null,"Task Rejected!");
 			return taskRequest;
 			
@@ -86,15 +86,19 @@ public class TaskRequestHandler {
 		
 	}
 	
-	public static TaskRequest acceptTaskRequest(UUID taskRequestID) {
+	public static TaskRequest acceptTaskRequest(UUID taskRequestID) throws SQLException {
 		
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
+		
+		UUID workerID = taskRequest.getWorkerID();
+		UUID supervisorID = taskRequest.getSupervisorID();
+		User supervisor = User.get(supervisorID.toString());
 		
 		try {
 
 			taskRequest.delete();	
 			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getWorkerID(), taskRequest.getSupervisorID(), taskRequest.getNote());
-			NotificationController.createNotification(taskRequest.getWorkerID(), "Your Task Request: "+taskRequest.getId()+" has been accepted!.");
+			NotificationController.createNotification(workerID, supervisor.getUsername()+"has rejected your task request "+taskRequest.getTitle());
 			JOptionPane.showMessageDialog(null,"Task Accepted!");
 			
 			return taskRequest;
@@ -123,7 +127,12 @@ public class TaskRequestHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
 							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							TaskRequestHandler.rejectTaskRequest(UUID.fromString(taskRequestID));
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());
@@ -159,7 +168,12 @@ public class TaskRequestHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
 							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							TaskRequestHandler.acceptTaskRequest(UUID.fromString(taskRequestID));
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());

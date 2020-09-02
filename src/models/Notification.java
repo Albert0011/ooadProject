@@ -61,9 +61,7 @@ public class Notification {
 		ps.execute();
 	
 		return new Notification(id, userID, message, readAt);
-		
-		//try catchnya si throw biar message successnya cuman sekali ga ke loop
-
+	
 	}
 	
 	public static Notification create(UUID userID, String message, Timestamp readAt) {
