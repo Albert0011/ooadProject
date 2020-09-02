@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.PreparedStatement;
 
 import connection.Connector;
+import helpers.Log;
 
 public class Task {
 	private UUID id;
@@ -55,9 +56,17 @@ public class Task {
 	
 	public static ArrayList<Task> getAll(UUID userID) throws SQLException {
 		ArrayList<Task> listTask = new ArrayList<Task>();
-		String query = "select * from tasks where worker_id = ?";
+		User user = User.get(userID.toString());
+		String type = null;
+		if(user.getRole()=="Worker") {
+			type = "worker_id";
+		} else if(user.getRole()=="Supervisor"){
+			type = "supervisor_id";
+		}
+		
+		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-		ps.setString(1, userID.toString());
+//		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
 		Task task;
 		while(rs.next()) {

@@ -91,7 +91,17 @@ public class MainController {
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				supervisorHomepage.refreshContent(TaskHandler.getInstance().openCreateTaskForm());
+				
+					try {
+						supervisorHomepage.refreshContent(TaskHandler.getInstance().openAllTaskDisplay());
+					} catch (NoSuchObjectException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
 				
 			}
 		});

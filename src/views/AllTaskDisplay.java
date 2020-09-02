@@ -41,7 +41,7 @@ public class AllTaskDisplay extends JPanel {
 	
 
 	private JButton btnRequestRevision;
-	private JButton btnReject;
+	private JButton btnUpdate;
 	private JButton btnApprove;
 	private JButton btnSearch;
 	private JComboBox<String> sortByBox;
@@ -49,6 +49,7 @@ public class AllTaskDisplay extends JPanel {
 	
 	private final String[] SORT_BY = {"Sort By","Username","DOB"};
 	private final String[] SORT_DIR = {"Sort Dir","Ascending","Descending"};
+	private JButton btnDeleteTask;
 	
 	
 	public AllTaskDisplay(ArrayList<Task> list) {
@@ -221,12 +222,12 @@ public class AllTaskDisplay extends JPanel {
 		add(btnSearch);
 		
 		btnRequestRevision = new JButton("Request Revision");
-		btnRequestRevision.setBounds(293, 93, 118, 23);
+		btnRequestRevision.setBounds(473, 94, 118, 23);
 		add(btnRequestRevision);
 		
-		btnReject = new JButton("Reject ");
-		btnReject.setBounds(152, 93, 118, 23);
-		add(btnReject);
+		btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(152, 93, 118, 23);
+		add(btnUpdate);
 		
 		btnApprove = new JButton("Approve");
 		btnApprove.setBounds(14, 94, 118, 23);
@@ -234,9 +235,27 @@ public class AllTaskDisplay extends JPanel {
 		
 		scrollPane.setViewportView(viewAllTable);
 		
+		btnDeleteTask = new JButton("Delete");
+		btnDeleteTask.setBounds(292, 93, 118, 23);
+		add(btnDeleteTask);
+		
 		this.setVisible(true);
 	}
 	
+	
+	
+	public JButton getBtnDeleteTask() {
+		return btnDeleteTask;
+	}
+
+
+
+	public void setBtnDeleteTask(JButton btnDeleteTask) {
+		this.btnDeleteTask = btnDeleteTask;
+	}
+
+
+
 	public JTable getViewAllTable() {
 		return viewAllTable;
 	}
@@ -347,15 +366,13 @@ public class AllTaskDisplay extends JPanel {
 	}
 
 
-	public JButton getBtnReject() {
-		return btnReject;
+	public JButton getBtnUpdate() {
+		return btnUpdate;
 	}
 
-
-	public void setBtnReject(JButton btnReject) {
-		this.btnReject = btnReject;
+	public void setBtnUpdate(JButton btnUpdate) {
+		this.btnUpdate = btnUpdate;
 	}
-
 
 	public JButton getBtnApprove() {
 		return btnApprove;
