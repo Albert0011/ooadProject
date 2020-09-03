@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import helpers.Log;
 import models.User;
@@ -18,7 +17,6 @@ import views.AllUserDisplay;
 import views.ChangePasswordForm;
 import views.CreateUserDisplay;
 import views.ProfileDisplay;
-import views.SupervisorHomepage;
 import views.UpdateProfileForm;
 import views.UserProfileDisplay;
 public class UserController {
@@ -28,7 +26,6 @@ public class UserController {
 	public UserController() {
 		
 	}
-	private static String thisUserID;
 	
 	public static final int[] JUMLAHHARI = {
 			31,28,31,30,31,30,31,31,30,31,30,31
@@ -82,10 +79,10 @@ public class UserController {
 
 							
 							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
-								MainController.getInstance().workerRefreshContent(up);
+								MainController.getInstance().refreshContent(up);
 							}
 							else {
-								MainController.getInstance().supervisorRefreshContent(up);
+								MainController.getInstance().refreshContent(up);
 							}
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
@@ -94,7 +91,12 @@ public class UserController {
 						
 					
 				 
-						MainController.getInstance().supervisorRefreshContent(up);
+						try {
+							MainController.getInstance().refreshContent(up);
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 
 					}
 				});
@@ -107,10 +109,10 @@ public class UserController {
 						
 						try {
 							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
-								MainController.getInstance().workerRefreshContent(up);
+								MainController.getInstance().refreshContent(up);
 							}
 							else {
-								MainController.getInstance().supervisorRefreshContent(up);
+								MainController.getInstance().refreshContent(up);
 							}
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
@@ -126,12 +128,7 @@ public class UserController {
 					public void actionPerformed(ActionEvent e) {
 						up.refreshContent(openUpdateProfileForm());
 						try {
-							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
-								MainController.getInstance().workerRefreshContent(up);
-							}
-							else {
-								MainController.getInstance().supervisorRefreshContent(up);
-							}
+							MainController.getInstance().refreshContent(up);
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -178,7 +175,12 @@ public class UserController {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());		
 						
-						MainController.getInstance().refreshContent(openCreateUserDisplay());
+						try {
+							MainController.getInstance().refreshContent(openCreateUserDisplay());
+						} catch (NoSuchObjectException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Date is not valid!");
@@ -210,7 +212,12 @@ public class UserController {
 							String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							UserController.deleteUser(userId);
 							
+						try {
 							MainController.getInstance().refreshContent(openAllUserDisplay());
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 							JOptionPane.showMessageDialog(null, "Delete User Success!! ");
 							
 						break;
@@ -250,7 +257,12 @@ public class UserController {
 						String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							UserController.resetPassword(userId);
 							
-							MainController.getInstance().refreshContent(openAllUserDisplay());				
+						try {
+							MainController.getInstance().refreshContent(openAllUserDisplay());
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}				
 							JOptionPane.showMessageDialog(null, "Reset password Success!!");
 						break;
 					case JOptionPane.NO_OPTION:
@@ -415,7 +427,6 @@ public class UserController {
 			JOptionPane.showMessageDialog(null, "User not found!");
 			return null;
 		}
-		thisUserID = user.getId().toString();
 		
 		
 		return user;

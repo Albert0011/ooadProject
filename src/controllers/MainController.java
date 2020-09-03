@@ -6,6 +6,9 @@ import java.rmi.NoSuchObjectException;
 import java.sql.SQLException;
 
 import javax.swing.JPanel;
+
+import helpers.Log;
+import models.User;
 import views.AdminHomepage;
 import views.LoginDisplay;
 import views.MainDisplay;
@@ -191,18 +194,17 @@ public class MainController {
 		mainDisplay.revalidate();
 		mainDisplay.repaint();
 	}
-
 	
-	public void supervisorRefreshContent(JPanel panel) {
-		supervisorHomepage.refreshContent(panel);
-	}
-	
-	public void workerRefreshContent(JPanel panel) {
-		workerHomepage.refreshContent(panel);
-	}
-	
-	
-	public void refreshContent(JPanel panel) {
-		adminHomepage.refreshContent(panel);
+	public void refreshContent(JPanel panel) throws NoSuchObjectException {
+		User user = Log.getInstance().getCurrentUser();
+		if(user.getRole()=="Admin") {
+			adminHomepage.refreshContent(panel);			
+		} else if(user.getRole()=="Worker") {
+			workerHomepage.refreshContent(panel);
+		} else if(user.getRole()=="Supervisor") {
+			supervisorHomepage.refreshContent(panel);
+		}
+		
+		
 	}
 }

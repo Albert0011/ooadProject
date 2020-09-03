@@ -135,7 +135,7 @@ public class TaskRequestHandler {
 						}
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());
+							MainController.getInstance().refreshContent(openAllTaskRequestDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -176,7 +176,7 @@ public class TaskRequestHandler {
 						}
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskRequestDisplay());
+							MainController.getInstance().refreshContent(openAllTaskRequestDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

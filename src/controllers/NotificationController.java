@@ -27,15 +27,10 @@ public class NotificationController {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					UUID userID = Log.getInstance().getCurrentUser().getId();
-					String role = Log.getInstance().getCurrentUser().getRole();
 					readAllNotification(userID);
 					
-					if(role.equalsIgnoreCase("Worker")) {
-						MainController.getInstance().workerRefreshContent(openNotificationDisplay());
-					}
-					else {
-						MainController.getInstance().supervisorRefreshContent(openNotificationDisplay());
-					}
+					MainController.getInstance().refreshContent(openNotificationDisplay());
+					
 					
 				} catch (NoSuchObjectException e1) {
 					e1.printStackTrace();

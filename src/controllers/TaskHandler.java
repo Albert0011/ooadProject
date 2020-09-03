@@ -54,7 +54,7 @@ public class TaskHandler {
 							TaskHandler.approveTask(UUID.fromString(taskID), score);
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+							MainController.getInstance().refreshContent(openAllTaskDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -90,7 +90,7 @@ public class TaskHandler {
 							TaskHandler.submitTask(UUID.fromString(taskID));
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+							MainController.getInstance().refreshContent(openAllTaskDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -126,7 +126,7 @@ public class TaskHandler {
 							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+							MainController.getInstance().refreshContent(openAllTaskDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -161,7 +161,7 @@ public class TaskHandler {
 							TaskHandler.deleteTask(UUID.fromString(taskID));
 							
 						try {
-							MainController.getInstance().supervisorRefreshContent(openAllTaskDisplay());
+							MainController.getInstance().refreshContent(openAllTaskDisplay());
 						} catch (NoSuchObjectException | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -224,7 +224,7 @@ public class TaskHandler {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		MainController.getInstance().supervisorRefreshContent(up);
+		MainController.getInstance().refreshContent(up);
 		
 				up.getViewAllTaskBtn().addActionListener(new ActionListener() {
 				
@@ -232,6 +232,7 @@ public class TaskHandler {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							up.refreshContent(openAllTaskDisplay());
+							MainController.getInstance().refreshContent(up);
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -239,7 +240,6 @@ public class TaskHandler {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						MainController.getInstance().supervisorRefreshContent(up);
 					}
 				});
 			
@@ -248,7 +248,12 @@ public class TaskHandler {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						up.refreshContent(openCreateTaskForm());
-						MainController.getInstance().supervisorRefreshContent(up);
+						try {
+							MainController.getInstance().refreshContent(up);
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				
