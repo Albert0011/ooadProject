@@ -47,7 +47,12 @@ public class TaskHandler {
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							Integer score = 5;//apa ini isinya,kubikin 5 biar ga eror aja wkwk
+						try {
 							TaskHandler.approveTask(UUID.fromString(taskID), score);
+						} catch (NoSuchObjectException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().refreshContent(openAllTaskDisplay());
@@ -83,7 +88,12 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							TaskHandler.submitTask(UUID.fromString(taskID));
+						} catch (NoSuchObjectException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().refreshContent(openAllTaskDisplay());
@@ -119,7 +129,12 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
+						} catch (NoSuchObjectException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().refreshContent(openAllTaskDisplay());
@@ -154,7 +169,12 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							TaskHandler.deleteTask(UUID.fromString(taskID));
+						} catch (NoSuchObjectException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().refreshContent(openAllTaskDisplay());
@@ -356,65 +376,85 @@ public class TaskHandler {
 		return task;
 	}
 	
-	public static Task submitTask(UUID taskID){
+	public static Task submitTask(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
-		try {
-			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
-			task.update();
-			String message = task.getWorkerID().toString() + " has submitted \"" + task.getTitle() + "\"";
-			NotificationController.createNotification(taskID, message);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+		String role = Log.getInstance().getCurrentUser().getRole();
+		if(role.equalsIgnoreCase("Worker")){
+			try {
+				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
+				task.update();
+				String message = task.getWorkerID().toString() + " has submitted \"" + task.getTitle() + "\"";
+				NotificationController.createNotification(taskID, message);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
 		}
 		return task;
 	}
 	
-	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note){
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
-		task.update();
-		return task;
+	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note) throws NoSuchObjectException{
+		UUID id = Log.getInstance().getCurrentUser().getId();
+		if(id.equals(workerID) || id.equals(supervisorID)){
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
+			task.update();
+			return task;
+		}
+		JOptionPane.showMessageDialog(null, "You aren't the task owner !");
+		return null;
 	}
 	
-	public static void deleteTask(UUID taskID){
+	public static void deleteTask(UUID taskID) throws NoSuchObjectException{
+		UUID id = Log.getInstance().getCurrentUser().getId();
 		Task task;
 		try {
 			task = Task.get(taskID);
-			task.delete();
+			if(id.equals(task.getWorkerID()) || id.equals(task.getSupervisorID())){
+				task.delete();
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "You aren't the task owner !");
+			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
 	}
 	
-	public static Task approveTask(UUID taskID, Integer score){
+	public static Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Task task;
-		task = Task.get(taskID);	
-		try {
-			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
-			task.update();
-			
-			String message = task.getSupervisorID().toString() + " has approved your task \""+ task.getTitle() + "\"" ;
-			NotificationController.createNotification(taskID, message);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+		task = Task.get(taskID);
+		String role = Log.getInstance().getCurrentUser().getRole();
+		if(role.equalsIgnoreCase("Supervisor")){
+			try {
+				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
+				task.update();
+				
+				String message = task.getSupervisorID().toString() + " has approved your task \""+ task.getTitle() + "\"" ;
+				NotificationController.createNotification(taskID, message);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
 		}
 		return task;	
 	}
 	
-	public static Task requestTaskRevision(UUID taskID){
+	public static Task requestTaskRevision(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
-		try {
-			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
-			task.update();
-			
-			String message = task.getSupervisorID().toString() + " has requested you a revision on task \"" + task.getTitle() + "\"";
-			NotificationController.createNotification(taskID, message);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+		String role = Log.getInstance().getCurrentUser().getRole();
+		if(role.equalsIgnoreCase("Supervisor")){
+			try {
+				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
+				task.update();
+				
+				String message = task.getSupervisorID().toString() + " has requested you a revision on task \"" + task.getTitle() + "\"";
+				NotificationController.createNotification(taskID, message);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
 		}
 		
 		return task;
