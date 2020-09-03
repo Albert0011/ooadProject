@@ -295,26 +295,29 @@ public class TaskHandler {
 //		if(note.length() > 10 && note.length() < 100){
 //			throw new RequestFailedException("note must be between 10 - 100 characters");
 //		}
-		Task task = Task.create(supervisorID, workerID, title, note);
-		task.save();
-		
+		Task task = null;
+
 		try {
 			String role = Log.getInstance().getCurrentUser().getRole();
 			String uname = Log.getInstance().getCurrentUser().getUsername();
 			String message;
 			if(role.equalsIgnoreCase("Supervisor")) {
+				task = Task.create(supervisorID, workerID, title, note);
+				task.save();
 				message = "Supervisor " + uname + " has assigned you a new task \"" + title + "\"";
 				NotificationController.createNotification(workerID, message);
 			}
 			else {
+				TaskRequestHandler.createTaskRequest(title, supervisorID, workerID, note);
 				message = uname +" has requested you to supervise a new task \"" + title + "\"";
 				NotificationController.createNotification(supervisorID, message);
 			}
-			
 		} catch (NoSuchObjectException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+			
+		
 		
 		return task;
 	}
