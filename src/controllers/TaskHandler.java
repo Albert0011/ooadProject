@@ -215,7 +215,16 @@ public class TaskHandler {
 	public UserTaskDisplay openUserTaskDisplay() throws NoSuchObjectException {
 		UserTaskDisplay up = new UserTaskDisplay();
 		
-			up.refreshContent(openUserTaskDisplay());
+		try {
+			up.refreshContent(openAllTaskDisplay());
+		} catch (NoSuchObjectException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		MainController.getInstance().supervisorRefreshContent(up);
 		
 				up.getViewAllTaskBtn().addActionListener(new ActionListener() {
 				

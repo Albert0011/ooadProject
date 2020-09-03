@@ -97,11 +97,8 @@ public class MainController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					supervisorHomepage.refreshContent(TaskHandler.getInstance().openAllTaskDisplay());
+					supervisorHomepage.refreshContent(TaskHandler.getInstance().openUserTaskDisplay());
 				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
