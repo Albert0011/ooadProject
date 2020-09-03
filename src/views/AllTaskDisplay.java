@@ -98,8 +98,8 @@ public class AllTaskDisplay extends JPanel {
 		viewAllTable.setModel(model);
 		viewAllTable.getColumnModel().getColumn(0).setPreferredWidth(165);
 		viewAllTable.getColumnModel().getColumn(1).setPreferredWidth(89);
-		viewAllTable.getColumnModel().getColumn(4).setPreferredWidth(79);
-		viewAllTable.getColumnModel().getColumn(6).setPreferredWidth(65);
+		viewAllTable.getColumnModel().getColumn(2).setPreferredWidth(79);
+		viewAllTable.getColumnModel().getColumn(3).setPreferredWidth(65);
 		viewAllTable.setAutoResizeMode(0);
 		viewAllTable.setBorder(new LineBorder(new Color(0, 0, 0)));
 		viewAllTable.setBounds(10, 79, 507, 289);
