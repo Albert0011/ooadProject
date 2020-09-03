@@ -77,13 +77,8 @@ public class UserController {
 						try {
 							up.refreshContent(openProfileDisplay());
 
-							
-							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
-								MainController.getInstance().refreshContent(up);
-							}
-							else {
-								MainController.getInstance().refreshContent(up);
-							}
+							MainController.getInstance().refreshContent(up);
+					
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -108,12 +103,8 @@ public class UserController {
 						up.refreshContent(openChangePasswordForm());
 						
 						try {
-							if(Log.getInstance().getCurrentUser().getRole().equalsIgnoreCase("worker")) {
-								MainController.getInstance().refreshContent(up);
-							}
-							else {
-								MainController.getInstance().refreshContent(up);
-							}
+							MainController.getInstance().refreshContent(up);
+							
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
