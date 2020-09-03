@@ -58,13 +58,13 @@ public class Task {
 		ArrayList<Task> listTask = new ArrayList<Task>();
 		User user = User.get(userID.toString());
 		String type = null;
-		if(user.getRole()=="Worker") {
+		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
-		} else if(user.getRole()=="Supervisor"){
+		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
 			type = "supervisor_id";
 		}
 		
-		String query = "select * from tasks where "+type+" ='"+userID.toString()+"'";
+		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 //		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
@@ -82,11 +82,11 @@ public class Task {
 
     public static Task get(UUID id) {
     	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String query = "SELECT * from tasks where id  ='"+id.toString()+"'";
+        String query = "SELECT * from tasks where id  = ?";
 
         try {
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-//            ps.setString(1, id.toString());
+            ps.setString(1, id.toString());
 
             ResultSet rs = ps.executeQuery();
 
