@@ -9,17 +9,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import exceptions.RequestFailedException;
 import helpers.Log;
 import models.Task;
-import models.TaskRequest;
 import models.User;
 import views.AllTaskDisplay;
-import views.AllTaskRequestDisplay;
 import views.TaskForm;
-import views.UserProfileDisplay;
 import views.UserTaskDisplay;
 
 public class TaskHandler {

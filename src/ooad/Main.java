@@ -3,7 +3,6 @@ package ooad;
 
 
 import controllers.MainController;
-import controllers.UserController;
 
 public class Main {
 	

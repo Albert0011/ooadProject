@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-import javax.swing.JOptionPane;
 
 import com.mysql.jdbc.PreparedStatement;
 import connection.Connector;

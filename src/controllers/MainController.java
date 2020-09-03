@@ -12,7 +12,6 @@ import models.User;
 import views.AdminHomepage;
 import views.LoginDisplay;
 import views.MainDisplay;
-import views.ProfileDisplay;
 import views.SupervisorHomepage;
 import views.WorkerHomepage;
 

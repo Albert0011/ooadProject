@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.PreparedStatement;
 
 import connection.Connector;
-import helpers.Log;
+
 
 public class Task {
 	private UUID id;
