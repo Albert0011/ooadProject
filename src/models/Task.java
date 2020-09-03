@@ -64,7 +64,7 @@ public class Task {
 			type = "supervisor_id";
 		}
 		
-		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'";
+		String query = "select * from tasks where "+type+" ='"+userID.toString()+"'";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 //		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
@@ -82,11 +82,11 @@ public class Task {
 
     public static Task get(UUID id) {
     	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String query = "SELECT * from tasks where id  = ?";
+        String query = "SELECT * from tasks where id  ='"+id.toString()+"'";
 
         try {
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-            ps.setString(1, id.toString());
+//            ps.setString(1, id.toString());
 
             ResultSet rs = ps.executeQuery();
 
