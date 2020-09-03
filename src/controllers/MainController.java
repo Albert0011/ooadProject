@@ -160,11 +160,15 @@ public class MainController {
 		workerHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				try {
+					workerHomepage.refreshContent(TaskHandler.getInstance().openUserTaskDisplay());
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-
+		
 		workerHomepage.getNotifBtn().addActionListener(new ActionListener() {
 			
 			@Override
