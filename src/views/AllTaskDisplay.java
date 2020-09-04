@@ -11,15 +11,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import models.Task;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import models.Task;
+
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.GridLayout;
 
 public class AllTaskDisplay extends JPanel {
 
@@ -30,7 +34,6 @@ public class AllTaskDisplay extends JPanel {
 	
 	private JTable viewAllTable;
 	private JButton btnSortTask;
-	private JButton btnSubmit;
 	private JTextField idField;
 	private JTextField workerIDField;
 	private JTextField supervisorIDField;
@@ -44,18 +47,29 @@ public class AllTaskDisplay extends JPanel {
 	private JButton btnUpdate;
 	private JButton btnApprove;
 	private JButton btnSearch;
+	private JButton btnSubmit;
+	private JButton btnDeleteTask;
 	private JComboBox<String> sortByBox;
 	private JComboBox<String> sortDirBox;
 	
 	private final String[] SORT_BY = {"Sort By","Username","DOB"};
 	private final String[] SORT_DIR = {"Sort Dir","Ascending","Descending"};
-	private JButton btnDeleteTask;
+	
+	private JPanel panelSupervisor;
+	private JPanel panelWorker;
+	private JPanel mainPanel;
 	
 	
 	public AllTaskDisplay(ArrayList<Task> list) {
-		this.setBackground(Color.CYAN);
+		this.setBackground(new Color(175, 238, 238));
 		this.setSize(628, 376);
 		this.setLayout(null);
+		
+		mainPanel = new JPanel();
+		mainPanel.setBackground(new Color(175, 238, 238));
+		mainPanel.setBounds(0, 0, 628, 343);
+		add(mainPanel);
+		mainPanel.setLayout(null);
 		
 		
 		
@@ -92,7 +106,7 @@ public class AllTaskDisplay extends JPanel {
 			row[8] = list.get(i).getNote();
 			model.addRow(row);
 		}
-		
+	
 		viewAllTable.setEnabled(true);
 		viewAllTable.setRowSelectionAllowed(true);
 		viewAllTable.setModel(model);
@@ -105,86 +119,10 @@ public class AllTaskDisplay extends JPanel {
 		viewAllTable.setBounds(10, 79, 507, 289);
 		
 	
-		//TITLE
-		Label allTask = new Label("All Task Display");
-		allTask.setFont(new Font("Dialog", Font.BOLD, 18));
-		allTask.setBounds(232, 10, 145, 22);
-		add(allTask);
-		
-		//FORM YG KANAN
-		JLabel lblNewLabel = new JLabel("id");
-		lblNewLabel.setBounds(429, 92, 46, 14);
-		add(lblNewLabel);
-		
-		JLabel workerID = new JLabel("worker_id");
-		workerID.setBounds(429, 131, 63, 14);
-		add(workerID);
-		
-		JLabel supervisorID = new JLabel("supervisor_id");
-		supervisorID.setBounds(429, 170, 83, 14);
-		add(supervisorID);
-		
-		JLabel title = new JLabel("title");
-		title.setBounds(429, 209, 46, 14);
-		add(title);
-		
-		JLabel note = new JLabel("note");
-		note.setBounds(429, 254, 69, 14);
-		add(note);
-		
-		//field
-		idField = new JTextField();
-		idField.setEditable(false);
-		idField.setBounds(429, 106, 179, 20);
-		add(idField);
-		idField.setColumns(10);
-		
-		
-		workerIDField = new JTextField();
-		workerIDField.setEditable(false);
-		workerIDField.setColumns(10);
-		workerIDField.setBounds(429, 145, 179, 20);
-		add(workerIDField);
-		
-		supervisorIDField = new JTextField();
-		supervisorIDField.setEditable(false);
-		supervisorIDField.setColumns(10);
-		supervisorIDField.setBounds(429, 184, 179, 20);
-		add(supervisorIDField);
-		
-		titleField = new JTextField();
-		titleField.setEditable(false);
-		titleField.setColumns(10);
-		titleField.setBounds(429, 223, 179, 20);
-		add(titleField);
-		
-		noteField = new JTextField();
-		noteField.setEditable(false);
-		noteField.setColumns(10);
-		noteField.setBounds(429, 279, 179, 75);
-		add(noteField);
-		
-		searchField = new JTextField();
-		searchField.setBounds(10, 44, 118, 22);
-		add(searchField);
-		searchField.setColumns(10);
-		
-		//sortBox
-		sortByBox = new JComboBox<String>();
-//		SORT_BY
-		sortByBox.setBounds(237, 45, 78, 20);
-		add(sortByBox);
-		
-		sortDirBox = new JComboBox<String>();
-//		SORT_DIR
-		sortDirBox.setBounds(325, 45, 78, 20);
-		add(sortDirBox);
-		
-	
 		//BUAT SCROLLPANE TABEL
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 108, 397, 246);
-		add(scrollPane);
+		scrollPane.setBounds(10, 75, 397, 257);
+		mainPanel.add(scrollPane);
 		
 
 		//MUNCULIN DATA PAS DI KLIK
@@ -206,38 +144,130 @@ public class AllTaskDisplay extends JPanel {
 			}
 		});
 		
-		//button
-		btnSortTask = new JButton("Sort");
-		btnSortTask.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSortTask.setBounds(413, 44, 69, 22);
-		add(btnSortTask);
-		
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnSubmit.setBounds(491, 44, 96, 23);
-		add(btnSubmit);
-		
-		btnSearch = new JButton("Search");
-		btnSearch.setBounds(138, 44, 89, 23);
-		add(btnSearch);
-		
-		btnRequestRevision = new JButton("Request Revision");
-		btnRequestRevision.setBounds(469, 77, 118, 23);
-		add(btnRequestRevision);
-		
-		btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(148, 76, 118, 23);
-		add(btnUpdate);
-		
-		btnApprove = new JButton("Approve");
-		btnApprove.setBounds(10, 77, 118, 23);
-		add(btnApprove);
-		
 		scrollPane.setViewportView(viewAllTable);
 		
+		noteField = new JTextField();
+		noteField.setBounds(429, 250, 179, 75);
+		mainPanel.add(noteField);
+		noteField.setEditable(false);
+		noteField.setColumns(10);
+		
+		JLabel note_1 = new JLabel("note");
+		note_1.setBounds(429, 236, 69, 14);
+		mainPanel.add(note_1);
+		
+		titleField = new JTextField();
+		titleField.setBounds(429, 210, 179, 20);
+		mainPanel.add(titleField);
+		titleField.setEditable(false);
+		titleField.setColumns(10);
+		
+		JLabel title_1 = new JLabel("title");
+		title_1.setBounds(429, 196, 46, 14);
+		mainPanel.add(title_1);
+		
+		supervisorIDField = new JTextField();
+		supervisorIDField.setBounds(429, 170, 179, 20);
+		mainPanel.add(supervisorIDField);
+		supervisorIDField.setEditable(false);
+		supervisorIDField.setColumns(10);
+		
+		JLabel supervisorID_1 = new JLabel("supervisor_id");
+		supervisorID_1.setBounds(429, 156, 83, 14);
+		mainPanel.add(supervisorID_1);
+		
+		
+		workerIDField = new JTextField();
+		workerIDField.setBounds(429, 130, 179, 20);
+		mainPanel.add(workerIDField);
+		workerIDField.setEditable(false);
+		workerIDField.setColumns(10);
+		
+		JLabel workerID_1 = new JLabel("worker_id");
+		workerID_1.setBounds(429, 116, 63, 14);
+		mainPanel.add(workerID_1);
+		
+		//field
+		idField = new JTextField();
+		idField.setBounds(429, 90, 179, 20);
+		mainPanel.add(idField);
+		idField.setEditable(false);
+		idField.setColumns(10);
+		
+		//FORM YG KANAN
+		JLabel lblNewLabel = new JLabel("id");
+		lblNewLabel.setBounds(429, 76, 46, 14);
+		mainPanel.add(lblNewLabel);
+		
+	
+		//TITLE
+		Label allTask = new Label("All Task Display");
+		allTask.setBounds(249, 10, 145, 22);
+		mainPanel.add(allTask);
+		allTask.setFont(new Font("Dialog", Font.BOLD, 18));
+		
+		searchField = new JTextField();
+		searchField.setBounds(422, 42, 118, 22);
+		mainPanel.add(searchField);
+		searchField.setColumns(10);
+		
+		btnSearch = new JButton("Search");
+		btnSearch.setBounds(545, 42, 77, 23);
+		mainPanel.add(btnSearch);
+		
+		//button
+		btnSortTask = new JButton("Sort");
+		btnSortTask.setBounds(186, 42, 69, 22);
+		mainPanel.add(btnSortTask);
+		btnSortTask.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
+		//sortBox
+		sortByBox = new JComboBox<String>();
+		sortByBox.setBounds(10, 44, 78, 20);
+		mainPanel.add(sortByBox);
+		
+		sortDirBox = new JComboBox<String>();
+		sortDirBox.setBounds(98, 44, 78, 20);
+		mainPanel.add(sortDirBox);
+		
+		panelWorker = new JPanel();
+		panelWorker.setBackground(new Color(175, 238, 238));
+		panelWorker.setBounds(0, 343, 628, 34);
+		//add(panelWorker);
+		panelWorker.setLayout(null);
+		
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setBackground(new Color(224, 255, 255));
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnSubmit.setBounds(251, 0, 125, 34);
+		panelWorker.add(btnSubmit);
+		
+		panelSupervisor = new JPanel();
+		panelSupervisor.setBackground(new Color(175, 238, 238));
+		panelSupervisor.setBounds(0, 343, 628, 34);
+		//add(panelSupervisor);
+		panelSupervisor.setLayout(new GridLayout(0, 4, 0, 0));
+		
+		btnApprove = new JButton("Approve");
+		btnApprove.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnApprove.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnApprove);
+		
+		btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnUpdate.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnUpdate);
+		
 		btnDeleteTask = new JButton("Delete");
-		btnDeleteTask.setBounds(288, 76, 118, 23);
-		add(btnDeleteTask);
+		btnDeleteTask.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDeleteTask.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnDeleteTask);
+		
+		btnRequestRevision = new JButton("Request Revision");
+		btnRequestRevision.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnRequestRevision.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnRequestRevision);
+		
 		
 		this.setVisible(true);
 	}
@@ -422,7 +452,42 @@ public class AllTaskDisplay extends JPanel {
 	public String[] getSORT_DIR() {
 		return SORT_DIR;
 	}
-	
+
+
+
+	public JPanel getPanelSupervisor() {
+		return panelSupervisor;
+	}
+
+
+
+	public void setPanelSupervisor(JPanel panelSupervisor) {
+		this.panelSupervisor = panelSupervisor;
+	}
+
+
+
+	public JPanel getPanelWorker() {
+		return panelWorker;
+	}
+
+
+
+	public void setPanelWorker(JPanel panelWorker) {
+		this.panelWorker = panelWorker;
+	}
+
+
+
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+
+
+
+	public void setMainPanel(JPanel mainPanel) {
+		this.mainPanel = mainPanel;
+	}
 	
 	
 }

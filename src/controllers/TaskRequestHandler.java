@@ -32,6 +32,7 @@ public class TaskRequestHandler {
 		
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
+			System.out.println("di TaskRequestHandler createTaskRequest");
 			taskReq.save();
 			return taskReq;
 			

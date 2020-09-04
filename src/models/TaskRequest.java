@@ -85,8 +85,8 @@ public class TaskRequest {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
 			ps.setString(1, id.toString());
-			ps.setString(2, workerID.toString());
-			ps.setString(3, supervisorID.toString());
+			ps.setString(2, supervisorID.toString());
+			ps.setString(3, workerID.toString());
 			ps.setString(4, title);
 			ps.setString(5, note);
 			

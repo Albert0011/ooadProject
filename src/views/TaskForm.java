@@ -42,18 +42,18 @@ public class TaskForm extends JPanel {
 		title.setBounds(82, 92, 59, 35);
 		add(title);
 
+		JLabel workerID = new JLabel("Worker ID");
+		workerID.setBackground(Color.WHITE);
+		workerID.setForeground(Color.BLACK);
+		workerID.setFont(new Font("Dialog", Font.BOLD, 20));
+		workerID.setBounds(82, 179, 140, 32);
+		add(workerID);
+
 		JLabel supervisorID = new JLabel("Supervisor ID");
-		supervisorID.setBackground(Color.WHITE);
 		supervisorID.setForeground(Color.BLACK);
 		supervisorID.setFont(new Font("Dialog", Font.BOLD, 20));
 		supervisorID.setBounds(82, 133, 141, 35);
 		add(supervisorID);
-
-		JLabel workerID = new JLabel("Worker ID");
-		workerID.setForeground(Color.BLACK);
-		workerID.setFont(new Font("Dialog", Font.BOLD, 20));
-		workerID.setBounds(82, 179, 105, 32);
-		add(workerID);
 
 		JLabel note = new JLabel("Note");
 		note.setForeground(Color.BLACK);
