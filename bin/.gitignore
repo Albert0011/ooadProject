@@ -1,12 +1,9 @@
-/views/
+/Company.jpg
+/ICON.jpg
+/connection/
 /controllers/
-<<<<<<< HEAD
-=======
-/ooad/
-<<<<<<< HEAD
-=======
->>>>>>> refs/remotes/origin/master
-/views/
->>>>>>> refs/remotes/origin/master
-/models/
 /exceptions/
+/helpers/
+/models/
+/ooad/
+/views/

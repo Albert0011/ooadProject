@@ -36,6 +36,15 @@ public class TaskHandler {
 		ArrayList<Task> task = getAllTask();
 		AllTaskDisplay allTaskDisplay = new AllTaskDisplay(task);
 		
+		String role = Log.getInstance().getCurrentUser().getRole();
+		
+		if(role.equalsIgnoreCase("Supervisor")) {
+			allTaskDisplay.add(allTaskDisplay.getPanelSupervisor());
+		}
+		else {
+			allTaskDisplay.add(allTaskDisplay.getPanelWorker());
+		}
+		
 		allTaskDisplay.getBtnApprove().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,19 +58,14 @@ public class TaskHandler {
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							Integer score = 5;//apa ini isinya,kubikin 5 biar ga eror aja wkwk
-						try {
-							TaskHandler.approveTask(UUID.fromString(taskID), score);
-						} catch (NoSuchObjectException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
-						}
-							
-						try {
-							MainController.getInstance().refreshContent(openAllTaskDisplay());
-						} catch (NoSuchObjectException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+							try {
+								TaskHandler.approveTask(UUID.fromString(taskID), score);
+								MainController.getInstance().refreshContent(openUserTaskDisplay());
+							} catch (NoSuchObjectException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
+						
 							JOptionPane.showMessageDialog(null, "Approve Task Success!! ");
 							
 						break;
@@ -92,17 +96,13 @@ public class TaskHandler {
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
 							TaskHandler.submitTask(UUID.fromString(taskID));
+							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 							
-						try {
-							MainController.getInstance().refreshContent(openAllTaskDisplay());
-						} catch (NoSuchObjectException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
 							JOptionPane.showMessageDialog(null, "Submit Task Success!! ");
 							
 						break;
@@ -132,17 +132,12 @@ public class TaskHandler {
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
 							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
+							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-							
-						try {
-							MainController.getInstance().refreshContent(openAllTaskDisplay());
-						} catch (NoSuchObjectException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
 							JOptionPane.showMessageDialog(null, "Request Revision Success!! ");
 							
 						break;
@@ -172,17 +167,12 @@ public class TaskHandler {
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
 							TaskHandler.deleteTask(UUID.fromString(taskID));
+							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
-							
-						try {
-							MainController.getInstance().refreshContent(openAllTaskDisplay());
-						} catch (NoSuchObjectException | SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+
 							JOptionPane.showMessageDialog(null, "Delete Task Success!! ");
 							
 						break;
@@ -210,19 +200,14 @@ public class TaskHandler {
 					case JOptionPane.YES_OPTION:
 						int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 						idTask = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-//						UpdateTaskForm utf = new UpdateTaskForm();
+						
 						try {
 							TaskHandler.getInstance().openUpdateTaskDisplay();
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-//						try {
-//							MainController.getInstance().refreshContent(allTaskDisplay);
-//						} catch (NoSuchObjectException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
+	
 						break;
 					case JOptionPane.NO_OPTION:
 						break;
@@ -252,14 +237,7 @@ public class TaskHandler {
 			}
 		
 		});
-		
-		
-		try {
-			MainController.getInstance().refreshContent(allTaskDisplay);
-		} catch (NoSuchObjectException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		
 		return allTaskDisplay;
 	
@@ -288,6 +266,9 @@ public class TaskHandler {
 						
 						ut.dispose();
 						
+						MainController.getInstance().refreshContent(openUserTaskDisplay());
+						
+						
 					} catch (NoSuchObjectException | NumberFormatException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -313,6 +294,7 @@ public class TaskHandler {
 		UserTaskDisplay up = new UserTaskDisplay();
 		
 		try {
+			
 			up.refreshContent(openAllTaskDisplay());
 		} catch (NoSuchObjectException e1) {
 			// TODO Auto-generated catch block
