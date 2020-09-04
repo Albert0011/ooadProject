@@ -224,8 +224,9 @@ public class TaskHandler {
 		allTaskDisplay.getBtnSearch().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String id = allTaskDisplay.getSearchField().toString();
-//				String query = "Select * from tasks where "
+				String query = allTaskDisplay.getSearchField().toString();
+				ArrayList<Task> listTask = searchTask(query);
+				//terus cara update tabel gmn how
 			}
 		
 		});
@@ -233,14 +234,44 @@ public class TaskHandler {
 		allTaskDisplay.getBtnSortTask().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+				
+				String sortBy = allTaskDisplay.getSortByItem();
+				String sortDir = allTaskDisplay.getSortDirItem();
+				
+				if(sortBy.equalsIgnoreCase("Sort By") || sortDir.equalsIgnoreCase("Sort Dir")) {
+					JOptionPane.showMessageDialog(null, "Please Select Both Sorting Entities");
+				}else {
+					
+					try {
+						ArrayList<Task> listTask = sortTask(sortBy, sortDir);
+						//terus gimana updatenya ke layar gtw how
+						
+						
+					} catch (NoSuchObjectException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+				
+				
+				
 			}
+
+			
 		
 		});
 
 		
 		return allTaskDisplay;
 	
+	}
+	
+	private ArrayList<Task> sortTask(String sortBy, String sortDir) throws NoSuchObjectException, SQLException {
+        
+		ArrayList<Task> listTask = Task.sort(sortBy, sortDir);
+        return listTask;
+        
 	}
 	
 	public UpdateTaskForm openUpdateTaskDisplay() throws NoSuchObjectException{

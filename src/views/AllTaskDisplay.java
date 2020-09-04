@@ -3,6 +3,7 @@ package views;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -52,8 +53,8 @@ public class AllTaskDisplay extends JPanel {
 	private JComboBox<String> sortByBox;
 	private JComboBox<String> sortDirBox;
 	
-	private final String[] SORT_BY = {"Sort By","Username","DOB"};
-	private final String[] SORT_DIR = {"Sort Dir","Ascending","Descending"};
+	private final String[] SORT_BY = {"Sort By","id","title"};
+	private final String[] SORT_DIR = {"Sort Dir","ASC","DESC"};
 	
 	private JPanel panelSupervisor;
 	private JPanel panelWorker;
@@ -225,10 +226,13 @@ public class AllTaskDisplay extends JPanel {
 		sortByBox = new JComboBox<String>();
 		sortByBox.setBounds(10, 44, 78, 20);
 		mainPanel.add(sortByBox);
+		sortByBox.setModel(new DefaultComboBoxModel<String>(SORT_BY));
 		
 		sortDirBox = new JComboBox<String>();
 		sortDirBox.setBounds(98, 44, 78, 20);
 		mainPanel.add(sortDirBox);
+		sortDirBox.setModel(new DefaultComboBoxModel<String>(SORT_DIR));
+		
 		
 		panelWorker = new JPanel();
 		panelWorker.setBackground(new Color(175, 238, 238));
@@ -423,6 +427,13 @@ public class AllTaskDisplay extends JPanel {
 		this.btnSearch = btnSearch;
 	}
 
+	public String getSortByItem() {
+		return sortByBox.getSelectedItem().toString();
+	}
+	
+	public String getSortDirItem() {
+		return sortDirBox.getSelectedItem().toString();
+	}
 
 	public JComboBox<String> getSortByBox() {
 		return sortByBox;

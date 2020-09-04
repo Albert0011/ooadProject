@@ -1,5 +1,6 @@
 package models;
 
+import java.rmi.NoSuchObjectException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 import com.mysql.jdbc.PreparedStatement;
 
 import connection.Connector;
+import helpers.Log;
 
 
 public class Task {
@@ -39,19 +41,29 @@ public class Task {
 		this.note = note;
 	}
 
-	public static ArrayList<Task> Search(String query) throws SQLException{
+	public static ArrayList<Task> Search(String query) throws SQLException, NoSuchObjectException{
 		ArrayList<Task> listTask = new ArrayList<Task>();
+		User user = Log.getInstance().getCurrentUser();
 		
+		String type = null;
+		if(user.getRole().equalsIgnoreCase("Worker")) {
+			type = "worker_id";
+		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
+			type = "supervisor_id";
+		}
+		
+		String queryFinal = "select * from tasks where "+type+" = '"+user.getId().toString()+"' AND title LIKE '%"+query+"%'";
+		System.out.println(queryFinal);
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-		ResultSet rs = ps.executeQuery(query);
+		ResultSet rs = ps.executeQuery(queryFinal);
 		Task task;
-		while(rs.next()){
+		while(rs.next()) {
 			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
 			listTask.add(task);
 		}
 		ps.close();
 		rs.close();
-		return listTask;		
+		return listTask;
 	}
 	
 	public static ArrayList<Task> getAll(UUID userID) throws SQLException {
@@ -175,6 +187,33 @@ public class Task {
         }
         return null;
     }
+	
+	public static ArrayList<Task> sort(String sortBy, String sortDir) throws NoSuchObjectException, SQLException {
+		
+		ArrayList<Task> listTask = new ArrayList<Task>();
+		User user = Log.getInstance().getCurrentUser();
+		
+		String type = null;
+		if(user.getRole().equalsIgnoreCase("Worker")) {
+			type = "worker_id";
+		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
+			type = "supervisor_id";
+		}
+		
+		String query = "select * from tasks where "+type+" = '"+user.getId().toString()+"'"+" order by "+sortBy+" "+sortDir;
+//		System.out.println(query);
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		ResultSet rs = ps.executeQuery(query);
+		Task task;
+		while(rs.next()) {
+			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
+			listTask.add(task);
+		}
+		ps.close();
+		rs.close();
+		return listTask;
+		
+	}
 
 	public UUID getId() {
 		return id;
@@ -247,6 +286,8 @@ public class Task {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+	
 	
 	
 	
