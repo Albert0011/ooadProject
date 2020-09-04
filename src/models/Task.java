@@ -161,8 +161,8 @@ public class Task {
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
             ps.setString(1, workerID.toString());
             ps.setString(2, supervisorID.toString());
-            ps.setString(3, score.toString());
-            ps.setString(4, title);
+            ps.setString(3, title);
+            ps.setString(4, score.toString());
             ps.setString(5, note);
             ps.setString(6, id.toString());
 

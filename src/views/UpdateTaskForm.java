@@ -6,10 +6,13 @@ import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.UUID;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
-public class UpdateTaskForm extends JPanel {
+public class UpdateTaskForm extends JFrame {
 	/**
 	 * 
 	 */
@@ -17,17 +20,20 @@ public class UpdateTaskForm extends JPanel {
 	private JTextField taskIDField;
 	private JTextField workerIDField;
 	private JTextField supervisorIDField;
-	private JTextField titleIDField;
+	private JTextField titleField;
 	private JTextField scoreField;
 	private JTextField noteField;
-
+	private JButton btnUpdate;
+	private JButton btnCancel;
 	
 	public UpdateTaskForm() {
 		this.setBackground(new Color(255, 255, 224));
 		this.setSize(628, 376);
 		this.setLocation(0, 0);
 		this.setLayout(null);
-		
+		this.setBounds(100, 100, 650, 400);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		
 		//title
 		JLabel lblTaskID = new JLabel("taskID");
@@ -73,12 +79,12 @@ public class UpdateTaskForm extends JPanel {
 		
 		
 		//button
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnUpdate.setBounds(470, 330, 89, 23);
 		add(btnUpdate);
 		
-		JButton btnCancel = new JButton("Cancel");
+		btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCancel.setBounds(334, 330, 89, 23);
 		add(btnCancel);
@@ -106,11 +112,11 @@ public class UpdateTaskForm extends JPanel {
 		supervisorIDField.setBounds(224, 154, 335, 21);
 		add(supervisorIDField);
 		
-		titleIDField = new JTextField();
-		titleIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		titleIDField.setColumns(10);
-		titleIDField.setBounds(224, 183, 335, 21);
-		add(titleIDField);
+		titleField = new JTextField();
+		titleField.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		titleField.setColumns(10);
+		titleField.setBounds(224, 183, 335, 21);
+		add(titleField);
 		
 		scoreField = new JTextField();
 		scoreField.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -128,6 +134,15 @@ public class UpdateTaskForm extends JPanel {
 		this.setVisible(true);
 	}
 	
+//	public void refreshContent(JPanel panel) {
+//		mainPanel.removeAll();
+//		mainPanel.repaint();
+//		mainPanel.revalidate();
+//		
+//		mainPanel.add(panel);
+//		mainPanel.repaint();
+//		mainPanel.revalidate();
+//	}
 	
 
 	public JTextField getTaskIDField() {
@@ -135,8 +150,8 @@ public class UpdateTaskForm extends JPanel {
 	}
 
 
-	public void setTaskIDField(JTextField taskIDField) {
-		this.taskIDField = taskIDField;
+	public void setTaskIDField(String uuid) {
+		this.taskIDField.setText(uuid);;
 	}
 
 
@@ -145,8 +160,8 @@ public class UpdateTaskForm extends JPanel {
 	}
 
 
-	public void setWorkerIDField(JTextField workerIDField) {
-		this.workerIDField = workerIDField;
+	public void setWorkerIDField(String workerID) {
+		this.workerIDField.setText(workerID);;
 	}
 
 
@@ -155,18 +170,18 @@ public class UpdateTaskForm extends JPanel {
 	}
 
 
-	public void setSupervisorIDField(JTextField supervisorIDField) {
-		this.supervisorIDField = supervisorIDField;
+	public void setSupervisorIDField(String supervisorID) {
+		this.supervisorIDField.setText(supervisorID);;
 	}
 
 
-	public JTextField getTitleIDField() {
-		return titleIDField;
+	public JTextField getTitleField() {
+		return titleField;
 	}
 
 
-	public void setTitleIDField(JTextField titleIDField) {
-		this.titleIDField = titleIDField;
+	public void setTitleField(String title) {
+		this.titleField.setText(title);
 	}
 
 
@@ -175,8 +190,8 @@ public class UpdateTaskForm extends JPanel {
 	}
 
 
-	public void setScoreField(JTextField scoreField) {
-		this.scoreField = scoreField;
+	public void setScoreField(String score) {
+		this.scoreField.setText(score);;
 	}
 
 
@@ -185,7 +200,23 @@ public class UpdateTaskForm extends JPanel {
 	}
 
 
-	public void setNoteField(JTextField noteField) {
-		this.noteField = noteField;
+	public void setNoteField(String note) {
+		this.noteField.setText(note);
+	}
+
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+
+	public void setBtnUpdate(JButton btnUpdate) {
+		this.btnUpdate = btnUpdate;
+	}
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
 	}
 }

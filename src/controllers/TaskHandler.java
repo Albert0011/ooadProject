@@ -16,11 +16,13 @@ import models.Task;
 import models.User;
 import views.AllTaskDisplay;
 import views.TaskForm;
+import views.UpdateTaskForm;
 import views.UserTaskDisplay;
 
 public class TaskHandler {
 	
 	private static TaskHandler th;
+	private static String idTask;
 	
 	public static TaskHandler getInstance() {
 		if(th == null) {
@@ -116,7 +118,6 @@ public class TaskHandler {
 			}
 		});
 		
-		
 		allTaskDisplay.getBtnRequestRevision().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -196,12 +197,41 @@ public class TaskHandler {
 		
 			}
 		});
-		
-		
+				
 		allTaskDisplay.getBtnUpdate().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
+					JOptionPane.showMessageDialog(null, "Please Select Task");
+				}
+				else {
+					int jawab = JOptionPane.showConfirmDialog(null, "Update this task?");
+					switch (jawab) {
+					case JOptionPane.YES_OPTION:
+						int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+						idTask = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+//						UpdateTaskForm utf = new UpdateTaskForm();
+						try {
+							TaskHandler.getInstance().openUpdateTaskDisplay();
+						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+//						try {
+//							MainController.getInstance().refreshContent(allTaskDisplay);
+//						} catch (NoSuchObjectException e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+						break;
+					case JOptionPane.NO_OPTION:
+						break;
+
+					default:
+						break;
+					}
+
+				}
 			}
 		
 		});
@@ -209,7 +239,8 @@ public class TaskHandler {
 		allTaskDisplay.getBtnSearch().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+				String id = allTaskDisplay.getSearchField().toString();
+//				String query = "Select * from tasks where "
 			}
 		
 		});
@@ -222,8 +253,58 @@ public class TaskHandler {
 		
 		});
 		
+		
+		try {
+			MainController.getInstance().refreshContent(allTaskDisplay);
+		} catch (NoSuchObjectException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		return allTaskDisplay;
 	
+	}
+	
+	public UpdateTaskForm openUpdateTaskDisplay() throws NoSuchObjectException{
+		UpdateTaskForm ut = new UpdateTaskForm();
+		Task task;
+		task = Task.get(UUID.fromString(TaskHandler.getIdTask()));
+		ut.setTaskIDField(task.getId().toString());
+		ut.setWorkerIDField(task.getWorkerID().toString());
+		ut.setSupervisorIDField(task.getSupervisorID().toString());
+		ut.setTitleField(task.getTitle());
+		ut.setScoreField(task.getScore().toString());
+		ut.setNoteField(task.getNote());
+		
+			ut.getBtnUpdate().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					try {
+						TaskHandler.updateTask(UUID.fromString(ut.getTaskIDField().getText()), UUID.fromString(ut.getWorkerIDField().getText()), 
+												UUID.fromString(ut.getSupervisorIDField().getText()), ut.getTitleField().getText(), Integer.parseInt(ut.getScoreField().getText()), 
+												ut.getNoteField().getText());
+						
+						ut.dispose();
+						
+					} catch (NoSuchObjectException | NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+				}
+			});
+			
+			ut.getBtnCancel().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
+		return ut;
 	}
 
 	
@@ -458,6 +539,14 @@ public class TaskHandler {
 		}
 		
 		return task;
+	}
+
+	public static String getIdTask() {
+		return idTask;
+	}
+
+	public static void setIdTask(String idTask) {
+		TaskHandler.idTask = idTask;
 	}
 
 	
