@@ -48,12 +48,12 @@ public class Task {
 		String type = null;
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
-			queryFinal = "select ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.worker_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
 			type = "supervisor_id";
-			queryFinal = "select ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.supervisor_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		}
