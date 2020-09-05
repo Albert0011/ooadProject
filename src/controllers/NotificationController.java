@@ -30,7 +30,7 @@ public class NotificationController {
 					readAllNotification(userID);
 					
 					MainController.getInstance().refreshContent(openNotificationDisplay());
-					
+				
 					
 				} catch (NoSuchObjectException e1) {
 					e1.printStackTrace();

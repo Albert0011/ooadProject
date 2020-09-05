@@ -97,7 +97,7 @@ public class TaskRequestHandler {
 		try {
 
 			taskRequest.delete();	
-			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getWorkerID(), taskRequest.getSupervisorID(), taskRequest.getNote());
+			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getSupervisorID(), taskRequest.getWorkerID(), taskRequest.getNote());
 			NotificationController.createNotification(workerID, "Supervisor " + supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
 			JOptionPane.showMessageDialog(null,"Task Accepted!");
 			
