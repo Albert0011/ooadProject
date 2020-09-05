@@ -92,32 +92,35 @@ public class Task {
 	
 
 
-    public static Task get(UUID id) {
-    	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String query = "SELECT * from tasks where id  = ?";
+	 public static Task get(UUID id) {
+	        String query = "SELECT * from tasks where id  = ?";
 
-        try {
-            PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-            ps.setString(1, id.toString());
+	        try {
+	            PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+	            ps.setString(1, id.toString());
 
-            ResultSet rs = ps.executeQuery();
+	            ResultSet rs = ps.executeQuery();
 
-            rs.next();
-            String workerID = rs.getString("worker_id");
-            String supervisorID = rs.getString("supervisor_id");
-            String title = rs.getString("title");
-            String note = rs.getString("note");
+	            rs.next();
+	            String workerID = rs.getString("worker_id");
+	            String supervisorID = rs.getString("supervisor_id");
+	            String title = rs.getString("title");
+	            String note = rs.getString("note");
+	            Integer revCount = rs.getInt("revision_count");
+	            Integer score = rs.getInt("score");
+	            Integer isSubmit = rs.getInt("is_submitted");
+	            Timestamp approveAt = rs.getTimestamp("approve_at");
 
-            return new Task(id, UUID.fromString(workerID), UUID.fromString(supervisorID), title, 0, 0, 0, timestamp, note);
+	            return new Task(id, UUID.fromString(supervisorID), UUID.fromString(workerID), title, revCount, score, isSubmit, approveAt, note);
 
-        } 
-        catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+	        } 
+	        catch (SQLException e) {
+	            System.out.println(e.getMessage());
+	        }
 
-        return null;
+	        return null;
 
-    }
+	    }
 	
 	
 	public static Task create(UUID supervisorID, UUID workerID, String title, String note){
