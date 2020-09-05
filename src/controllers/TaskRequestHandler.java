@@ -32,7 +32,6 @@ public class TaskRequestHandler {
 		
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
-			System.out.println("di TaskRequestHandler createTaskRequest");
 			taskReq.save();
 			return taskReq;
 			
@@ -76,7 +75,7 @@ public class TaskRequestHandler {
 		try {
 
 			taskRequest.delete();	
-			NotificationController.createNotification(workerID, supervisor.getUsername()+"has rejected your task request "+taskRequest.getTitle());
+			NotificationController.createNotification(workerID, "Supervisor " + supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
 			JOptionPane.showMessageDialog(null,"Task Rejected!");
 			return taskRequest;
 			
@@ -99,7 +98,7 @@ public class TaskRequestHandler {
 
 			taskRequest.delete();	
 			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getWorkerID(), taskRequest.getSupervisorID(), taskRequest.getNote());
-			NotificationController.createNotification(workerID, supervisor.getUsername()+"has rejected your task request "+taskRequest.getTitle());
+			NotificationController.createNotification(workerID, "Supervisor " + supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
 			JOptionPane.showMessageDialog(null,"Task Accepted!");
 			
 			return taskRequest;

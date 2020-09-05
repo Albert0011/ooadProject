@@ -60,6 +60,8 @@ public class AllTaskDisplay extends JPanel {
 	private JPanel panelWorker;
 	private JPanel mainPanel;
 	
+	private DefaultTableModel model;
+	
 	
 	public AllTaskDisplay(ArrayList<Task> list) {
 		this.setBackground(new Color(175, 238, 238));
@@ -83,10 +85,10 @@ public class AllTaskDisplay extends JPanel {
 			};
 		};
 		
-		DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
+		model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
-		model.addColumn("workerID");
 		model.addColumn("supervisorID");
+		model.addColumn("workerID");
 		model.addColumn("title");
 		model.addColumn("revisionCount");
 		model.addColumn("score");
@@ -94,11 +96,12 @@ public class AllTaskDisplay extends JPanel {
 		model.addColumn("approveAt");
 		model.addColumn("note");
 		
+
 		Object[] row = new Object[9];
 		for(int i=0; i<list.size(); i++) {
 			row[0] = list.get(i).getId();
-			row[1] = list.get(i).getWorkerID();
-			row[2] = list.get(i).getSupervisorID();
+			row[1] = list.get(i).getSupervisorID();
+			row[2] = list.get(i).getWorkerID();
 			row[3] = list.get(i).getTitle();
 			row[4] = list.get(i).getRevisionCount();
 			row[5] = list.get(i).getScore();
@@ -133,8 +136,8 @@ public class AllTaskDisplay extends JPanel {
 				int row = viewAllTable.getSelectedRow();
 				TableModel model = viewAllTable.getModel();
 				String id = (model.getValueAt(row, 0)).toString();
-				String workerID = (model.getValueAt(row, 1)).toString();
-				String supervisorID = (model.getValueAt(row, 2)).toString();
+				String workerID = (model.getValueAt(row, 2)).toString();
+				String supervisorID = (model.getValueAt(row, 1)).toString();
 				String title = (model.getValueAt(row, 3)).toString();
 				String note = (model.getValueAt(row, 8)).toString();
 				idField.setText(id);
@@ -499,6 +502,20 @@ public class AllTaskDisplay extends JPanel {
 	public void setMainPanel(JPanel mainPanel) {
 		this.mainPanel = mainPanel;
 	}
+
+
+
+	public DefaultTableModel getModel() {
+		return model;
+	}
+
+
+
+	public void setModel(DefaultTableModel model) {
+		this.model = model;
+	}
+	
+	
 	
 	
 }

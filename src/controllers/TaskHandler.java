@@ -31,9 +31,9 @@ public class TaskHandler {
 		return th;
 	}
 	
-	public AllTaskDisplay openAllTaskDisplay() throws NoSuchObjectException, SQLException {
+	public AllTaskDisplay openAllTaskDisplay(ArrayList<Task> task) throws NoSuchObjectException, SQLException {
 		
-		ArrayList<Task> task = getAllTask();
+	
 		AllTaskDisplay allTaskDisplay = new AllTaskDisplay(task);
 		
 		String role = Log.getInstance().getCurrentUser().getRole();
@@ -61,7 +61,7 @@ public class TaskHandler {
 							try {
 								TaskHandler.approveTask(UUID.fromString(taskID), score);
 								MainController.getInstance().refreshContent(openUserTaskDisplay());
-							} catch (NoSuchObjectException e2) {
+							} catch (NoSuchObjectException | SQLException e2) {
 								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
@@ -97,7 +97,7 @@ public class TaskHandler {
 						try {
 							TaskHandler.submitTask(UUID.fromString(taskID));
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
-						} catch (NoSuchObjectException e2) {
+						} catch (NoSuchObjectException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
@@ -133,7 +133,7 @@ public class TaskHandler {
 						try {
 							TaskHandler.requestTaskRevision(UUID.fromString(taskID));
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
-						} catch (NoSuchObjectException e2) {
+						} catch (NoSuchObjectException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
@@ -167,10 +167,14 @@ public class TaskHandler {
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
 							TaskHandler.deleteTask(UUID.fromString(taskID));
+							
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 
 							JOptionPane.showMessageDialog(null, "Delete Task Success!! ");
@@ -224,8 +228,26 @@ public class TaskHandler {
 		allTaskDisplay.getBtnSearch().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String query = allTaskDisplay.getSearchField().toString();
+				String query = allTaskDisplay.getSearchField().getText().toString();
+				
 				ArrayList<Task> listTask = searchTask(query);
+				AllTaskDisplay a = new AllTaskDisplay(listTask);
+				
+				try {
+					openUserTaskDisplay().refreshContent(openAllTaskDisplay(listTask));
+				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//				try {
+//					MainController.getInstance().refreshContent(openUserTaskDisplay());
+//				} catch (NoSuchObjectException | SQLException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 				//terus cara update tabel gmn how
 			}
 		
@@ -245,7 +267,7 @@ public class TaskHandler {
 					try {
 						ArrayList<Task> listTask = sortTask(sortBy, sortDir);
 						//terus gimana updatenya ke layar gtw how
-						
+						openUserTaskDisplay().refreshContent(openAllTaskDisplay(listTask));
 						
 					} catch (NoSuchObjectException | SQLException e1) {
 						// TODO Auto-generated catch block
@@ -296,11 +318,11 @@ public class TaskHandler {
 												ut.getNoteField().getText());
 						
 						ut.dispose();
-						
+						ArrayList<Task> task = getAllTask();
 						MainController.getInstance().refreshContent(openUserTaskDisplay());
 						
 						
-					} catch (NoSuchObjectException | NumberFormatException e1) {
+					} catch (NoSuchObjectException | NumberFormatException | SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -321,12 +343,13 @@ public class TaskHandler {
 
 	
 	
-	public UserTaskDisplay openUserTaskDisplay() throws NoSuchObjectException {
+	public UserTaskDisplay openUserTaskDisplay() throws NoSuchObjectException, SQLException {
 		UserTaskDisplay up = new UserTaskDisplay();
 		
+		ArrayList<Task> task = getAllTask();
 		try {
 			
-			up.refreshContent(openAllTaskDisplay());
+			up.refreshContent(openAllTaskDisplay(task));
 		} catch (NoSuchObjectException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -341,8 +364,8 @@ public class TaskHandler {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
-							up.refreshContent(openAllTaskDisplay());
-							MainController.getInstance().refreshContent(up);
+							//up.refreshContent(openAllTaskDisplay(task));
+							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -473,43 +496,52 @@ public class TaskHandler {
 	public static Task submitTask(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
-		String role = Log.getInstance().getCurrentUser().getRole();
-		if(role.equalsIgnoreCase("Worker")){
-			try {
-				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
-				task.update();
-				String message = task.getWorkerID().toString() + " has submitted \"" + task.getTitle() + "\"";
-				NotificationController.createNotification(taskID, message);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
+		String uname = Log.getInstance().getCurrentUser().getUsername();
+	
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
+			task.update();
+			
+			String message = uname + " has submitted \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(task.getSupervisorID(), message);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	
 		return task;
 	}
 	
 	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note) throws NoSuchObjectException{
-		UUID id = Log.getInstance().getCurrentUser().getId();
-		if(id.equals(workerID) || id.equals(supervisorID)){
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
-			task.update();
-			return task;
-		}
-		JOptionPane.showMessageDialog(null, "You aren't the task owner !");
-		return null;
+
+		String uname = Log.getInstance().getCurrentUser().getUsername();
+		
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
+		
+		String message = "Supervisor " +  uname + " has updated information on task \"" + task.getTitle() + "\"";
+		
+		task.update();
+		
+		
+		NotificationController.createNotification(supervisorID, message);
+		NotificationController.createNotification(workerID, message);
+		
+		return task;
 	}
 	
 	public static void deleteTask(UUID taskID) throws NoSuchObjectException{
-		UUID id = Log.getInstance().getCurrentUser().getId();
+		String uname = Log.getInstance().getCurrentUser().getUsername();
 		Task task;
 		try {
 			task = Task.get(taskID);
-			if(id.equals(task.getWorkerID()) || id.equals(task.getSupervisorID())){
-				task.delete();
-			}
-			else{
-				JOptionPane.showMessageDialog(null, "You aren't the task owner !");
-			}
+			task.delete();
+				
+			String message = "Supervisor " +  uname + " has deleted task \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(task.getSupervisorID(), message);
+			NotificationController.createNotification(task.getWorkerID(), message);
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -521,13 +553,16 @@ public class TaskHandler {
 		Task task;
 		task = Task.get(taskID);
 		String role = Log.getInstance().getCurrentUser().getRole();
+		String uname = Log.getInstance().getCurrentUser().getUsername();
+		
 		if(role.equalsIgnoreCase("Supervisor")){
 			try {
 				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
 				task.update();
 				
-				String message = task.getSupervisorID().toString() + " has approved your task \""+ task.getTitle() + "\"" ;
-				NotificationController.createNotification(taskID, message);
+				String message = "Supervisor " +  uname + " has approved your task \"" + task.getTitle() + "\"";
+				NotificationController.createNotification(task.getWorkerID(), message);
+				
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
@@ -538,18 +573,20 @@ public class TaskHandler {
 	public static Task requestTaskRevision(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
-		String role = Log.getInstance().getCurrentUser().getRole();
-		if(role.equalsIgnoreCase("Supervisor")){
-			try {
-				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
-				task.update();
-				
-				String message = task.getSupervisorID().toString() + " has requested you a revision on task \"" + task.getTitle() + "\"";
-				NotificationController.createNotification(taskID, message);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
+		String uname = Log.getInstance().getCurrentUser().getUsername();
+		
+		
+		try {
+			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
+			task.update();
+			
+			String message = "Supervisor " +  uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
+			NotificationController.createNotification(task.getWorkerID(), message);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+		
 		
 		return task;
 	}
