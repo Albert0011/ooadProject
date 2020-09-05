@@ -55,7 +55,7 @@ public class AllTaskDisplay extends JPanel {
 	private JComboBox<String> sortByBox;
 	private JComboBox<String> sortDirBox;
 	
-	private final String[] SORT_BY = {"Sort By","id","title"};
+	private final String[] SORT_BY = {"Sort By","title","approve_at","is_submitted","Supervisor","Worker"};
 	private final String[] SORT_DIR = {"Sort Dir","ASC","DESC"};
 	
 	private JPanel panelSupervisor;

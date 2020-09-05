@@ -48,12 +48,12 @@ public class Task {
 		String type = null;
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
-			queryFinal = "select ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.worker_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
 			type = "supervisor_id";
-			queryFinal = "select ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.supervisor_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		}
@@ -211,8 +211,9 @@ public class Task {
 	public static ArrayList<Task> sort(String sortBy, String sortDir) throws NoSuchObjectException, SQLException {
 		
 		ArrayList<Task> listTask = new ArrayList<Task>();
+	
 		User user = Log.getInstance().getCurrentUser();
-		
+		String query= "";
 		String type = null;
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
@@ -220,7 +221,18 @@ public class Task {
 			type = "supervisor_id";
 		}
 		
-		String query = "select * from tasks where "+type+" = '"+user.getId().toString()+"'"+" order by "+sortBy+" "+sortDir;
+		if(sortBy.equalsIgnoreCase("supervisor") || sortBy.equalsIgnoreCase("worker")) {
+			sortBy = "username";
+			query = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id "
+					+ "where ts."+type+" = '"+user.getId().toString()+"'"+" order by us."+sortBy+" "+sortDir;
+		} else {
+			query = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
+					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id "
+					+ "where ts."+type+" = '"+user.getId().toString()+"'"+" order by case when ts."+sortBy+" is NULL then 0 else ts."+sortBy+" end "+sortDir;
+		}
+		
+//		String query = "select * from tasks where "+type+" = '"+user.getId().toString()+"'"+" order by "+sortBy+" "+sortDir;
 //		System.out.println(query);
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 		ResultSet rs = ps.executeQuery(query);

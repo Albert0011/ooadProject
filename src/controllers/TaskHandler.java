@@ -270,7 +270,6 @@ public class TaskHandler {
 					
 					try {
 						ArrayList<Task> listTask = sortTask(sortBy, sortDir);
-						//terus gimana updatenya ke layar gtw how
 						openUserTaskDisplay().refreshContent(openAllTaskDisplay(listTask));
 						
 					} catch (NoSuchObjectException | SQLException e1) {
