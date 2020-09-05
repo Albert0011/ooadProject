@@ -313,8 +313,8 @@ public class TaskHandler {
 				public void actionPerformed(ActionEvent e) {
 					
 					try {
-						updateTask(UUID.fromString(ut.getTaskIDField().getText()), UUID.fromString(ut.getWorkerIDField().getText()), 
-												UUID.fromString(ut.getSupervisorIDField().getText()), ut.getTitleField().getText(), Integer.parseInt(ut.getScoreField().getText()), 
+						updateTask(UUID.fromString(ut.getTaskIDField().getText()), UUID.fromString(ut.getSupervisorIDField().getText()), 
+												UUID.fromString(ut.getWorkerIDField().getText()), ut.getTitleField().getText(), Integer.parseInt(ut.getScoreField().getText()), 
 												ut.getNoteField().getText());
 						
 						ut.dispose();
@@ -408,7 +408,7 @@ public class TaskHandler {
 					
 				} else {
 					try {
-						TaskHandler.createTask(tf.getTitleField().getText(), UUID.fromString(tf.getWorkerIDField().getText()), UUID.fromString(tf.getSupervisorIDField().getText()), 
+						TaskHandler.createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
 										 tf.getNoteField().getText());
 					} catch (RequestFailedException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
@@ -424,7 +424,7 @@ public class TaskHandler {
 		return tf;
 	}
 
-	public static Task createTask(String title, UUID workerID, UUID supervisorID, String note) throws RequestFailedException, SQLException{
+	public static Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException{
 		if(title.length() < 10){
 			throw new RequestFailedException("Title cannot be less than 15 characters");
 		}
@@ -498,7 +498,7 @@ public class TaskHandler {
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 	
 		try {
-			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
+			task = new Task(taskID, task.getSupervisorID(), task.getWorkerID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
 			task.update();
 			
 			String message = uname + " has submitted \"" + task.getTitle() + "\"";
@@ -574,7 +574,7 @@ public class TaskHandler {
 		
 		
 		try {
-			task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
+			task = new Task(taskID, task.getSupervisorID(), task.getWorkerID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
 			task.update();
 			
 			String message = "Supervisor " +  uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
