@@ -88,24 +88,28 @@ public class TaskScoreForm extends JFrame {
 
 		
 		taskIDField = new JTextField();
+		taskIDField.setEditable(false);
 		taskIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		taskIDField.setColumns(10);
 		taskIDField.setBounds(224, 88, 335, 21);
 		getContentPane().add(taskIDField);
 		
 		workerIDField = new JTextField();
+		workerIDField.setEditable(false);
 		workerIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		workerIDField.setColumns(10);
 		workerIDField.setBounds(223, 121, 335, 21);
 		getContentPane().add(workerIDField);
 		
 		supervisorIDField = new JTextField();
+		supervisorIDField.setEditable(false);
 		supervisorIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		supervisorIDField.setColumns(10);
 		supervisorIDField.setBounds(224, 154, 335, 21);
 		getContentPane().add(supervisorIDField);
 		
 		titleField = new JTextField();
+		titleField.setEditable(false);
 		titleField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		titleField.setColumns(10);
 		titleField.setBounds(224, 183, 335, 21);
