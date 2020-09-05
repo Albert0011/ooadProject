@@ -16,6 +16,7 @@ import models.Task;
 import models.User;
 import views.AllTaskDisplay;
 import views.TaskForm;
+import views.TaskScoreForm;
 import views.UpdateTaskForm;
 import views.UserTaskDisplay;
 
@@ -56,17 +57,15 @@ public class TaskHandler {
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
-							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-							Integer score = 5;//apa ini isinya,kubikin 5 biar ga eror aja wkwk
-							try {
-								TaskHandler.approveTask(UUID.fromString(taskID), score);
-								MainController.getInstance().refreshContent(openUserTaskDisplay());
-							} catch (NoSuchObjectException | SQLException e2) {
-								// TODO Auto-generated catch block
-								e2.printStackTrace();
-							}
+							idTask = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
+							TaskHandler.getInstance().openScoreDisplay();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
-							JOptionPane.showMessageDialog(null, "Approve Task Success!! ");
+//							JOptionPane.showMessageDialog(null, "Approve Task Success!! ");
 							
 						break;
 					case JOptionPane.NO_OPTION:
@@ -296,6 +295,41 @@ public class TaskHandler {
         
 	}
 	
+	public TaskScoreForm openScoreDisplay(){
+		TaskScoreForm ts= new TaskScoreForm();
+		Task task;
+		task = Task.get(UUID.fromString(TaskHandler.getIdTask()));
+		ts.setTaskIDField(task.getId().toString());
+		ts.setSupervisorIDField(task.getSupervisorID().toString());
+		ts.setWorkerIDField(task.getWorkerID().toString());
+		ts.setTitleField(task.getTitle());
+		
+			ts.getBtnSubmit().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						TaskHandler.approveTask(UUID.fromString(TaskHandler.getIdTask()), Integer.parseInt(ts.getScoreField().getText()));
+						ts.dispose();
+						MainController.getInstance().refreshContent(openUserTaskDisplay());
+					} catch (NoSuchObjectException | SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
+				}
+			});
+			
+			ts.getBtnCancel().addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					ts.dispose();
+				}
+			});
+		return ts;
+	}
+	
 	public UpdateTaskForm openUpdateTaskDisplay() throws NoSuchObjectException{
 		UpdateTaskForm ut = new UpdateTaskForm();
 		Task task;
@@ -333,8 +367,7 @@ public class TaskHandler {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					
+					ut.dispose();
 				}
 			});
 		return ut;
