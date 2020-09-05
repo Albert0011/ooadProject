@@ -396,7 +396,7 @@ public class TaskHandler {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
-							//up.refreshContent(openAllTaskDisplay(task));
+							up.refreshContent(openAllTaskDisplay(task));
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
