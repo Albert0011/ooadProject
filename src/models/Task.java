@@ -121,9 +121,8 @@ public class Task {
 	
 	
 	public static Task create(UUID supervisorID, UUID workerID, String title, String note){
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		UUID taskId = UUID.randomUUID();
-		Task task = new Task(taskId, supervisorID, workerID, title, 0, 0, 0, timestamp, note);
+		Task task = new Task(taskId, supervisorID, workerID, title, 0, 0, 0, null, note);
 		
 		return task;
 	}
@@ -140,7 +139,11 @@ public class Task {
 			ps.setString(5, revisionCount.toString());
 			ps.setString(6, score.toString());
 			ps.setString(7, isSubmitted.toString());
-			ps.setString(8, approveAt.toString());
+			if(approveAt == null) {
+				ps.setNull(8, java.sql.Types.DATE);
+			}else {
+				ps.setString(8, approveAt.toString());				
+			}
 			ps.setString(9, note);
 			
 			ps.execute();
@@ -167,20 +170,28 @@ public class Task {
     }
 	
 	public Task update() {
-        String query = "update tasks set supervisor_id = ?, worker_id = ?, title = ?, score = ?, note = ? where id = ?";
+        String query = "update tasks set supervisor_id = ?, worker_id = ?, title = ?, revision_count = ?, score = ?, is_submitted = ?, approved_at = ?,note = ? where id = ?";
         try {
 
             PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
             ps.setString(1, supervisorID.toString());
             ps.setString(2, workerID.toString());
             ps.setString(3, title);
-            ps.setString(4, score.toString());
-            ps.setString(5, note);
-            ps.setString(6, id.toString());
+            ps.setString(4, revisionCount.toString());
+            ps.setString(6, score.toString());
+            ps.setString(4, isSubmitted.toString());
+            if(approveAt == null) {
+				ps.setNull(7, java.sql.Types.DATE);
+			}else {
+				ps.setString(7, approveAt.toString());				
+			}
+            ps.setString(8, note);
+            ps.setString(9, id.toString());
+            
 
             ps.execute();
             JOptionPane.showMessageDialog(null, "Update Task Success!");
-            return new Task(id, supervisorID, workerID, title, 0, score, 0, approveAt, note);
+            return new Task(id, supervisorID, workerID, title, revisionCount, score, isSubmitted, approveAt, note);
         } 
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Update Task Failed!!" +e.getMessage());

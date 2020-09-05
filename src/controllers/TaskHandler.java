@@ -313,12 +313,11 @@ public class TaskHandler {
 				public void actionPerformed(ActionEvent e) {
 					
 					try {
-						TaskHandler.updateTask(UUID.fromString(ut.getTaskIDField().getText()), UUID.fromString(ut.getWorkerIDField().getText()), 
+						updateTask(UUID.fromString(ut.getTaskIDField().getText()), UUID.fromString(ut.getWorkerIDField().getText()), 
 												UUID.fromString(ut.getSupervisorIDField().getText()), ut.getTitleField().getText(), Integer.parseInt(ut.getScoreField().getText()), 
 												ut.getNoteField().getText());
 						
 						ut.dispose();
-						ArrayList<Task> task = getAllTask();
 						MainController.getInstance().refreshContent(openUserTaskDisplay());
 						
 						
@@ -516,9 +515,7 @@ public class TaskHandler {
 
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
-		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Task task = new Task(taskID, workerID, supervisorID, title, 0, score, 0, timestamp, note);
+		Task task = new Task(taskID, supervisorID, workerID, title, Task.get(taskID).getRevisionCount(), score, Task.get(taskID).getIsSubmitted(), Task.get(taskID).getApproveAt(), note);
 		
 		String message = "Supervisor " +  uname + " has updated information on task \"" + task.getTitle() + "\"";
 		
@@ -557,7 +554,7 @@ public class TaskHandler {
 		
 		if(role.equalsIgnoreCase("Supervisor")){
 			try {
-				task = new Task(taskID, task.getWorkerID(), task.getSupervisorID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
+				task = new Task(taskID, task.getSupervisorID(),  task.getWorkerID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
 				task.update();
 				
 				String message = "Supervisor " +  uname + " has approved your task \"" + task.getTitle() + "\"";
