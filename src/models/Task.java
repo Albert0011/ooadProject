@@ -178,8 +178,8 @@ public class Task {
             ps.setString(2, workerID.toString());
             ps.setString(3, title);
             ps.setString(4, revisionCount.toString());
-            ps.setString(6, score.toString());
-            ps.setString(4, isSubmitted.toString());
+            ps.setString(5, score.toString());
+            ps.setString(6, isSubmitted.toString());
             if(approveAt == null) {
 				ps.setNull(7, java.sql.Types.DATE);
 			}else {
