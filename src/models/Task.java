@@ -109,7 +109,7 @@ public class Task {
 	            Integer revCount = rs.getInt("revision_count");
 	            Integer score = rs.getInt("score");
 	            Integer isSubmit = rs.getInt("is_submitted");
-	            Timestamp approveAt = rs.getTimestamp("approve_at");
+	            Timestamp approveAt = rs.getTimestamp("approved_at");
 
 	            return new Task(id, UUID.fromString(supervisorID), UUID.fromString(workerID), title, revCount, score, isSubmit, approveAt, note);
 

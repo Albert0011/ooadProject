@@ -301,8 +301,8 @@ public class TaskHandler {
 		Task task;
 		task = Task.get(UUID.fromString(TaskHandler.getIdTask()));
 		ut.setTaskIDField(task.getId().toString());
-		ut.setWorkerIDField(task.getWorkerID().toString());
 		ut.setSupervisorIDField(task.getSupervisorID().toString());
+		ut.setWorkerIDField(task.getWorkerID().toString());
 		ut.setTitleField(task.getTitle());
 		ut.setScoreField(task.getScore().toString());
 		ut.setNoteField(task.getNote());
@@ -511,7 +511,7 @@ public class TaskHandler {
 		return task;
 	}
 	
-	public static Task updateTask(UUID taskID, UUID workerID, UUID supervisorID, String title,Integer score, String note) throws NoSuchObjectException{
+	public static Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException{
 
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
