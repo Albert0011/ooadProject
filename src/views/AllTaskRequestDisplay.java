@@ -13,10 +13,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.TaskRequest;
+import models.User;
+
 import java.awt.Color;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.border.LineBorder;
@@ -39,7 +42,7 @@ public class AllTaskRequestDisplay extends JPanel {
 	private JTextField titleField;
 	
 
-	public AllTaskRequestDisplay(ArrayList<TaskRequest> list) {
+	public AllTaskRequestDisplay(ArrayList<TaskRequest> list) throws SQLException {
 		
 		this.setBackground(new Color(255, 255, 204));
 		this.setSize(628, 416);
@@ -58,8 +61,8 @@ public class AllTaskRequestDisplay extends JPanel {
 		
 		DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
-		model.addColumn("supervisor_id");
-		model.addColumn("worker_id");
+		model.addColumn("supervisor");
+		model.addColumn("worker");
 		model.addColumn("title");
 		model.addColumn("note");
 	
@@ -67,8 +70,8 @@ public class AllTaskRequestDisplay extends JPanel {
 		Object[] row = new Object[5];
 		for(int i=0; i<list.size(); i++) {
 			row[0] = list.get(i).getId();
-			row[1] = list.get(i).getSupervisorID();
-			row[2] = list.get(i).getWorkerID();
+			row[1] = User.get(list.get(i).getSupervisorID().toString()).getUsername();
+			row[2] = User.get(list.get(i).getWorkerID().toString()).getUsername();
 			row[3] = list.get(i).getTitle();
 			row[4] = list.get(i).getNote();
 			model.addRow(row);

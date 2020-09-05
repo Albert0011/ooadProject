@@ -231,7 +231,12 @@ public class TaskHandler {
 				String query = allTaskDisplay.getSearchField().getText().toString();
 				
 				ArrayList<Task> listTask = searchTask(query);
-				AllTaskDisplay a = new AllTaskDisplay(listTask);
+				try {
+					AllTaskDisplay a = new AllTaskDisplay(listTask);
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 				
 				try {
 					openUserTaskDisplay().refreshContent(openAllTaskDisplay(listTask));
@@ -347,7 +352,6 @@ public class TaskHandler {
 		
 		ArrayList<Task> task = getAllTask();
 		try {
-			
 			up.refreshContent(openAllTaskDisplay(task));
 		} catch (NoSuchObjectException e1) {
 			// TODO Auto-generated catch block

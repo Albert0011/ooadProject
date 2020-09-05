@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import models.Task;
+import models.User;
 
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -63,7 +65,7 @@ public class AllTaskDisplay extends JPanel {
 	private DefaultTableModel model;
 	
 	
-	public AllTaskDisplay(ArrayList<Task> list) {
+	public AllTaskDisplay(ArrayList<Task> list) throws SQLException {
 		this.setBackground(new Color(175, 238, 238));
 		this.setSize(628, 376);
 		this.setLayout(null);
@@ -87,8 +89,8 @@ public class AllTaskDisplay extends JPanel {
 		
 		model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
-		model.addColumn("supervisorID");
-		model.addColumn("workerID");
+		model.addColumn("supervisor");
+		model.addColumn("worker");
 		model.addColumn("title");
 		model.addColumn("revisionCount");
 		model.addColumn("score");
@@ -100,8 +102,8 @@ public class AllTaskDisplay extends JPanel {
 		Object[] row = new Object[9];
 		for(int i=0; i<list.size(); i++) {
 			row[0] = list.get(i).getId();
-			row[1] = list.get(i).getSupervisorID();
-			row[2] = list.get(i).getWorkerID();
+			row[1] = User.get(list.get(i).getSupervisorID().toString()).getUsername();
+			row[2] = User.get(list.get(i).getWorkerID().toString()).getUsername();
 			row[3] = list.get(i).getTitle();
 			row[4] = list.get(i).getRevisionCount();
 			row[5] = list.get(i).getScore();
