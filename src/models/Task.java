@@ -136,9 +136,9 @@ public class Task {
 		return task;
 	}
 	
-	public Task save(){
+	public Task save() throws SQLException{
 		String query = "insert into tasks values (?,?,?,?,?,?,?,?,?)";
-		try {
+		
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
 			ps.setString(1, id.toString());
@@ -156,11 +156,10 @@ public class Task {
 			ps.setString(9, note);
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Add task Success!!");			
-		} 
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Add task Failed!! "+e.getMessage());
-		}
+			//JOptionPane.showMessageDialog(null, "Add task Success!!");			
+		
+			//JOptionPane.showMessageDialog(null, "Add task Failed!! "+e.getMessage());
+		
 		return this;
 	}
 	

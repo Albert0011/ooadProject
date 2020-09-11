@@ -103,7 +103,6 @@ public class UserController {
 						
 						try {
 							MainController.getInstance().refreshContent(up);
-							
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -165,6 +164,7 @@ public class UserController {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						try {
 							UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
+							JOptionPane.showMessageDialog(null, "Create User Success!");
 						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -176,6 +176,7 @@ public class UserController {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Date is not valid!");
@@ -311,6 +312,7 @@ public class UserController {
 					case JOptionPane.YES_OPTION:
 						try {
 							UserController.changePassword(oldPass, newPass);
+							JOptionPane.showMessageDialog(null, "Change password Success!!");
 							cp.emptyPassField();
 
 						} catch (NoSuchObjectException e1) {
@@ -358,6 +360,9 @@ public class UserController {
 					JOptionPane.showMessageDialog(null, "Please Complete All Data");
 				
 				}
+				else if (up.getUnameField().getText().length() < 5 || up.getUnameField().getText().length() > 15 || up.getAddrField().getText().length() < 10 || up.getAddrField().getText().length()>100 || up.getTelpField().getText().length()<10 || up.getTelpField().getText().length()>13) {
+					JOptionPane.showMessageDialog(null, "data not valid!! ");
+				}
 				else {
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to update your profile?");
 					switch (jawab) {
@@ -370,17 +375,13 @@ public class UserController {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
 							try {
 								UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
-								
+								JOptionPane.showMessageDialog(null, "Update profile success!");
 								up.emptyUpdateField();
 
 							} catch (NoSuchObjectException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
-							//MainController.getInstance().supervisorRefreshContent(openUpdateProfileForm());
-							
-							JOptionPane.showMessageDialog(null, "Update profile success!");
 							
 						}
 						else {
@@ -414,6 +415,7 @@ public class UserController {
 		try {
 			
 			user = User.getBy(uname, SHA1Encryption.SHA1(pass));
+			//user = User.getBy(uname, pass);
 			Log.createLog(user);
 			
 			JOptionPane.showMessageDialog(null, "Login success!");
@@ -523,7 +525,7 @@ public class UserController {
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
 			updateUser(user);
-			JOptionPane.showMessageDialog(null, "Change password Success!!");
+			
 			return user;
 		}
 		else {
@@ -534,11 +536,9 @@ public class UserController {
 	
 	public static User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
 
-		User user = Log.getInstance().getCurrentUser();
 		
-//		java.sql.Date date= new java.sql.Date(DOB.getTime());
-//		String defaultPassword = date.toString();
-//		user.setPassword(defaultPassword);
+		
+		User user = Log.getInstance().getCurrentUser();
 		user.setUsername(username);
 		user.setDOB(DOB);
 		user.setAddress(address);

@@ -56,7 +56,7 @@ public class NotificationController {
 			notification.save();
 			return notification;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Create Notification Failed!! "+e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
 		}
 	}

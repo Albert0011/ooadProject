@@ -470,6 +470,7 @@ public class TaskHandler {
 					try {
 						TaskHandler.createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
 										 tf.getNoteField().getText());
+						JOptionPane.showMessageDialog(null, "Create Task Success!");
 					} catch (RequestFailedException | SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}

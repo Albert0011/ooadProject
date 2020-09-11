@@ -80,6 +80,7 @@ public class User {
 		UUID userId = UUID.randomUUID();
 		java.sql.Date date= new java.sql.Date(dob.getTime());
 		String password = SHA1Encryption.SHA1(date.toString());
+		//String password = date.toString();
 		
 		User user = new User(userId, username, password, role, address, date, telp);
 		return user;
@@ -176,6 +177,7 @@ public class User {
 
 	public void setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		this.password = SHA1Encryption.SHA1(password);
+		//this.password = password;
 	}
 
 

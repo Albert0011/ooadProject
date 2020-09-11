@@ -57,7 +57,7 @@ public class TaskRequest {
 		
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-//			ps.setString(1, id.toString());
+
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -78,10 +78,10 @@ public class TaskRequest {
 		
 	}
 	
-	public TaskRequest save() {
+	public TaskRequest save() throws SQLException {
 		String query = "insert into task_requests values (?,?,?,?,?)";
 
-		try {
+		
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 			
 			ps.setString(1, id.toString());
@@ -91,13 +91,10 @@ public class TaskRequest {
 			ps.setString(5, note);
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Create Task Request Success!");
+			
 			return new TaskRequest(id, workerID, supervisorID, title, note);
-		}
-		catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Add Task Request Failed! "+e.getMessage());
-		}
-		return null;
+		
+		
 	}
 
 	public TaskRequest update() {
@@ -128,7 +125,7 @@ public class TaskRequest {
 			ps.setString(1, this.id.toString());
 			
 			ps.execute();
-			JOptionPane.showMessageDialog(null, "Delete Task Request Success!!");			
+						
 		} 
 		catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Delete Task Request Failed!! "+e.getMessage());
