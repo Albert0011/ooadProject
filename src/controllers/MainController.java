@@ -74,6 +74,17 @@ public class MainController {
 				adminHomepage.refreshContent(UserController.getInstance().openCreateUserDisplay());
 			}
 		});
+		
+		adminHomepage.getLogoutBtn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminHomepage.dispose();
+				displayLogin();
+				
+			}
+		});
+		
 		return adminHomepage;
 	}
 	
@@ -140,6 +151,16 @@ public class MainController {
 			}
 		});
 		
+		supervisorHomepage.getLogoutBtn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				supervisorHomepage.dispose();
+				displayLogin();
+				
+			}
+		});
+		
 		return supervisorHomepage;
 	}
 	
@@ -188,6 +209,17 @@ public class MainController {
 			}
 		});
 		
+		
+		workerHomepage.getLogoutBtn().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				workerHomepage.dispose();
+				displayLogin();
+				
+			}
+		});
+		
 		return workerHomepage;
 	}
 	
@@ -206,14 +238,18 @@ public class MainController {
 	
 	public void refreshContent(JPanel panel) throws NoSuchObjectException {
 		User user = Log.getInstance().getCurrentUser();
-		
+//		System.out.println("masuk");
 		if(user.getRole().equalsIgnoreCase("Admin")) {
 			adminHomepage.refreshContent(panel);			
+//			System.out.println("admin homepage");
 		} else if(user.getRole().equalsIgnoreCase("Worker")) {
 			workerHomepage.refreshContent(panel);
+//			System.out.println("worker homepage");
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")) {
 			supervisorHomepage.refreshContent(panel);
+//			System.out.println("superv homepage");
 		} else {
+//			System.out.println("gagal cok");
 		}
 		
 	}

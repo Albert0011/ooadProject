@@ -25,6 +25,7 @@ public class AdminHomepage extends JFrame {
 	public JButton btnViewAllUser;
 	public JPanel menuPanel;
 	public JPanel mainPanel;
+	private JButton logoutBtn;
 
 	public AdminHomepage() {
 		
@@ -90,6 +91,13 @@ public class AdminHomepage extends JFrame {
 		topPanel.setBackground(new Color(255, 255, 255));
 		topPanel.setBounds(179, 0, 628, 42);
 		contentPane.add(topPanel);
+		topPanel.setLayout(null);
+		
+		logoutBtn = new JButton("Logout");
+		logoutBtn.setForeground(new Color(255, 255, 255));
+		logoutBtn.setBackground(new Color(0, 0, 128));
+		logoutBtn.setBounds(531, 11, 80, 23);
+		topPanel.add(logoutBtn);
 		
 		
 		JLabel titleLable = new JLabel("Admin Homepage");
@@ -112,4 +120,14 @@ public class AdminHomepage extends JFrame {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}
+
+	public JButton getLogoutBtn() {
+		return logoutBtn;
+	}
+
+	public void setLogoutBtn(JButton logoutBtn) {
+		this.logoutBtn = logoutBtn;
+	}
+	
+	
 }

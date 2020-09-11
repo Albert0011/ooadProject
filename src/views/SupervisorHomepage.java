@@ -30,6 +30,7 @@ public class SupervisorHomepage extends JFrame {
 	private JButton profileBtn;
 	private JButton taskReqBtn;
 	private JButton notifBtn;
+	private JButton logoutBtn;
 
 	public SupervisorHomepage() {
 		
@@ -109,6 +110,13 @@ public class SupervisorHomepage extends JFrame {
 		topPanel.setBackground(new Color(255, 255, 255));
 		topPanel.setBounds(179, 0, 628, 42);
 		contentPane.add(topPanel);
+		topPanel.setLayout(null);
+		
+		logoutBtn = new JButton("Logout");
+		logoutBtn.setForeground(new Color(255, 255, 255));
+		logoutBtn.setBackground(new Color(0, 0, 128));
+		logoutBtn.setBounds(531, 11, 80, 23);
+		topPanel.add(logoutBtn);
 
 		getContentPane().add(contentPane);
 		
@@ -188,6 +196,15 @@ public class SupervisorHomepage extends JFrame {
 		this.mainPanel = mainPanel;
 	}
 
+	public JButton getLogoutBtn() {
+		return logoutBtn;
+	}
+
+	public void setLogoutBtn(JButton logoutBtn) {
+		this.logoutBtn = logoutBtn;
+	}
+
+	
 	
 }
 

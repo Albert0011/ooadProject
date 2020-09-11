@@ -27,6 +27,7 @@ public class WorkerHomepage extends JFrame {
 	private JPanel mainPanel;
 	private JPanel titlePanel;
 	private JButton notifBtn;
+	private JButton logoutBtn;
 
 	public WorkerHomepage() {
 		
@@ -99,6 +100,13 @@ public class WorkerHomepage extends JFrame {
 		topPanel.setBackground(new Color(255, 255, 255));
 		topPanel.setBounds(179, 0, 628, 42);
 		contentPane.add(topPanel);
+		topPanel.setLayout(null);
+		
+		logoutBtn = new JButton("Logout");
+		logoutBtn.setForeground(new Color(255, 255, 255));
+		logoutBtn.setBackground(new Color(0, 0, 128));
+		logoutBtn.setBounds(531, 11, 80, 23);
+		topPanel.add(logoutBtn);
 
 		getContentPane().add(contentPane);
 		
@@ -150,6 +158,14 @@ public class WorkerHomepage extends JFrame {
 
 	public void setNotifBtn(JButton notifBtn) {
 		this.notifBtn = notifBtn;
+	}
+
+	public JButton getLogoutBtn() {
+		return logoutBtn;
+	}
+
+	public void setLogoutBtn(JButton logoutBtn) {
+		this.logoutBtn = logoutBtn;
 	}
 	
 	
