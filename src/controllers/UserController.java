@@ -3,7 +3,9 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
 import java.rmi.NoSuchObjectException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
 import helpers.Log;
+import helpers.SHA1Encryption;
 import models.User;
 import views.AllUserDisplay;
 import views.ChangePasswordForm;
@@ -21,21 +24,17 @@ import views.UpdateProfileForm;
 import views.UserProfileDisplay;
 public class UserController {
 
-	private static UserController uc;
-	
-	public UserController() {
-		
-	}
+	private static UserController userController;
 	
 	public static final int[] JUMLAHHARI = {
 			31,28,31,30,31,30,31,31,30,31,30,31
 	};
 
 	public static UserController getInstance() {
-		if(uc == null) {
-			uc = new UserController();
+		if(userController == null) {
+			userController = new UserController();
 		}
-		return uc;
+		return userController;
 	}
 	
 	
@@ -164,7 +163,12 @@ public class UserController {
 					
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
-						UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());		
+						try {
+							UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
+						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}		
 						
 						try {
 							MainController.getInstance().refreshContent(openCreateUserDisplay());
@@ -246,7 +250,12 @@ public class UserController {
 					case JOptionPane.YES_OPTION:
 						int row = allUserDisplay.getViewAllTable().getSelectedRow();
 						String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
+						try {
 							UserController.resetPassword(userId);
+						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
 							
 						try {
 							MainController.getInstance().refreshContent(openAllUserDisplay());
@@ -305,6 +314,12 @@ public class UserController {
 							cp.emptyPassField();
 
 						} catch (NoSuchObjectException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (NoSuchAlgorithmException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}	
@@ -393,12 +408,12 @@ public class UserController {
 		return up;
 	}
 	
-	public User getUserBy(String uname, String pass) throws NoSuchObjectException {
+	public User getUserBy(String uname, String pass) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		User user;
 		
 		try {
 			
-			user = User.getBy(uname, pass);
+			user = User.getBy(uname, SHA1Encryption.SHA1(pass));
 			Log.createLog(user);
 			
 			JOptionPane.showMessageDialog(null, "Login success!");
@@ -454,7 +469,7 @@ public class UserController {
 		return user;
 	}
 	
-	public static User createUser(String username, String role, Date DOB, String address, String telp) {
+	public static User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 	
 		if(username.length() < 5 || username.length() > 15 || address.length() < 10 || 
 				address.length()>100 || telp.length()<10 || telp.length()>13) {
@@ -487,7 +502,7 @@ public class UserController {
 		}
 	}
 	
-	public static User resetPassword(String id) {
+	public static User resetPassword(String id) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		User user = getUser(id);
 		
 		java.sql.Date date= new java.sql.Date(user.getDOB().getTime());
@@ -499,10 +514,12 @@ public class UserController {
 		return user;
 	}
 	
-	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException {
+	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		User user = Log.getInstance().getCurrentUser();
-			
+		
+		oldPassword = SHA1Encryption.SHA1(oldPassword);
+		
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
 			updateUser(user);
@@ -519,9 +536,9 @@ public class UserController {
 
 		User user = Log.getInstance().getCurrentUser();
 		
-		java.sql.Date date= new java.sql.Date(DOB.getTime());
-		String defaultPassword = date.toString();
-		user.setPassword(defaultPassword);
+//		java.sql.Date date= new java.sql.Date(DOB.getTime());
+//		String defaultPassword = date.toString();
+//		user.setPassword(defaultPassword);
 		user.setUsername(username);
 		user.setDOB(DOB);
 		user.setAddress(address);

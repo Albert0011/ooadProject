@@ -2,7 +2,9 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
 import java.rmi.NoSuchObjectException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.JPanel;
@@ -24,16 +26,9 @@ public class MainController {
 	private static SupervisorHomepage supervisorHomepage;
 	private static WorkerHomepage workerHomepage;
 	
-	
-	public MainController() {
-		
-		
-	}
-	
 	public static MainController getInstance() {
 		if(mainController == null) {
 			mainController = new MainController();
-			
 		}
 		return mainController;
 	}
@@ -48,6 +43,12 @@ public class MainController {
 				try {
 					UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText());
 				} catch (NoSuchObjectException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (UnsupportedEncodingException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}		
@@ -109,15 +110,14 @@ public class MainController {
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				try {
 					supervisorHomepage.refreshContent(TaskHandler.getInstance().openUserTaskDisplay());
-				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
+				} catch (NoSuchObjectException | SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
 			}
 		});
 		

@@ -16,6 +16,16 @@ import models.User;
 import views.NotificationHistoryDisplay;
 
 public class NotificationController {
+	
+	private static NotificationController notificationController;
+	
+	public static NotificationController getInstance() {
+		if(notificationController == null) {
+			notificationController = new NotificationController();
+			
+		}
+		return notificationController;
+	}
 
 	public static NotificationHistoryDisplay openNotificationDisplay() throws NoSuchObjectException {
 		

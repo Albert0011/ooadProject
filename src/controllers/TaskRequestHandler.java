@@ -18,14 +18,14 @@ import views.AllTaskRequestDisplay;
 
 public class TaskRequestHandler {
 	
-	private static TaskRequestHandler trh;
+	private static TaskRequestHandler taskRequestHandler;
 	
 	
 	public static TaskRequestHandler getInstance() {
-		if(trh == null) {
-			trh = new TaskRequestHandler();
+		if(taskRequestHandler == null) {
+			taskRequestHandler = new TaskRequestHandler();
 		}
-		return trh;
+		return taskRequestHandler;
 	}
 
 	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {

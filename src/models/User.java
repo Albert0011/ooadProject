@@ -1,5 +1,7 @@
 package models;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.UUID;
 
 import com.mysql.jdbc.PreparedStatement;
 import connection.Connector;
+import helpers.SHA1Encryption;
 
 public class User {
 	
@@ -73,10 +76,10 @@ public class User {
 	}
 	
 	
-	public static User create(String username, String role, Date dob, String address, String telp) {
+	public static User create(String username, String role, Date dob, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		UUID userId = UUID.randomUUID();
 		java.sql.Date date= new java.sql.Date(dob.getTime());
-		String password = date.toString();
+		String password = SHA1Encryption.SHA1(date.toString());
 		
 		User user = new User(userId, username, password, role, address, date, telp);
 		return user;
@@ -86,6 +89,7 @@ public class User {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		
 		
 		ps.setString(1, id.toString());
 		ps.setString(2, username);
@@ -170,8 +174,8 @@ public class User {
 
 
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		this.password = SHA1Encryption.SHA1(password);
 	}
 
 

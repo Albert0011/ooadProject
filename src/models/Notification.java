@@ -73,7 +73,7 @@ public class Notification {
 	public static ArrayList<Notification> getAll(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
 		
-		String query = "select * from notifications where user_id = '"+userID.toString()+"'";
+		String query = "select * from notifications where user_id = '"+userID.toString()+"' order by read_at asc";
 		
 		try {
 			PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);

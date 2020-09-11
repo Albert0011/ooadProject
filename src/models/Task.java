@@ -59,7 +59,7 @@ public class Task {
 		}
 		
 		
-		System.out.println(queryFinal);
+//		System.out.println(queryFinal);
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 		ResultSet rs = ps.executeQuery(queryFinal);
 		Task task;
@@ -82,7 +82,7 @@ public class Task {
 			type = "supervisor_id";
 		}
 		
-		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'";
+		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'"+" order by is_submitted asc";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 //		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
