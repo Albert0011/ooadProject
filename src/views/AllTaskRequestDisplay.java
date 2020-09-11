@@ -105,11 +105,11 @@ public class AllTaskRequestDisplay extends JPanel {
 		lblTitle.setBounds(428, 193, 63, 14);
 		add(lblTitle);
 		
-		JLabel lblWorkerID = new JLabel("Worker ID");
+		JLabel lblWorkerID = new JLabel("Worker");
 		lblWorkerID.setBounds(428, 148, 63, 14);
 		add(lblWorkerID);
 		
-		JLabel lblSupervisorID = new JLabel("Supervisor ID");
+		JLabel lblSupervisorID = new JLabel("Supervisor");
 		lblSupervisorID.setBounds(428, 103, 80, 14);
 		add(lblSupervisorID);
 		

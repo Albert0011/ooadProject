@@ -76,7 +76,7 @@ public class TaskRequestHandler {
 		try {
 
 			taskRequest.delete();	
-			NotificationController.createNotification(workerID, "Supervisor " + supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
+			NotificationController.createNotification(workerID, supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
 			
 			return taskRequest;
 			
@@ -99,7 +99,7 @@ public class TaskRequestHandler {
 
 			taskRequest.delete();	
 			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getSupervisorID(), taskRequest.getWorkerID(), taskRequest.getNote());
-			NotificationController.createNotification(workerID, "Supervisor " + supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
+			NotificationController.createNotification(workerID, supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
 			
 			return taskRequest;
 			
@@ -181,7 +181,6 @@ public class TaskRequestHandler {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-							JOptionPane.showMessageDialog(null, "Accept Task Request Success!! ");
 							
 						break;
 					case JOptionPane.NO_OPTION:

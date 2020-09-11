@@ -499,7 +499,7 @@ public class TaskHandler {
 			if(role.equalsIgnoreCase("Supervisor")) {
 				task = Task.create(supervisorID, workerID, title, note);
 				task.save();
-				message = "Supervisor " + uname + " has assigned you a new task \"" + title + "\"";
+				message = uname + " has assigned you a new task \"" + title + "\"";
 				NotificationController.createNotification(workerID, message);
 			}
 			else {
@@ -575,10 +575,9 @@ public class TaskHandler {
 		
 		Task task = new Task(taskID, supervisorID, workerID, title, Task.get(taskID).getRevisionCount(), score, Task.get(taskID).getIsSubmitted(), Task.get(taskID).getApproveAt(), note);
 		
-		String message = "Supervisor " +  uname + " has updated information on task \"" + task.getTitle() + "\"";
+		String message = uname + " has updated information on task \"" + task.getTitle() + "\"";
 		
 		task.update();
-		
 		
 		NotificationController.createNotification(supervisorID, message);
 		NotificationController.createNotification(workerID, message);
@@ -593,7 +592,8 @@ public class TaskHandler {
 			task = Task.get(taskID);
 			task.delete();
 				
-			String message = "Supervisor " +  uname + " has deleted task \"" + task.getTitle() + "\"";
+			String message = uname + " has deleted task \"" + task.getTitle() + "\"";
+			
 			NotificationController.createNotification(task.getSupervisorID(), message);
 			NotificationController.createNotification(task.getWorkerID(), message);
 
@@ -615,7 +615,7 @@ public class TaskHandler {
 				task = new Task(taskID, task.getSupervisorID(),  task.getWorkerID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
 				task.update();
 				
-				String message = "Supervisor " +  uname + " has approved your task \"" + task.getTitle() + "\"";
+				String message = uname + " has approved your task \"" + task.getTitle() + "\"";
 				NotificationController.createNotification(task.getWorkerID(), message);
 				
 			} catch (Exception e) {
@@ -635,7 +635,7 @@ public class TaskHandler {
 			task = new Task(taskID, task.getSupervisorID(), task.getWorkerID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
 			task.update();
 			
-			String message = "Supervisor " +  uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
+			String message = uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
 			NotificationController.createNotification(task.getWorkerID(), message);
 			
 		} catch (Exception e) {

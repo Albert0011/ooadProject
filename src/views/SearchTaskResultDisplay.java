@@ -133,7 +133,7 @@ private static final long serialVersionUID = 1L;
 		
 		JLabel searchTaskResultLabel = new JLabel("Search Task Result");
 		searchTaskResultLabel.setFont(new Font("Malgun Gothic", Font.BOLD, 21));
-		searchTaskResultLabel.setBounds(268, 23, 207, 37);
+		searchTaskResultLabel.setBounds(10, 21, 207, 37);
 		mainPanel.add(searchTaskResultLabel);
 		
 		noteField = new JTextField();
@@ -162,7 +162,7 @@ private static final long serialVersionUID = 1L;
 		supervisorIDField.setEditable(false);
 		supervisorIDField.setColumns(10);
 		
-		JLabel supervisorID_1 = new JLabel("supervisor_id");
+		JLabel supervisorID_1 = new JLabel("supervisor");
 		supervisorID_1.setBounds(429, 156, 83, 14);
 		mainPanel.add(supervisorID_1);
 		
@@ -173,7 +173,7 @@ private static final long serialVersionUID = 1L;
 		workerIDField.setEditable(false);
 		workerIDField.setColumns(10);
 		
-		JLabel workerID_1 = new JLabel("worker_id");
+		JLabel workerID_1 = new JLabel("worker");
 		workerID_1.setBounds(429, 116, 63, 14);
 		mainPanel.add(workerID_1);
 		

@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.rmi.NoSuchObjectException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -168,6 +169,9 @@ public class UserController {
 						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
+						} catch (NoSuchObjectException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}		
 						
 						try {
@@ -471,18 +475,75 @@ public class UserController {
 		return user;
 	}
 	
-	public static User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public static User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchObjectException {
 	
-		if(username.length() < 5 || username.length() > 15 || address.length() < 10 || 
-				address.length()>100 || telp.length()<10 || telp.length()>13) {
-			JOptionPane.showMessageDialog(null, "data not valid!! ");
-			return null;
+		if(validateUsername(username) == false) {
+			throw new IllegalArgumentException("Username has been taken!");
+		} else if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length must be between 5-15 characters length!");
+		} else if(validateDOB(DOB) == false) {
+			throw new IllegalArgumentException("Date of Birth must be in the past!");
+		} else if(validateAddressLength(address) == false) { 
+			throw new IllegalArgumentException("Address length must be 10-100 characters!");
+		} else if(validateTelp(telp) == false) {
+			throw new IllegalArgumentException("Phone number is not valid!");
 		}
 		
 		User user = User.create(username, role, DOB, address, telp);
 		return saveUser(user);
 	}
 	
+	private static boolean validateTelp(String telp) {
+		if(telp.length()>=10 || telp.length()<=13) {
+			if(telp.matches("\\d{10}")) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+
+
+	private static boolean validateAddressLength(String address) {
+		if(address.length()>=10 && address.length()<=100) {
+			 return true;
+		}
+		return false;
+	}
+
+
+	private static boolean validateDOB(Date DOB) {
+		java.sql.Date currentDate = java.sql.Date.valueOf(LocalDate.now());
+		if(DOB.before(currentDate) == true) {
+			return true;
+		}
+		return false;
+	}
+
+
+	private static boolean validateUsernameLength(String username) {
+		if(username.length()>=5 && username.length()<=15) {
+			 return true;
+		}
+		return false;
+	}
+
+
+	private static boolean validateUsername(String username) throws NoSuchObjectException {
+		User currentUser = Log.getInstance().getCurrentUser();
+		
+		ArrayList<User> userList = getAllUser();
+		for(User user: userList) {
+			if(user.getUsername().equals(username) && user.getId().equals(currentUser.getId()) == false) {
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
+
+
 	public static ArrayList<User> getAllUser(){
 		ArrayList<User> user = null;
 		try {

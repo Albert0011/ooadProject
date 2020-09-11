@@ -47,7 +47,7 @@ public class NotificationHistoryDisplay extends JPanel {
 		headerPanel.add(readAllButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 61, 608, 344);
+		scrollPane.setBounds(20, 61, 608, 344);
 		add(scrollPane);
 		
 		notificationTable = new JTable(){
@@ -62,7 +62,7 @@ public class NotificationHistoryDisplay extends JPanel {
 		model.addColumn("Message");
 		model.addColumn("Read At");
 		
-		Object[] row = new Object[7];
+		Object[] row = new Object[3];
 		for(int i=0; i<listNotification.size(); i++) {
 			row[0] = listNotification.get(i).getMessage();
 			row[1] = listNotification.get(i).getReadAt();

@@ -21,7 +21,6 @@ public class TaskForm extends JPanel {
 	private JTextArea supervisorIDField;
 	private JTextArea workerIDField;
 	private JTextArea noteField;
-	private JButton backButton;
 	private JButton createTaskForm;
 
 	public TaskForm() {
@@ -31,7 +30,7 @@ public class TaskForm extends JPanel {
 
 		JLabel titleTaskForm = new JLabel("Create New Task Form");
 		titleTaskForm.setHorizontalAlignment(SwingConstants.CENTER);
-		titleTaskForm.setFont(new Font("Comic Sans MS", Font.BOLD, 30));
+		titleTaskForm.setFont(new Font("Segoe UI", Font.BOLD, 30));
 		titleTaskForm.setBounds(41, 11, 561, 70);
 		add(titleTaskForm);
 		
@@ -90,20 +89,11 @@ public class TaskForm extends JPanel {
 		noteField.setBounds(266, 220, 277, 100);
 		add(noteField);
 
-		// button
-
-		// back
-		backButton = new JButton("Back");
-		backButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		backButton.setBackground(new Color(255, 255, 255));
-		backButton.setBounds(266, 343, 85, 35);
-		add(backButton);
-
 		// create
 		createTaskForm = new JButton("Create Task");
 		createTaskForm.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createTaskForm.setBackground(new Color(255, 255, 255));
-		createTaskForm.setBounds(423, 343, 120, 35);
+		createTaskForm.setBounds(263, 345, 280, 35);
 		add(createTaskForm);
 
 		this.setVisible(true);
@@ -141,13 +131,6 @@ public class TaskForm extends JPanel {
 		this.noteField = noteField;
 	}
 
-	public JButton getBackButton() {
-		return backButton;
-	}
-
-	public void setBackButton(JButton backButton) {
-		this.backButton = backButton;
-	}
 
 	public JButton getCreateTaskForm() {
 		return createTaskForm;
