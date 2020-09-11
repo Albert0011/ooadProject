@@ -484,7 +484,7 @@ public class UserController {
 			throw new IllegalArgumentException("Date of Birth must be in the past!");
 		} else if(validateAddressLength(address) == false) { 
 			throw new IllegalArgumentException("Address length must be 10-100 characters!");
-		} else if(validateTelp(telp) == false) {
+		} else if(validateTelephone(telp) == false) {
 			throw new IllegalArgumentException("Phone number is not valid!");
 		}
 		
@@ -492,7 +492,7 @@ public class UserController {
 		return saveUser(user);
 	}
 	
-	private static boolean validateTelp(String telp) {
+	private static boolean validateTelephone(String telp) {
 		if(telp.length()>=10 || telp.length()<=13) {
 			if(telp.matches("\\d{10}")) {
 				return true;
@@ -608,7 +608,7 @@ public class UserController {
 			throw new IllegalArgumentException("Date of Birth must be in the past!");
 		} else if(validateAddressLength(address) == false) { 
 			throw new IllegalArgumentException("Address length must be 10-100 characters!");
-		} else if(validateTelp(telp) == false) {
+		} else if(validateTelephone(telp) == false) {
 			throw new IllegalArgumentException("Phone number is not valid!");
 		}
 		

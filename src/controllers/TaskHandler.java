@@ -613,8 +613,14 @@ public class TaskHandler {
 	}
 	
 	private static boolean validateScore(Integer score) {
-		// TODO Auto-generated method stub
+		
+		if(score.toString().matches("\\d{10}")) {
+			if(score >=1 && score<=100) {
+				return true;
+			}
+		}
 		return false;
+		
 	}
 
 	public static void deleteTask(UUID taskID) throws NoSuchObjectException{
