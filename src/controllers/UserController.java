@@ -419,7 +419,6 @@ public class UserController {
 		try {
 			
 			user = User.getBy(uname, SHA1Encryption.SHA1(pass));
-			//user = User.getBy(uname, pass);
 			Log.createLog(user);
 			
 			JOptionPane.showMessageDialog(null, "Login success!");
@@ -600,6 +599,19 @@ public class UserController {
 		
 		
 		User user = Log.getInstance().getCurrentUser();
+		
+		if(validateUsername(username) == false) {
+			throw new IllegalArgumentException("Username has been taken!");
+		} else if(validateUsernameLength(username) == false) {
+			throw new IllegalArgumentException("Username length must be between 5-15 characters length!");
+		} else if(validateDOB(DOB) == false) {
+			throw new IllegalArgumentException("Date of Birth must be in the past!");
+		} else if(validateAddressLength(address) == false) { 
+			throw new IllegalArgumentException("Address length must be 10-100 characters!");
+		} else if(validateTelp(telp) == false) {
+			throw new IllegalArgumentException("Phone number is not valid!");
+		}
+		
 		user.setUsername(username);
 		user.setDOB(DOB);
 		user.setAddress(address);

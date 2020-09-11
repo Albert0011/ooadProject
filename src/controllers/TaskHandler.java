@@ -325,6 +325,7 @@ public class TaskHandler {
 		ts.setWorkerIDField(task.getWorkerID().toString());
 		ts.setTitleField(task.getTitle());
 		
+		
 			ts.getBtnSubmit().addActionListener(new ActionListener() {
 				
 				@Override
@@ -486,9 +487,13 @@ public class TaskHandler {
 	}
 
 	public static Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException{
-		if(title.length() < 10){
-			throw new RequestFailedException("Title cannot be less than 15 characters");
-		}
+		
+		if(validateTitle(title) == false) {
+			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
+		} else if(validateNote(note) == false) {
+			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
+		} 
+		
 
 		Task task = null;
 
@@ -517,6 +522,20 @@ public class TaskHandler {
 	}
 	
 	
+	private static boolean validateNote(String note) {
+		if(note.length()>=0 && note.length()<=50) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean validateTitle(String title) {
+		if(title.length()>=5 && title.length()<=20) {
+			return true;
+		}
+		return false;
+	}
+
 	public static ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
         
@@ -571,6 +590,14 @@ public class TaskHandler {
 	
 	public static Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException{
 
+		if(validateTitle(title) == false) {
+			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
+		} else if(validateNote(note) == false) {
+			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
+		} else if(validateScore(score) == false) {
+			throw new IllegalArgumentException("Score must be between 1-100!");
+		} 
+		
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
 		Task task = new Task(taskID, supervisorID, workerID, title, Task.get(taskID).getRevisionCount(), score, Task.get(taskID).getIsSubmitted(), Task.get(taskID).getApproveAt(), note);
@@ -585,6 +612,11 @@ public class TaskHandler {
 		return task;
 	}
 	
+	private static boolean validateScore(Integer score) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public static void deleteTask(UUID taskID) throws NoSuchObjectException{
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		Task task;
@@ -604,6 +636,11 @@ public class TaskHandler {
 	}
 	
 	public static Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
+		
+		if(validateScore(score) == false) {
+			throw new IllegalArgumentException("Score must be between 1-100!");
+		} 
+		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Task task;
 		task = Task.get(taskID);
