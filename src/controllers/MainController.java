@@ -206,18 +206,14 @@ public class MainController {
 	
 	public void refreshContent(JPanel panel) throws NoSuchObjectException {
 		User user = Log.getInstance().getCurrentUser();
-//		System.out.println("masuk");
+		
 		if(user.getRole().equalsIgnoreCase("Admin")) {
 			adminHomepage.refreshContent(panel);			
-//			System.out.println("admin homepage");
 		} else if(user.getRole().equalsIgnoreCase("Worker")) {
 			workerHomepage.refreshContent(panel);
-//			System.out.println("worker homepage");
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")) {
 			supervisorHomepage.refreshContent(panel);
-//			System.out.println("superv homepage");
 		} else {
-//			System.out.println("gagal cok");
 		}
 		
 	}
