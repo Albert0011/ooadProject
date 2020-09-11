@@ -142,7 +142,7 @@ public class MainController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					supervisorHomepage.refreshContent(NotificationController.openNotificationDisplay());
+					supervisorHomepage.refreshContent(NotificationController.getInstance().openNotificationDisplay());
 				} catch (NoSuchObjectException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -201,7 +201,7 @@ public class MainController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					workerHomepage.refreshContent(NotificationController.openNotificationDisplay());
+					workerHomepage.refreshContent(NotificationController.getInstance().openNotificationDisplay());
 				} catch (NoSuchObjectException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

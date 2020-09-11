@@ -164,15 +164,11 @@ public class UserController {
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						try {
-							UserController.createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
+							UserController.getInstance().createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
 							JOptionPane.showMessageDialog(null, "Create User Success!");
-						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (NoSuchObjectException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}		
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+						} 
 						
 						try {
 							MainController.getInstance().refreshContent(openCreateUserDisplay());
@@ -210,7 +206,7 @@ public class UserController {
 					case JOptionPane.YES_OPTION:
 							int row = allUserDisplay.getViewAllTable().getSelectedRow();
 							String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
-							UserController.deleteUser(userId);
+							UserController.getInstance().deleteUser(userId);
 							
 						try {
 							MainController.getInstance().refreshContent(openAllUserDisplay());
@@ -256,7 +252,7 @@ public class UserController {
 						int row = allUserDisplay.getViewAllTable().getSelectedRow();
 						String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
-							UserController.resetPassword(userId);
+							UserController.getInstance().resetPassword(userId);
 						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -315,7 +311,7 @@ public class UserController {
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						try {
-							UserController.changePassword(oldPass, newPass);
+							UserController.getInstance().changePassword(oldPass, newPass);
 							JOptionPane.showMessageDialog(null, "Change password Success!!");
 							cp.emptyPassField();
 
@@ -363,11 +359,7 @@ public class UserController {
 					
 					JOptionPane.showMessageDialog(null, "Please Complete All Data");
 				
-				}
-				else if (up.getUnameField().getText().length() < 5 || up.getUnameField().getText().length() > 15 || up.getAddrField().getText().length() < 10 || up.getAddrField().getText().length()>100 || up.getTelpField().getText().length()<10 || up.getTelpField().getText().length()>13) {
-					JOptionPane.showMessageDialog(null, "data not valid!! ");
-				}
-				else {
+				} else {
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to update your profile?");
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
@@ -378,13 +370,12 @@ public class UserController {
 						if(isValidDate(day, month, year) == true) {
 							Date date = new GregorianCalendar(year, month-1, day).getTime();
 							try {
-								UserController.updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
+								UserController.getInstance().updateProfile(up.getUnameField().getText(), date, up.getAddrField().getText(), up.getTelpField().getText());
 								JOptionPane.showMessageDialog(null, "Update profile success!");
 								up.emptyUpdateField();
 
-							} catch (NoSuchObjectException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							}
 							
 						}
@@ -444,7 +435,7 @@ public class UserController {
 	}
 
 	
-	public static User getUser(String userID) {
+	public User getUser(String userID) {
 		User user;
 		try {
 			user = User.get(userID);
@@ -455,7 +446,7 @@ public class UserController {
 		return user;
 	}
 	
-	public static void updateUser(User user) {
+	public void updateUser(User user) {
 		
 		try {
 			user.update();
@@ -464,7 +455,7 @@ public class UserController {
 		}
 	}
 	
-	public static User saveUser(User user) {
+	public User saveUser(User user) {
 		try {
 			user.save();
 		} catch (SQLException e) {
@@ -474,7 +465,7 @@ public class UserController {
 		return user;
 	}
 	
-	public static User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchObjectException {
+	public User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchObjectException {
 	
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken!");
@@ -493,12 +484,11 @@ public class UserController {
 	}
 	
 	private static boolean validateTelephone(String telp) {
-		if(telp.length()>=10 || telp.length()<=13) {
-			if(telp.matches("\\d{10}")) {
-				return true;
-			}
-			return false;
+		
+		if(telp.length()>=10 && telp.length()<=13) {
+			return true;
 		}
+	
 		return false;
 	}
 
@@ -554,7 +544,7 @@ public class UserController {
 		return user;
 	}
 	
-	public static void deleteUser(String id) {
+	public void deleteUser(String id) {
 		User user = getUser(id);
 		try {
 			user.delete();
@@ -564,7 +554,7 @@ public class UserController {
 		}
 	}
 	
-	public static User resetPassword(String id) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public User resetPassword(String id) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		User user = getUser(id);
 		
 		java.sql.Date date= new java.sql.Date(user.getDOB().getTime());
@@ -576,7 +566,7 @@ public class UserController {
 		return user;
 	}
 	
-	public static User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
+	public User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
 		User user = Log.getInstance().getCurrentUser();
 		
@@ -594,7 +584,7 @@ public class UserController {
 		}
 	}
 	
-	public static User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
+	public User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
 
 		
 		

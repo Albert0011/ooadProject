@@ -27,7 +27,7 @@ public class NotificationController {
 		return notificationController;
 	}
 
-	public static NotificationHistoryDisplay openNotificationDisplay() throws NoSuchObjectException {
+	public NotificationHistoryDisplay openNotificationDisplay() throws NoSuchObjectException {
 		
 		NotificationHistoryDisplay nh = new NotificationHistoryDisplay(getAllNotification());
 		
@@ -50,7 +50,7 @@ public class NotificationController {
 		return nh;
 	}
 	
-	public static Notification createNotification(UUID userID, String message) {
+	public Notification createNotification(UUID userID, String message) {
 		try {
 			Notification notification = Notification.create(userID, message, null);
 			notification.save();
@@ -61,7 +61,7 @@ public class NotificationController {
 		}
 	}
 	
-	public static ArrayList<Notification> getAllNotification() throws NoSuchObjectException{
+	public ArrayList<Notification> getAllNotification() throws NoSuchObjectException{
 		ArrayList<Notification> notif = null;
 		User currentUser = Log.getInstance().getCurrentUser();
 		notif = Notification.getAll(currentUser.getId());
@@ -69,7 +69,7 @@ public class NotificationController {
 		return notif;
 	}
 	
-	public static void readAllNotification(UUID userID) {
+	public void readAllNotification(UUID userID) {
 		
 		ArrayList<Notification> listNotif = Notification.getAllUnread(userID);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());

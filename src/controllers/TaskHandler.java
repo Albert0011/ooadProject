@@ -110,7 +110,7 @@ public class TaskHandler {
 						case JOptionPane.YES_OPTION:
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							try {
-								TaskHandler.submitTask(UUID.fromString(taskID));
+								TaskHandler.getInstance().submitTask(UUID.fromString(taskID));
 								MainController.getInstance().refreshContent(openUserTaskDisplay());
 							} catch (NoSuchObjectException | SQLException e2) {
 								// TODO Auto-generated catch block
@@ -156,7 +156,7 @@ public class TaskHandler {
 						case JOptionPane.YES_OPTION:
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							try {
-								TaskHandler.requestTaskRevision(UUID.fromString(taskID));
+								TaskHandler.getInstance().requestTaskRevision(UUID.fromString(taskID));
 								MainController.getInstance().refreshContent(openUserTaskDisplay());
 							} catch (NoSuchObjectException | SQLException e2) {
 								// TODO Auto-generated catch block
@@ -197,7 +197,7 @@ public class TaskHandler {
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
-							TaskHandler.deleteTask(UUID.fromString(taskID));
+							TaskHandler.getInstance().deleteTask(UUID.fromString(taskID));
 							
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
 						} catch (NoSuchObjectException e2) {
@@ -331,12 +331,11 @@ public class TaskHandler {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						TaskHandler.approveTask(UUID.fromString(TaskHandler.getIdTask()), Integer.parseInt(ts.getScoreField().getText()));
+						TaskHandler.getInstance().approveTask(UUID.fromString(TaskHandler.getIdTask()), Integer.parseInt(ts.getScoreField().getText()));
 						ts.dispose();
 						MainController.getInstance().refreshContent(openUserTaskDisplay());
-					} catch (NoSuchObjectException | SQLException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}
@@ -377,9 +376,8 @@ public class TaskHandler {
 						MainController.getInstance().refreshContent(openUserTaskDisplay());
 						
 						
-					} catch (NoSuchObjectException | NumberFormatException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}
@@ -469,7 +467,7 @@ public class TaskHandler {
 					
 				} else {
 					try {
-						TaskHandler.createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
+						TaskHandler.getInstance().createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
 										 tf.getNoteField().getText());
 						JOptionPane.showMessageDialog(null, "Create Task Success!");
 					} catch (RequestFailedException | SQLException e1) {
@@ -486,7 +484,7 @@ public class TaskHandler {
 		return tf;
 	}
 
-	public static Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException{
+	public Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException{
 		
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
@@ -505,12 +503,12 @@ public class TaskHandler {
 				task = Task.create(supervisorID, workerID, title, note);
 				task.save();
 				message = uname + " has assigned you a new task \"" + title + "\"";
-				NotificationController.createNotification(workerID, message);
+				NotificationController.getInstance().createNotification(workerID, message);
 			}
 			else {
-				TaskRequestHandler.createTaskRequest(title, supervisorID, workerID, note);
+				TaskRequestHandler.getInstance().createTaskRequest(title, supervisorID, workerID, note);
 				message = uname +" has requested you to supervise a new task \"" + title + "\"";
-				NotificationController.createNotification(supervisorID, message);
+				NotificationController.getInstance().createNotification(supervisorID, message);
 			}
 		} catch (NoSuchObjectException e) {
 			// TODO Auto-generated catch block
@@ -536,7 +534,7 @@ public class TaskHandler {
 		return false;
 	}
 
-	public static ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
+	public ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
         
         User currentUser = Log.getInstance().getCurrentUser();
@@ -545,7 +543,7 @@ public class TaskHandler {
         return task;
     }
 
-    public static Task getTask(UUID taskID) {
+    public Task getTask(UUID taskID) {
         Task task;
 
         try {
@@ -558,7 +556,7 @@ public class TaskHandler {
 
     }
 	
-	public static ArrayList<Task> searchTask(String query){
+	public ArrayList<Task> searchTask(String query){
 		ArrayList<Task> task = null;
 		try {
 			task = Task.Search(query);
@@ -569,7 +567,7 @@ public class TaskHandler {
 		return task;
 	}
 	
-	public static Task submitTask(UUID taskID) throws NoSuchObjectException{
+	public Task submitTask(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
 		String uname = Log.getInstance().getCurrentUser().getUsername();
@@ -579,7 +577,7 @@ public class TaskHandler {
 			task.update();
 			
 			String message = uname + " has submitted \"" + task.getTitle() + "\"";
-			NotificationController.createNotification(task.getSupervisorID(), message);
+			NotificationController.getInstance().createNotification(task.getSupervisorID(), message);
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -588,7 +586,7 @@ public class TaskHandler {
 		return task;
 	}
 	
-	public static Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException{
+	public Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException, IllegalArgumentException{
 
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
@@ -606,24 +604,24 @@ public class TaskHandler {
 		
 		task.update();
 		
-		NotificationController.createNotification(supervisorID, message);
-		NotificationController.createNotification(workerID, message);
+		NotificationController.getInstance().createNotification(supervisorID, message);
+		NotificationController.getInstance().createNotification(workerID, message);
 		
 		return task;
 	}
 	
 	private static boolean validateScore(Integer score) {
-		
-		if(score.toString().matches("\\d{10}")) {
-			if(score >=1 && score<=100) {
-				return true;
-			}
+
+		if(score<1 || score>100) {
+			System.out.println("masuk");
+			return false;
 		}
-		return false;
+		
+		return true;
 		
 	}
 
-	public static void deleteTask(UUID taskID) throws NoSuchObjectException{
+	public void deleteTask(UUID taskID) throws NoSuchObjectException{
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		Task task;
 		try {
@@ -632,8 +630,8 @@ public class TaskHandler {
 				
 			String message = uname + " has deleted task \"" + task.getTitle() + "\"";
 			
-			NotificationController.createNotification(task.getSupervisorID(), message);
-			NotificationController.createNotification(task.getWorkerID(), message);
+			NotificationController.getInstance().createNotification(task.getSupervisorID(), message);
+			NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -641,7 +639,7 @@ public class TaskHandler {
 		
 	}
 	
-	public static Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
+	public Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
 		
 		if(validateScore(score) == false) {
 			throw new IllegalArgumentException("Score must be between 1-100!");
@@ -659,7 +657,7 @@ public class TaskHandler {
 				task.update();
 				
 				String message = uname + " has approved your task \"" + task.getTitle() + "\"";
-				NotificationController.createNotification(task.getWorkerID(), message);
+				NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 				
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
@@ -668,7 +666,7 @@ public class TaskHandler {
 		return task;	
 	}
 	
-	public static Task requestTaskRevision(UUID taskID) throws NoSuchObjectException{
+	public Task requestTaskRevision(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
 		String uname = Log.getInstance().getCurrentUser().getUsername();
@@ -679,7 +677,7 @@ public class TaskHandler {
 			task.update();
 			
 			String message = uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
-			NotificationController.createNotification(task.getWorkerID(), message);
+			NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());

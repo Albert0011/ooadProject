@@ -28,7 +28,7 @@ public class TaskRequestHandler {
 		return taskRequestHandler;
 	}
 
-	public static TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
+	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
 		
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
@@ -44,7 +44,7 @@ public class TaskRequestHandler {
 	}
 	
 	
-	public static ArrayList<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException{
+	public ArrayList<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException{
 		ArrayList<TaskRequest> taskReq = null;
 		User currentUser = Log.getInstance().getCurrentUser();
 		taskReq = TaskRequest.getAll(currentUser.getId());
@@ -52,7 +52,7 @@ public class TaskRequestHandler {
 		return taskReq;
 	}
 	
-	public static TaskRequest getTaskRequest(UUID taskRequestID) {
+	public TaskRequest getTaskRequest(UUID taskRequestID) {
 		TaskRequest taskRequest;
 		
 		try {
@@ -65,7 +65,7 @@ public class TaskRequestHandler {
 		
 	}
 	
-	public static TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
+	public TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
 		
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
@@ -76,7 +76,7 @@ public class TaskRequestHandler {
 		try {
 
 			taskRequest.delete();	
-			NotificationController.createNotification(workerID, supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
+			NotificationController.getInstance().createNotification(workerID, supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
 			
 			return taskRequest;
 			
@@ -87,7 +87,7 @@ public class TaskRequestHandler {
 		
 	}
 	
-	public static TaskRequest acceptTaskRequest(UUID taskRequestID) throws SQLException {
+	public TaskRequest acceptTaskRequest(UUID taskRequestID) throws SQLException {
 		
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
@@ -98,8 +98,8 @@ public class TaskRequestHandler {
 		try {
 
 			taskRequest.delete();	
-			TaskHandler.createTask(taskRequest.getTitle(), taskRequest.getSupervisorID(), taskRequest.getWorkerID(), taskRequest.getNote());
-			NotificationController.createNotification(workerID, supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
+			TaskHandler.getInstance().createTask(taskRequest.getTitle(), taskRequest.getSupervisorID(), taskRequest.getWorkerID(), taskRequest.getNote());
+			NotificationController.getInstance().createNotification(workerID, supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
 			
 			return taskRequest;
 			
@@ -128,7 +128,7 @@ public class TaskRequestHandler {
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
 							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
-							TaskRequestHandler.rejectTaskRequest(UUID.fromString(taskRequestID));
+							TaskRequestHandler.getInstance().rejectTaskRequest(UUID.fromString(taskRequestID));
 						} catch (SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
@@ -169,7 +169,7 @@ public class TaskRequestHandler {
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
 							String taskRequestID = (allTaskRequestDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
-							TaskRequestHandler.acceptTaskRequest(UUID.fromString(taskRequestID));
+							TaskRequestHandler.getInstance().acceptTaskRequest(UUID.fromString(taskRequestID));
 						} catch (SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
