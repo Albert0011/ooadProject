@@ -497,7 +497,7 @@ public class TaskHandler {
 		else if(validateExistID(workerID) == false){
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} 
-		else if(validateID(supervisorID) == false){
+		else if(validateID(workerID, supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}
 		Task task = null;
@@ -564,16 +564,26 @@ public class TaskHandler {
 	}
 
 	
-	private static boolean validateID(UUID id){
+	private static boolean validateID(UUID idWorker, UUID idSupervisor){
+		String role = null;
 		UUID roleid = null;
 		try {
+			role = Log.getInstance().getCurrentUser().getRole();
 			roleid = Log.getInstance().getCurrentUser().getId();
 		} catch (NoSuchObjectException e) {
 			e.printStackTrace();
 		}
-		if(roleid.equals(id)){
-			return true;
+		if(role.equals("Supervisor")){
+			if(roleid.equals(idSupervisor)){
+				return true;
+			}
 		}
+		else if(role.equals("Worker")){
+			if(roleid.equals(idWorker)){
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
