@@ -40,7 +40,7 @@ public class AllUserDisplay extends JPanel {
 
 	public AllUserDisplay(ArrayList<User> list) {
 		
-		this.setBackground(new Color(255, 255, 204));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
@@ -198,11 +198,15 @@ public class AllUserDisplay extends JPanel {
 		
 		
 		btnDeleteUser = new JButton("Delete User");
+		btnDeleteUser.setForeground(new Color(255, 255, 255));
+		btnDeleteUser.setBackground(new Color(0, 0, 128));
 		btnDeleteUser.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnDeleteUser.setBounds(101, 338, 129, 34);
 		add(btnDeleteUser);
 		
 		btnResetPassword = new JButton("Reset Password");
+		btnResetPassword.setForeground(new Color(255, 255, 255));
+		btnResetPassword.setBackground(new Color(0, 0, 128));
 		btnResetPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnResetPassword.setBounds(351, 338, 162, 34);
 		add(btnResetPassword);

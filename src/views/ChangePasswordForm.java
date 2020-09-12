@@ -18,7 +18,7 @@ public class ChangePasswordForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPasswordField oldPassField;
 	private JPasswordField newPassField;
-	private static JButton changePassBtn;
+	private JButton changePassBtn;
 
 	/**
 	 * Launch the application.
@@ -34,7 +34,7 @@ public class ChangePasswordForm extends JPanel {
 		this.setLayout(new BorderLayout(0, 0));
 		
 		JPanel changePassPanel = new JPanel();
-		changePassPanel.setBackground(new Color(250, 235, 215));
+		changePassPanel.setBackground(new Color(240, 248, 255));
 		changePassPanel.setLayout(null);
 		
 		JLabel changePassTitle = new JLabel("Change Password Form");
@@ -76,6 +76,8 @@ public class ChangePasswordForm extends JPanel {
 	
 		
 		changePassBtn = new JButton("Change Password");
+		changePassBtn.setForeground(new Color(255, 255, 255));
+		changePassBtn.setBackground(new Color(0, 0, 128));
 		changePassBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		changePassBtn.setBounds(226, 286, 147, 35);
 		changePassPanel.add(changePassBtn);

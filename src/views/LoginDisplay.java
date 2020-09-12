@@ -100,7 +100,7 @@ public class LoginDisplay extends JFrame{
 		panelLogin.add(loginButton);
 		loginButton.setForeground(new Color(255, 255, 255));
 		loginButton.setBackground(new Color(51, 153, 204));
-		loginButton.setFont(new Font("Dubai Light", Font.PLAIN, 19));
+		loginButton.setFont(new Font("Dubai Light", Font.BOLD, 19));
 		
 		unameField = new JTextField();
 		unameField.setForeground(new Color(255, 255, 255));

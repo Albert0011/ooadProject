@@ -27,7 +27,7 @@ public class UpdateTaskForm extends JFrame {
 	private JButton btnCancel;
 	
 	public UpdateTaskForm() {
-		this.setBackground(new Color(255, 255, 224));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 376);
 		this.setLocation(0, 0);
 		getContentPane().setLayout(null);

@@ -44,7 +44,7 @@ public class AllTaskRequestDisplay extends JPanel {
 
 	public AllTaskRequestDisplay(ArrayList<TaskRequest> list) throws SQLException {
 		
-		this.setBackground(new Color(255, 255, 204));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
@@ -183,6 +183,8 @@ public class AllTaskRequestDisplay extends JPanel {
 		
 		
 		btnRejectTaskRequest = new JButton("Reject Task");
+		btnRejectTaskRequest.setForeground(new Color(255, 255, 255));
+		btnRejectTaskRequest.setBackground(new Color(0, 0, 128));
 		btnRejectTaskRequest.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnRejectTaskRequest.setBounds(57, 338, 129, 34);
 		add(btnRejectTaskRequest);
@@ -190,6 +192,8 @@ public class AllTaskRequestDisplay extends JPanel {
 		scrollPane.setViewportView(viewAllTable);
 		
 		btnAcceptTaskRequest = new JButton("Accept Task");
+		btnAcceptTaskRequest.setForeground(new Color(255, 255, 255));
+		btnAcceptTaskRequest.setBackground(new Color(0, 0, 128));
 		btnAcceptTaskRequest.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnAcceptTaskRequest.setBounds(240, 338, 129, 34);
 		add(btnAcceptTaskRequest);

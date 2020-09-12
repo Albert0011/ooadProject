@@ -26,7 +26,7 @@ public class TaskScoreForm extends JFrame {
 	private JButton btnCancel;
 	
 	public TaskScoreForm() {
-		this.setBackground(new Color(255, 255, 224));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(615, 364);
 		this.setLocation(0, 0);
 		getContentPane().setLayout(null);

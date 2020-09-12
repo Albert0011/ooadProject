@@ -43,7 +43,7 @@ private static final long serialVersionUID = 1L;
 	
 	
 	public SearchTaskResultDisplay(ArrayList<Task> list) throws SQLException {
-		this.setBackground(new Color(175, 238, 238));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 376);
 		getContentPane().setLayout(null);
 		

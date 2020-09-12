@@ -66,7 +66,6 @@ public class UserController {
 			try {
 				up.refreshContent(openProfileDisplay());
 			} catch (NoSuchObjectException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		
@@ -80,19 +79,8 @@ public class UserController {
 							MainController.getInstance().refreshContent(up);
 					
 						} catch (NoSuchObjectException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						
-					
-				 
-						try {
-							MainController.getInstance().refreshContent(up);
-						} catch (NoSuchObjectException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
 					}
 				});
 			
@@ -166,17 +154,10 @@ public class UserController {
 						try {
 							UserController.getInstance().createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
 							JOptionPane.showMessageDialog(null, "Create User Success!");
+							MainController.getInstance().refreshContent(openCreateUserDisplay());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						} 
-						
-						try {
-							MainController.getInstance().refreshContent(openCreateUserDisplay());
-						} catch (NoSuchObjectException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Date is not valid!");
@@ -253,18 +234,14 @@ public class UserController {
 						String userId = (allUserDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						try {
 							UserController.getInstance().resetPassword(userId);
-						} catch (NoSuchAlgorithmException | UnsupportedEncodingException e2) {
+							MainController.getInstance().refreshContent(openAllUserDisplay());
+							JOptionPane.showMessageDialog(null, "Reset password Success!!");
+							
+						} catch (NoSuchAlgorithmException | UnsupportedEncodingException | NoSuchObjectException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
-						}
+						}			
 							
-						try {
-							MainController.getInstance().refreshContent(openAllUserDisplay());
-						} catch (NoSuchObjectException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}				
-							JOptionPane.showMessageDialog(null, "Reset password Success!!");
 						break;
 					case JOptionPane.NO_OPTION:
 						
@@ -310,24 +287,17 @@ public class UserController {
 					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?");
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
+						
 						try {
 							UserController.getInstance().changePassword(oldPass, newPass);
 							JOptionPane.showMessageDialog(null, "Change password Success!!");
 							cp.emptyPassField();
 
-						} catch (NoSuchObjectException e1) {
+						} catch (NoSuchObjectException | NoSuchAlgorithmException | UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
-						} catch (NoSuchAlgorithmException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (UnsupportedEncodingException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}	
+						};
 						
-						
-						//JOptionPane.showMessageDialog(null, "Change Password Success!");
 						break;
 					case JOptionPane.NO_OPTION:
 						

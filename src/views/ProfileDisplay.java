@@ -17,13 +17,13 @@ public class ProfileDisplay extends JPanel{
 	
 	public ProfileDisplay(User user) {
 		
-		this.setBackground(new Color(255, 255, 224));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 376);
 		this.setLocation(0, 0);
 		this.setLayout(null);
 		
 		mainPanel = new JPanel();
-		mainPanel.setBackground(new Color(255, 255, 224));
+		mainPanel.setBackground(new Color(240, 248, 255));
 		mainPanel.setBounds(0, 0, 628, 376);
 		add(mainPanel);
 		mainPanel.setLayout(null);

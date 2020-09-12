@@ -67,7 +67,6 @@ public class TaskHandler {
 							try {
 								TaskHandler.getInstance().openScoreDisplay();
 							} catch (Exception e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							
@@ -113,7 +112,6 @@ public class TaskHandler {
 								TaskHandler.getInstance().submitTask(UUID.fromString(taskID));
 								MainController.getInstance().refreshContent(openUserTaskDisplay());
 							} catch (NoSuchObjectException | SQLException e2) {
-								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
 							

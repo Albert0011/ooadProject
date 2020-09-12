@@ -24,7 +24,7 @@ public class TaskForm extends JPanel {
 	private JButton createTaskForm;
 
 	public TaskForm() {
-		this.setBackground(Color.CYAN);
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		this.setLayout(null);
 
@@ -86,14 +86,14 @@ public class TaskForm extends JPanel {
 		noteField.setForeground(Color.BLACK);
 		noteField.setWrapStyleWord(true);
 		noteField.setLineWrap(true);
-		noteField.setBounds(266, 220, 277, 100);
+		noteField.setBounds(266, 220, 277, 90);
 		add(noteField);
 
 		// create
 		createTaskForm = new JButton("Create Task");
 		createTaskForm.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createTaskForm.setBackground(new Color(255, 255, 255));
-		createTaskForm.setBounds(263, 345, 280, 35);
+		createTaskForm.setBounds(190, 330, 280, 35);
 		add(createTaskForm);
 
 		this.setVisible(true);

@@ -66,12 +66,12 @@ public class AllTaskDisplay extends JPanel {
 	
 	
 	public AllTaskDisplay(ArrayList<Task> list) throws SQLException {
-		this.setBackground(new Color(175, 238, 238));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 376);
 		this.setLayout(null);
 		
 		mainPanel = new JPanel();
-		mainPanel.setBackground(new Color(175, 238, 238));
+		mainPanel.setBackground(new Color(240, 248, 255));
 		mainPanel.setBounds(0, 0, 628, 343);
 		add(mainPanel);
 		mainPanel.setLayout(null);
@@ -225,7 +225,7 @@ public class AllTaskDisplay extends JPanel {
 		btnSortTask = new JButton("Sort");
 		btnSortTask.setBounds(186, 42, 69, 22);
 		mainPanel.add(btnSortTask);
-		btnSortTask.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnSortTask.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		//sortBox
 		sortByBox = new JComboBox<String>();
@@ -240,40 +240,40 @@ public class AllTaskDisplay extends JPanel {
 		
 		
 		panelWorker = new JPanel();
-		panelWorker.setBackground(new Color(175, 238, 238));
+		panelWorker.setBackground(new Color(240, 248, 255));
 		panelWorker.setBounds(0, 343, 628, 34);
 		//add(panelWorker);
 		panelWorker.setLayout(null);
 		
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setBackground(new Color(224, 255, 255));
-		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnSubmit.setBounds(251, 0, 125, 34);
 		panelWorker.add(btnSubmit);
 		
 		panelSupervisor = new JPanel();
-		panelSupervisor.setBackground(new Color(175, 238, 238));
+		panelSupervisor.setBackground(new Color(240, 248, 255));
 		panelSupervisor.setBounds(0, 343, 628, 34);
 		//add(panelSupervisor);
 		panelSupervisor.setLayout(new GridLayout(0, 4, 0, 0));
 		
 		btnApprove = new JButton("Approve");
-		btnApprove.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnApprove.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnApprove.setBackground(new Color(224, 255, 255));
 		panelSupervisor.add(btnApprove);
 		
 		btnUpdate = new JButton("Update");
-		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnUpdate.setBackground(new Color(224, 255, 255));
 		panelSupervisor.add(btnUpdate);
 		
 		btnDeleteTask = new JButton("Delete");
-		btnDeleteTask.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnDeleteTask.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnDeleteTask.setBackground(new Color(224, 255, 255));
 		panelSupervisor.add(btnDeleteTask);
 		
 		btnRequestRevision = new JButton("Request Revision");
-		btnRequestRevision.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnRequestRevision.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnRequestRevision.setBackground(new Color(224, 255, 255));
 		panelSupervisor.add(btnRequestRevision);
 		

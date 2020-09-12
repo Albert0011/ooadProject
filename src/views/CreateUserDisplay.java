@@ -32,42 +32,42 @@ public class CreateUserDisplay extends JPanel{
 
 
 	public CreateUserDisplay() {
-		this.setBackground(new Color(70, 130, 180));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
 		JLabel titleCreateUser = new JLabel("CREATE USER FORM");
-		titleCreateUser.setForeground(new Color(255, 255, 255));
+		titleCreateUser.setForeground(Color.BLACK);
 		titleCreateUser.setFont(new Font("Tahoma", Font.BOLD, 20));
 		titleCreateUser.setBounds(186, 24, 212, 35);
 		add(titleCreateUser);
 		
 		Label telp = new Label("Telp");
-		telp.setForeground(Color.WHITE);
+		telp.setForeground(Color.BLACK);
 		telp.setFont(new Font("Dialog", Font.BOLD, 12));
 		telp.setBounds(127, 280, 62, 22);
 		add(telp);
 		
 		Label address = new Label("Address");
-		address.setForeground(Color.WHITE);
+		address.setForeground(Color.BLACK);
 		address.setFont(new Font("Dialog", Font.BOLD, 12));
 		address.setBounds(127, 222, 62, 22);
 		add(address);
 		
 		Label dob = new Label("DOB");
-		dob.setForeground(Color.WHITE);
+		dob.setForeground(Color.BLACK);
 		dob.setFont(new Font("Dialog", Font.BOLD, 12));
 		dob.setBounds(127, 170, 62, 22);
 		add(dob);
 		
 		Label role = new Label("Role");
-		role.setForeground(Color.WHITE);
+		role.setForeground(Color.BLACK);
 		role.setFont(new Font("Dialog", Font.BOLD, 12));
 		role.setBounds(127, 137, 62, 22);
 		add(role);
 		
 		Label uname = new Label("Username");
-		uname.setForeground(Color.WHITE);
+		uname.setForeground(Color.BLACK);
 		uname.setFont(new Font("Dialog", Font.BOLD, 12));
 		uname.setBounds(127, 110, 62, 22);
 		add(uname);
@@ -111,37 +111,37 @@ public class CreateUserDisplay extends JPanel{
 		add(telpField);
 		
 		JLabel limitUname = new JLabel("5 - 15 characters");
-		limitUname.setForeground(Color.WHITE);
+		limitUname.setForeground(Color.BLACK);
 		limitUname.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		limitUname.setBounds(386, 112, 107, 14);
 		add(limitUname);
 		
 		JLabel limitNo = new JLabel("10 - 13 characters");
-		limitNo.setForeground(Color.WHITE);
+		limitNo.setForeground(Color.BLACK);
 		limitNo.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		limitNo.setBounds(386, 283, 107, 14);
 		add(limitNo);
 		
 		JLabel limitAddr = new JLabel("10 - 100 characters");
-		limitAddr.setForeground(Color.WHITE);
+		limitAddr.setForeground(Color.BLACK);
 		limitAddr.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		limitAddr.setBounds(386, 222, 107, 14);
 		add(limitAddr);
 		
 		JLabel lblNewLabel = new JLabel("yyyy");
-		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel.setBounds(201, 196, 46, 14);
 		add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("mm");
-		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setForeground(Color.BLACK);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_1.setBounds(275, 196, 46, 14);
 		add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("dd");
-		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setForeground(Color.BLACK);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_2.setBounds(331, 196, 46, 14);
 		add(lblNewLabel_2);
@@ -149,7 +149,8 @@ public class CreateUserDisplay extends JPanel{
 		
 		createUserButton = new JButton("Create User");
 		createUserButton.setFont(new Font("Tahoma", Font.BOLD, 14));
-		createUserButton.setBackground(Color.WHITE);
+		createUserButton.setForeground(new Color(255, 255, 255));
+		createUserButton.setBackground(new Color(0, 0, 128));
 		createUserButton.setBounds(230, 323, 117, 35);
 		add(createUserButton);
 	

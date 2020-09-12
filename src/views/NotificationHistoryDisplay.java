@@ -25,7 +25,7 @@ public class NotificationHistoryDisplay extends JPanel {
 	 * Create the panel.
 	 */
 	public NotificationHistoryDisplay(ArrayList<Notification> listNotification) {
-		this.setBackground(new Color(204, 255, 204));
+		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		setLayout(null);
 		
@@ -47,7 +47,7 @@ public class NotificationHistoryDisplay extends JPanel {
 		headerPanel.add(readAllButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 61, 608, 344);
+		scrollPane.setBounds(10, 62, 609, 344);
 		add(scrollPane);
 		
 		notificationTable = new JTable(){
@@ -57,6 +57,7 @@ public class NotificationHistoryDisplay extends JPanel {
 				return false;
 			};
 		};
+		
 		
 		DefaultTableModel model = (DefaultTableModel) notificationTable.getModel();
 		model.addColumn("Message");
@@ -70,6 +71,7 @@ public class NotificationHistoryDisplay extends JPanel {
 		}
 		
 		notificationTable.setFillsViewportHeight(true);
+		notificationTable.getColumnModel().getColumn(0).setPreferredWidth(420);
 		scrollPane.setViewportView(notificationTable);
 		
 		this.setVisible(true);

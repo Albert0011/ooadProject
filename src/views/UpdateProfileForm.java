@@ -120,6 +120,8 @@ public class UpdateProfileForm extends JPanel {
 		
 		
 		updateButton = new JButton("Update Profile");
+		updateButton.setForeground(new Color(255, 255, 255));
+		updateButton.setBackground(new Color(0, 0, 128));
 		updateButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		updateButton.setBounds(231, 303, 129, 41);
 		this.add(updateButton);
