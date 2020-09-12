@@ -494,9 +494,9 @@ public class TaskHandler {
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} else if(validateExistID(supervisorID) == false){
 			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
-		} else if(validateWorkerID(workerID) == false){
+		} else if(validateID(workerID) == false){
 			throw new IllegalArgumentException("You cannot create task for different workerID");
-		} else if(validateSupervisorID(supervisorID) == false){
+		} else if(validateID(supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}
 		
@@ -542,17 +542,14 @@ public class TaskHandler {
 	}
 	
 	private static boolean validateExistID(UUID id){
-		
 		if(Task.get(id) == null){
 			return false;
 		}
-		
 		return true;
-		
 	}
 
 	
-	private static boolean validateWorkerID(UUID idWorker){
+	private static boolean validateID(UUID id){
 		String role = "";
 		String roleid = "";
 		try {
@@ -562,37 +559,19 @@ public class TaskHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		if(role.equals("Worker")){
-			if(UUID.fromString(roleid).equals(idWorker)){
+			if(UUID.fromString(roleid).equals(id)){
 				return true;
 			}
 		}
-		
-		return false;
-		
-	}
-	
-	private static boolean validateSupervisorID(UUID idSupervisor){
-		String role = "";
-		String roleid = "";
-		try {
-			role = Log.getInstance().getCurrentUser().getRole();
-			roleid = Log.getInstance().getCurrentUser().getId().toString();
-		} catch (NoSuchObjectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if(role.equals("Supervisor")){
-			if(UUID.fromString(roleid).equals(idSupervisor)){
+		else if(role.equals("Supervisor")){
+			if(UUID.fromString(roleid).equals(id)){
 				return true;
 			}
 		}
-		
 		return false;
-		
 	}
+
 
 	public ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
