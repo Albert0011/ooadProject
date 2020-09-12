@@ -29,9 +29,11 @@ public class TaskRequestHandler {
 		return taskRequestHandler;
 	}
 
-	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
+	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) throws NoSuchObjectException {
 		if(validateExistID(workerID) == false){
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
+		} else if(validateExistID(supervisorID) == false){
+			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
 		} else if(validateID(workerID) == false){
 			throw new IllegalArgumentException("You cannot create task for different workerID");
 		}
@@ -48,23 +50,37 @@ public class TaskRequestHandler {
 		
 	}
 	
-	private static boolean validateExistID(UUID id){
-		if(Task.get(id) == null){
-			return false;
+	private static boolean validateExistID(UUID id) throws NoSuchObjectException{
+		ArrayList<User> userList = getAllUser();
+		for(User user: userList) {
+			if(user.getId().equals(id) == true) {
+				return true;
+			}
 		}
-		return true;
+		
+		return false;
+	}
+	
+	public static ArrayList<User> getAllUser(){
+		ArrayList<User> user = null;
+		try {
+			user = User.getAll();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Get All User Failed "+e.getMessage());
+			return null;
+		}
+		return user;
 	}
 
 	
 	private static boolean validateID(UUID id){
-		String roleid = "";
+		UUID roleid = null;
 		try {
-			
-			roleid = Log.getInstance().getCurrentUser().getId().toString();
+			roleid = Log.getInstance().getCurrentUser().getId();
 		} catch (NoSuchObjectException e) {
 			e.printStackTrace();
 		}
-		if(UUID.fromString(roleid).equals(id)){
+		if(roleid.equals(id)){
 			return true;
 		}
 		return false;

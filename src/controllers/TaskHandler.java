@@ -67,6 +67,7 @@ public class TaskHandler {
 							try {
 								TaskHandler.getInstance().openScoreDisplay();
 							} catch (Exception e1) {
+								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 							
@@ -112,6 +113,7 @@ public class TaskHandler {
 								TaskHandler.getInstance().submitTask(UUID.fromString(taskID));
 								MainController.getInstance().refreshContent(openUserTaskDisplay());
 							} catch (NoSuchObjectException | SQLException e2) {
+								// TODO Auto-generated catch block
 								e2.printStackTrace();
 							}
 							
@@ -468,7 +470,7 @@ public class TaskHandler {
 						TaskHandler.getInstance().createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
 										 tf.getNoteField().getText());
 						JOptionPane.showMessageDialog(null, "Create Task Success!");
-					} catch (RequestFailedException | SQLException e1) {
+					} catch (RequestFailedException | SQLException | NoSuchObjectException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage());
 					}
 				
@@ -482,18 +484,22 @@ public class TaskHandler {
 		return tf;
 	}
 
-	public Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException{
+	public Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException, NoSuchObjectException{
 		
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
 			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
-		} else if(validateExistID(supervisorID) == false){
+		} 
+		else if(validateExistID(supervisorID) == false){
 			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
-		} else if(validateID(supervisorID) == false){
+		}
+		else if(validateExistID(workerID) == false){
+			throw new IllegalArgumentException("The workerID doesn't exist in database");
+		} 
+		else if(validateID(supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}
-		
 		Task task = null;
 
 		try {
@@ -535,22 +541,37 @@ public class TaskHandler {
 		return false;
 	}
 	
-	private static boolean validateExistID(UUID id){
-		if(Task.get(id) == null){
-			return false;
+	private static boolean validateExistID(UUID id) throws NoSuchObjectException{
+		ArrayList<User> userList = getAllUser();
+		for(User user: userList) {
+			if(user.getId().equals(id) == true) {
+				return true;
+			}
 		}
-		return true;
+		
+		return false;
+	}
+	
+	public static ArrayList<User> getAllUser(){
+		ArrayList<User> user = null;
+		try {
+			user = User.getAll();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Get All User Failed "+e.getMessage());
+			return null;
+		}
+		return user;
 	}
 
 	
 	private static boolean validateID(UUID id){
-		String roleid = "";
+		UUID roleid = null;
 		try {
-			roleid = Log.getInstance().getCurrentUser().getId().toString();
+			roleid = Log.getInstance().getCurrentUser().getId();
 		} catch (NoSuchObjectException e) {
 			e.printStackTrace();
 		}
-		if(UUID.fromString(roleid).equals(id)){
+		if(roleid.equals(id)){
 			return true;
 		}
 		return false;
@@ -721,3 +742,12 @@ public class TaskHandler {
 
 
 }
+
+
+
+
+
+
+
+
+
