@@ -490,12 +490,8 @@ public class TaskHandler {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
 			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
-		} else if(validateExistID(workerID) == false){
-			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} else if(validateExistID(supervisorID) == false){
 			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
-		} else if(validateID(workerID) == false){
-			throw new IllegalArgumentException("You cannot create task for different workerID");
 		} else if(validateID(supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}

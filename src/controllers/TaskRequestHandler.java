@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.swing.JOptionPane;
 
 import helpers.Log;
+import models.Task;
 import models.TaskRequest;
 import models.User;
 import views.AllTaskRequestDisplay;
@@ -29,7 +30,11 @@ public class TaskRequestHandler {
 	}
 
 	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
-		
+		if(validateExistID(workerID) == false){
+			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
+		} else if(validateID(workerID) == false){
+			throw new IllegalArgumentException("You cannot create task for different supervisorID");
+		}
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
 			taskReq.save();
@@ -41,6 +46,37 @@ public class TaskRequestHandler {
 			return null;
 		}
 		
+	}
+	
+	private static boolean validateExistID(UUID id){
+		if(Task.get(id) == null){
+			return false;
+		}
+		return true;
+	}
+
+	
+	private static boolean validateID(UUID id){
+		String role = "";
+		String roleid = "";
+		try {
+			role = Log.getInstance().getCurrentUser().getRole();
+			roleid = Log.getInstance().getCurrentUser().getId().toString();
+		} catch (NoSuchObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(role.equals("Worker")){
+			if(UUID.fromString(roleid).equals(id)){
+				return true;
+			}
+		}
+		else if(role.equals("Supervisor")){
+			if(UUID.fromString(roleid).equals(id)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
