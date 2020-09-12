@@ -21,14 +21,15 @@ public class TaskRequestHandler {
 	
 	private static TaskRequestHandler taskRequestHandler;
 	
-	
+	//singleton
 	public static TaskRequestHandler getInstance() {
 		if(taskRequestHandler == null) {
 			taskRequestHandler = new TaskRequestHandler();
 		}
 		return taskRequestHandler;
 	}
-
+	
+	//membuat task request baru
 	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) throws NoSuchObjectException {
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
@@ -43,6 +44,7 @@ public class TaskRequestHandler {
 		
 	}
 	
+	//GET ALL TASK REQUEST
 	public ArrayList<TaskRequest> getAllTaskRequest() throws NoSuchObjectException, SQLException{
 		ArrayList<TaskRequest> taskReq = null;
 		User currentUser = Log.getInstance().getCurrentUser();
@@ -51,6 +53,7 @@ public class TaskRequestHandler {
 		return taskReq;
 	}
 	
+	// GET TASK REQUEST
 	public TaskRequest getTaskRequest(UUID taskRequestID) {
 		TaskRequest taskRequest;
 		
@@ -64,8 +67,9 @@ public class TaskRequestHandler {
 		
 	}
 	
+	//REJECT TASK REQUEST
 	public TaskRequest rejectTaskRequest(UUID taskRequestID) throws SQLException {
-		
+		//mengambil id task request yang akan di reject
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
 		UUID workerID = taskRequest.getWorkerID();
@@ -73,8 +77,10 @@ public class TaskRequestHandler {
 		User supervisor = User.get(supervisorID.toString());
 		
 		try {
-
+			//delete task request
 			taskRequest.delete();	
+			
+			//mengirimkan notifikasi kepada supervisor dan worker tentang task request yang di reject 
 			NotificationController.getInstance().createNotification(workerID, supervisor.getUsername()+" has rejected your task request "+taskRequest.getTitle());
 			
 			return taskRequest;
@@ -86,8 +92,9 @@ public class TaskRequestHandler {
 		
 	}
 	
+	//ACCEPT TASK REQUEST
 	public TaskRequest acceptTaskRequest(UUID taskRequestID) throws SQLException {
-		
+		//mengambil id task request yang akan di accept
 		TaskRequest taskRequest = getTaskRequest(taskRequestID);
 		
 		UUID workerID = taskRequest.getWorkerID();
@@ -95,8 +102,10 @@ public class TaskRequestHandler {
 		User supervisor = User.get(supervisorID.toString());
 		
 		try {
-
+			//menghilangkan task yang sudah di accept dari tabel
 			taskRequest.delete();	
+			
+			//membuat task baru untuk worker
 			TaskHandler.getInstance().createTask(taskRequest.getTitle(), taskRequest.getSupervisorID(), taskRequest.getWorkerID(), taskRequest.getNote());
 			NotificationController.getInstance().createNotification(workerID, supervisor.getUsername()+" has accepted your task request "+taskRequest.getTitle());
 			
@@ -109,11 +118,13 @@ public class TaskRequestHandler {
 		
 	}
 	
+	//OPEN ALL TASK REQUEST DISPLAY
 	public AllTaskRequestDisplay openAllTaskRequestDisplay() throws NoSuchObjectException, SQLException {
 		
 		ArrayList<TaskRequest> taskReq = getAllTaskRequest();
 		AllTaskRequestDisplay allTaskRequestDisplay = new AllTaskRequestDisplay(taskReq);
 		
+		//REJECT TASK
 		allTaskRequestDisplay.getBtnRejectTaskRequest().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -155,6 +166,7 @@ public class TaskRequestHandler {
 			}
 		});
 		
+		//ACCEPT TASK
 		allTaskRequestDisplay.getBtnAcceptTaskRequest().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {

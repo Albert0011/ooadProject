@@ -24,8 +24,11 @@ import views.UserTaskDisplay;
 public class TaskHandler {
 	
 	private static TaskHandler taskHandler;
+	// variable untuk menyimpan id task yang akan ditampilkan di halaman lain
 	private static String idTask;
 	
+	
+	//singleton
 	public static TaskHandler getInstance() {
 		if(taskHandler == null) {
 			taskHandler = new TaskHandler();
@@ -69,6 +72,7 @@ public class TaskHandler {
 						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to approve this task?");
 						switch (jawab) {
 						case JOptionPane.YES_OPTION:
+							//menyimpan id task yang akan di approve
 							idTask = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 							try {
 								TaskHandler.getInstance().openScoreDisplay();
@@ -245,6 +249,8 @@ public class TaskHandler {
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						int row = allTaskDisplay.getViewAllTable().getSelectedRow();
+						
+						//menyimpan id task yang akan diupdate
 						idTask = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
 						
 						try {
@@ -326,6 +332,7 @@ public class TaskHandler {
 	
 	}
 	
+	// fungsi untuk memanggil sort di model Task
 	private ArrayList<Task> sortTask(String sortBy, String sortDir) throws NoSuchObjectException, SQLException {
         
 		ArrayList<Task> listTask = Task.sort(sortBy, sortDir);
@@ -543,17 +550,25 @@ public class TaskHandler {
 		Task task = null;
 
 		try {
+			
+			//menyimpan role dan username dari user yang sedang login tersebut
 			String role = Log.getInstance().getCurrentUser().getRole();
 			String uname = Log.getInstance().getCurrentUser().getUsername();
 			String message;
+			
+			//melakukan pengecekan role
 			if(role.equalsIgnoreCase("Supervisor")) {
+				//membuat task untuk worker
 				task = Task.create(supervisorID, workerID, title, note);
 				task.save();
 				message = uname + " has assigned you a new task \"" + title + "\"";
+				//mengirimkan notifikasi kepada worker tentang task baru
 				NotificationController.getInstance().createNotification(workerID, message);
 			}
 			else {
+				//membuat taskrequest untuk supervisor agar supervisor melakukan supervise kepada worker tersebut 
 				TaskRequestHandler.getInstance().createTaskRequest(title, supervisorID, workerID, note);
+				//mengirimkan notifikasi kepada supervisor tentang task request baru
 				message = uname +" has requested you to supervise a new task \"" + title + "\"";
 				NotificationController.getInstance().createNotification(supervisorID, message);
 			}
@@ -595,6 +610,7 @@ public class TaskHandler {
 		return false;
 	}
 	
+	//menampung seluruh list user
 	public static ArrayList<User> getAllUser(){
 		ArrayList<User> user = null;
 		try {
@@ -623,7 +639,8 @@ public class TaskHandler {
 		
 		return false;
 	}
-
+	
+	//GET ALL TASK
 	public ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
         
@@ -632,7 +649,8 @@ public class TaskHandler {
 
         return task;
     }
-
+	
+	//GET TASK
     public Task getTask(UUID taskID) {
         Task task;
 
@@ -646,6 +664,7 @@ public class TaskHandler {
 
     }
 	
+    //SEARCH TASK
 	public ArrayList<Task> searchTask(String query){
 		ArrayList<Task> task = null;
 		try {
@@ -657,15 +676,20 @@ public class TaskHandler {
 		return task;
 	}
 	
+	//SUBMIT TASK
 	public Task submitTask(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
+		
+		//menyimpan username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 	
 		try {
+			//memperbaharui status task yang akan disubmit, status menjadi sudah tersubmit
 			task = new Task(taskID, task.getSupervisorID(), task.getWorkerID(), task.getTitle(), task.getRevisionCount(), task.getScore(), 1, task.getApproveAt(), task.getNote());
 			task.update();
 			
+			//mengirimkan notifikasi kepada supervisor tersebut bahwa task tersebut telah disubmit
 			String message = uname + " has submitted \"" + task.getTitle() + "\"";
 			NotificationController.getInstance().createNotification(task.getSupervisorID(), message);
 			
@@ -678,22 +702,24 @@ public class TaskHandler {
 	
 	public Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException, IllegalArgumentException{
 		//validasi form update task
-		if(validateTitle(title) == false) {
+		if(validateTitle(title) == false) {//validasi panjang title
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
-		} else if(validateNote(note) == false) {
+		} else if(validateNote(note) == false) {//validasi panjang note
 			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
-		} else if(validateScore(score) == false) {
+		} else if(validateScore(score) == false) {//validasi score
 			throw new IllegalArgumentException("Score must be between 1-100!");
 		} 
-		
+		//menyimpan username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
-		
+		 
+		//memperbaharui title, note, score yang di input
 		Task task = new Task(taskID, supervisorID, workerID, title, Task.get(taskID).getRevisionCount(), score, Task.get(taskID).getIsSubmitted(), Task.get(taskID).getApproveAt(), note);
 		
 		String message = uname + " has updated information on task \"" + task.getTitle() + "\"";
 		
 		task.update();
 		
+		//mengirimkan notifikasi kepada supervisor dan worker tentang task yang di update
 		NotificationController.getInstance().createNotification(supervisorID, message);
 		NotificationController.getInstance().createNotification(workerID, message);
 		
@@ -713,14 +739,16 @@ public class TaskHandler {
 	}
 
 	public void deleteTask(UUID taskID) throws NoSuchObjectException{
+		//menyimpan username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		Task task;
 		try {
+			//mendelete task yang di delete berdasarkan taskID
 			task = Task.get(taskID);
 			task.delete();
 				
 			String message = uname + " has deleted task \"" + task.getTitle() + "\"";
-			
+			//mengirimkan notifikasi kepada supervisor dan worker tentang task yang di delete
 			NotificationController.getInstance().createNotification(task.getSupervisorID(), message);
 			NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 
@@ -731,7 +759,7 @@ public class TaskHandler {
 	}
 	
 	public Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
-		//cek score
+		//mengecek score yang diinput user
 		if(validateScore(score) == false) {
 			throw new IllegalArgumentException("Score must be between 1-100!");
 		} 
@@ -740,14 +768,19 @@ public class TaskHandler {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Task task;
 		task = Task.get(taskID);
+		
+		//menyimpan role dan username dari user yang sedang login tersebut
 		String role = Log.getInstance().getCurrentUser().getRole();
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
+		//melakukan pengecekan role bahwa hanya supervisor saja yang dapat approve task
 		if(role.equalsIgnoreCase("Supervisor")){
 			try {
+				//mengupdate waktu approve dan score
 				task = new Task(taskID, task.getSupervisorID(),  task.getWorkerID(), task.getTitle(), task.getRevisionCount(), score, task.getIsSubmitted(), timestamp, task.getNote());
 				task.update();
 				
+				//mengirimkan notifikasi kepada worker tersebut tentang task yang di approve oleh supervisor
 				String message = uname + " has approved your task \"" + task.getTitle() + "\"";
 				NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 				
@@ -761,13 +794,17 @@ public class TaskHandler {
 	public Task requestTaskRevision(UUID taskID) throws NoSuchObjectException{
 		Task task;
 		task = Task.get(taskID);
+		
+		//menyimpan username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
 		
 		try {
+			//mengupdate task revision count + 1 dan mengubah tanda submit menjadi belum disubmit
 			task = new Task(taskID, task.getSupervisorID(), task.getWorkerID(), task.getTitle(), task.getRevisionCount()+1, task.getScore(), 0, task.getApproveAt(), task.getNote());
 			task.update();
 			
+			//mengirimkan notifikasi kepada worker tersebut tentang task yang harus direvisi
 			String message = uname + " has requested you a revision on task \"" + task.getTitle() + "\"";
 			NotificationController.getInstance().createNotification(task.getWorkerID(), message);
 			
@@ -778,11 +815,14 @@ public class TaskHandler {
 		
 		return task;
 	}
-
+	
+	
+	//getter untuk mengambil id task yang disimpan
 	public static String getIdTask() {
 		return idTask;
 	}
-
+	
+	//setter untuk id task
 	public static void setIdTask(String idTask) {
 		TaskHandler.idTask = idTask;
 	}
