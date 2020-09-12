@@ -490,9 +490,16 @@ public class TaskHandler {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
 			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
-		} 
+		} else if(validateExistID(workerID) == false){
+			throw new IllegalArgumentException("The workerID doesn't exist in database");
+		} else if(validateExistID(supervisorID) == false){
+			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
+		} else if(validateWorkerID(workerID) == false){
+			throw new IllegalArgumentException("You cannot create task for different workerID");
+		} else if(validateSupervisorID(supervisorID) == false){
+			throw new IllegalArgumentException("You cannot create task for different supervisorID");
+		}
 		
-
 		Task task = null;
 
 		try {
@@ -532,6 +539,59 @@ public class TaskHandler {
 			return true;
 		}
 		return false;
+	}
+	
+	private static boolean validateExistID(UUID id){
+		
+		if(Task.get(id) == null){
+			return false;
+		}
+		
+		return true;
+		
+	}
+
+	
+	private static boolean validateWorkerID(UUID idWorker){
+		String role = "";
+		String roleid = "";
+		try {
+			role = Log.getInstance().getCurrentUser().getRole();
+			roleid = Log.getInstance().getCurrentUser().getId().toString();
+		} catch (NoSuchObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(role.equals("Worker")){
+			if(UUID.fromString(roleid).equals(idWorker)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	private static boolean validateSupervisorID(UUID idSupervisor){
+		String role = "";
+		String roleid = "";
+		try {
+			role = Log.getInstance().getCurrentUser().getRole();
+			roleid = Log.getInstance().getCurrentUser().getId().toString();
+		} catch (NoSuchObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(role.equals("Supervisor")){
+			if(UUID.fromString(roleid).equals(idSupervisor)){
+				return true;
+			}
+		}
+		
+		return false;
+		
 	}
 
 	public ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
