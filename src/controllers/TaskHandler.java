@@ -546,28 +546,17 @@ public class TaskHandler {
 
 	
 	private static boolean validateID(UUID id){
-		String role = "";
 		String roleid = "";
 		try {
-			role = Log.getInstance().getCurrentUser().getRole();
 			roleid = Log.getInstance().getCurrentUser().getId().toString();
 		} catch (NoSuchObjectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(role.equals("Worker")){
-			if(UUID.fromString(roleid).equals(id)){
-				return true;
-			}
-		}
-		else if(role.equals("Supervisor")){
-			if(UUID.fromString(roleid).equals(id)){
-				return true;
-			}
+		if(UUID.fromString(roleid).equals(id)){
+			return true;
 		}
 		return false;
 	}
-
 
 	public ArrayList<Task> getAllTask() throws NoSuchObjectException, SQLException{
         ArrayList<Task> task = null;
