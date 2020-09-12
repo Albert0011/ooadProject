@@ -31,9 +31,9 @@ public class TaskRequestHandler {
 
 	public TaskRequest createTaskRequest(String title, UUID supervisorID, UUID workerID, String note) {
 		if(validateExistID(workerID) == false){
-			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
+			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} else if(validateID(workerID) == false){
-			throw new IllegalArgumentException("You cannot create task for different supervisorID");
+			throw new IllegalArgumentException("You cannot create task for different workerID");
 		}
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
