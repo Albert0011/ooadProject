@@ -20,18 +20,23 @@ public class UserTaskDisplay extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
+	//panel UserTaskDisplay ini dibagi menjadi 2 panel yaitu topMenuPanel dan mainPanel 
+	//tujuan UserTaskDisplay dibuat agar button yang diatas tetap dan tidak berubah, yang diubah-ubah hanya mainPanelnya saja
+		
 	public UserTaskDisplay() {
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
+		//main panel adalah panel yang dapat berubah-ubah sesuai command dari tiap button (yang berada di topMenuPanel) yang di klik
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 224));
 		mainPanel.setBounds(0, 40, 628, 376);
 		add(mainPanel);
 		mainPanel.setLayout(null);
 		
-		
+		//topMenuPanel adalah panel yang berisi 2 button yaitu button view all task, dan button create task
 		topMenuPanel = new JPanel();
 		topMenuPanel.setBackground(new Color(255, 255, 224));
 		topMenuPanel.setBounds(0, 0, 628, 40);

@@ -49,6 +49,7 @@ public class WorkerHomepage extends JFrame {
 		contentPane.add(menuPanel);
 		menuPanel.setLayout(null);
 		
+		//mainPanel adalah panel utama yang dapat diubah-ubah misalnya ketika klik notification, mainPanel akan berubah menjadi NotificationHistoryDisplay
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(153, 153, 153));
 		mainPanel.setBounds(179, 122, 628, 416);
@@ -70,18 +71,18 @@ public class WorkerHomepage extends JFrame {
 		profileBtn.setBackground(new Color(51, 153, 204));
 
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setIcon(new ImageIcon(WorkerHomepage.class.getResource("/ICON.jpg")));
-		lblNewLabel_1.setBounds(43, 25, 95, 87);
-		menuPanel.add(lblNewLabel_1);
+		JLabel icon = new JLabel("New label");
+		icon.setForeground(new Color(255, 255, 255));
+		icon.setIcon(new ImageIcon(WorkerHomepage.class.getResource("/ICON.jpg")));
+		icon.setBounds(43, 25, 95, 87);
+		menuPanel.add(icon);
 		
-		JLabel lblNewLabel_2 = new JLabel("Cyber Whale");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setFont(new Font("Sylfaen", Font.BOLD, 17));
-		lblNewLabel_2.setBounds(24, 134, 129, 25);
-		menuPanel.add(lblNewLabel_2);
+		JLabel labelCyberWhale = new JLabel("Cyber Whale");
+		labelCyberWhale.setHorizontalAlignment(SwingConstants.CENTER);
+		labelCyberWhale.setForeground(new Color(255, 255, 255));
+		labelCyberWhale.setFont(new Font("Sylfaen", Font.BOLD, 17));
+		labelCyberWhale.setBounds(24, 134, 129, 25);
+		menuPanel.add(labelCyberWhale);
 		
 		notifBtn = new JButton("Notification");
 		notifBtn.setForeground(Color.WHITE);
@@ -90,12 +91,7 @@ public class WorkerHomepage extends JFrame {
 		notifBtn.setBounds(0, 269, 180, 44);
 		menuPanel.add(notifBtn);
 		
-		JPanel headerPanel = new JPanel();
-		headerPanel.setPreferredSize(new Dimension(300, 42));
-		headerPanel.setLayout(new BorderLayout());
-		headerPanel.setBackground(Color.blue);
-		headerPanel.setBounds(179, 0, 618, 123);
-		
+		//panel paling atas warna putih, berisi button logout
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(255, 255, 255));
 		topPanel.setBounds(179, 0, 628, 42);

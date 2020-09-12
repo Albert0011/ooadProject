@@ -40,19 +40,21 @@ public class AdminHomepage extends JFrame {
 		contentPane.setBackground(new Color(51, 153, 204));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		
+		//menu panel ada di sebelah kiri yang terdapat icon, nama perusahaan, button view all user, dan button create user
 		menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(0, 0, 51));
 		menuPanel.setBounds(0, 0, 179, 538);
 		contentPane.add(menuPanel);
 		menuPanel.setLayout(null);
 		
+		//main panel adalah panel utama yang dapat diubah-ubah misalnya ketika klik view all user, mainPanel akan berubah menjadi AllUserDisplay
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(153, 153, 153));
 		mainPanel.setBounds(179, 122, 628, 416);
 		contentPane.add(mainPanel);
 		mainPanel.setLayout(null);
 		
+		//button ini akan menampilkan form create user jika di klik
 		btnCreateUser = new JButton("Create User");
 		btnCreateUser.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnCreateUser.setBounds(0, 248, 180, 65);
@@ -60,6 +62,7 @@ public class AdminHomepage extends JFrame {
 		btnCreateUser.setForeground(new Color(255, 255, 255));
 		btnCreateUser.setBackground(new Color(51, 153, 204));
 		
+		//button ini akan menampilkan all user display jika di klik
 		btnViewAllUser = new JButton("View All User");
 		btnViewAllUser.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnViewAllUser.setBounds(0, 183, 180, 65);
@@ -67,39 +70,36 @@ public class AdminHomepage extends JFrame {
 		btnViewAllUser.setForeground(Color.WHITE);
 		btnViewAllUser.setBackground(new Color(51, 153, 204));
 
+		//untuk menampilkan icon di sebelah kiri atas
+		JLabel icon = new JLabel("New label");
+		icon.setForeground(new Color(255, 255, 255));
+		icon.setIcon(new ImageIcon(AdminHomepage.class.getResource("/ICON.jpg")));
+		icon.setBounds(43, 25, 95, 87);
+		menuPanel.add(icon);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setIcon(new ImageIcon(AdminHomepage.class.getResource("/ICON.jpg")));
-		lblNewLabel_1.setBounds(43, 25, 95, 87);
-		menuPanel.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Cyber Whale");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setForeground(new Color(255, 255, 255));
-		lblNewLabel_2.setFont(new Font("Sylfaen", Font.BOLD, 17));
-		lblNewLabel_2.setBounds(24, 134, 129, 25);
-		menuPanel.add(lblNewLabel_2);
-		
-		JPanel headerPanel = new JPanel();
-		headerPanel.setPreferredSize(new Dimension(300, 42));
-		headerPanel.setLayout(new BorderLayout());
-		headerPanel.setBackground(Color.blue);
-		headerPanel.setBounds(179, 0, 618, 123);
-		
+		//label untuk nama perusahaan
+		JLabel labelCyberWhale = new JLabel("Cyber Whale");
+		labelCyberWhale.setHorizontalAlignment(SwingConstants.CENTER);
+		labelCyberWhale.setForeground(new Color(255, 255, 255));
+		labelCyberWhale.setFont(new Font("Sylfaen", Font.BOLD, 17));
+		labelCyberWhale.setBounds(24, 134, 129, 25);
+		menuPanel.add(labelCyberWhale);
+
+		//panel paling atas yang berwarna putih dan berisi button logout
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(new Color(255, 255, 255));
 		topPanel.setBounds(179, 0, 628, 42);
 		contentPane.add(topPanel);
 		topPanel.setLayout(null);
 		
+		//tombol untuk logout
 		logoutBtn = new JButton("Logout");
 		logoutBtn.setForeground(new Color(255, 255, 255));
 		logoutBtn.setBackground(new Color(0, 0, 128));
 		logoutBtn.setBounds(531, 11, 80, 23);
 		topPanel.add(logoutBtn);
 		
-		
+		//label yang bertuliskan "Admin Homepage" berada di bawah top Panel
 		JLabel titleLable = new JLabel("Admin Homepage");
 		titleLable.setForeground(new Color(255, 255, 255));
 		titleLable.setFont(new Font("Dubai Medium", Font.BOLD, 30));
@@ -112,6 +112,7 @@ public class AdminHomepage extends JFrame {
 	}
 	
 	public void refreshContent(JPanel panel) {
+		//untuk ganti panel pada main panel
 		mainPanel.removeAll();
 		mainPanel.repaint();
 		mainPanel.revalidate();

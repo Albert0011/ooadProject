@@ -31,6 +31,7 @@ public class NotificationController {
 		
 		NotificationHistoryDisplay nh = new NotificationHistoryDisplay(getAllNotification());
 		
+		//ketika klik read all button, notifikasi akan terbaca semua
 		nh.getReadAllButton().addActionListener(new ActionListener() {
 			
 			@Override

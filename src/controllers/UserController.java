@@ -38,7 +38,7 @@ public class UserController {
 		return userController;
 	}
 	
-	
+	//untuk validasi dob
 	public static boolean isLeapYear(int year) {
 		if(((year%4 == 0) && !(year%100 == 0)) || year%400 == 0) {
 			return true;
@@ -60,10 +60,12 @@ public class UserController {
 	}
 	
 
+	//untuk menampilkan UserProfileDisplay
 	public UserProfileDisplay openUserProfileDisplay() throws NoSuchObjectException {
 		UserProfileDisplay up = new UserProfileDisplay();
-		
+			
 			try {
+				//untuk menampilkan default dari UserProfileDisplay yaitu profile display
 				up.refreshContent(openProfileDisplay());
 			} catch (NoSuchObjectException e1) {
 				e1.printStackTrace();
@@ -74,6 +76,7 @@ public class UserController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						try {
+							//menampilkan profile display
 							up.refreshContent(openProfileDisplay());
 
 							MainController.getInstance().refreshContent(up);
@@ -88,6 +91,7 @@ public class UserController {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						//menampilkan change password form
 						up.refreshContent(openChangePasswordForm());
 						
 						try {
@@ -104,6 +108,7 @@ public class UserController {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						//menampilkan update profile form
 						up.refreshContent(openUpdateProfileForm());
 						try {
 							MainController.getInstance().refreshContent(up);
@@ -135,7 +140,7 @@ public class UserController {
 			
 		
 			public void actionPerformed(ActionEvent arg0) {
-				
+				//validasi jika ada field yang masih kosong akan ditampilkan message "Please Complete All Data"
 				if(cud.getUnameField().getText().isEmpty() || ((String) cud.getRoleChoice().getSelectedItem()).isEmpty() || 
 						cud.getAddressField().getText().isEmpty() || ((String) cud.getDayChoose().getSelectedItem()).isEmpty() || 
 						((String) cud.getMonthChoose().getSelectedItem()).isEmpty() || ((String) cud.getYearChoose().getSelectedItem()).isEmpty()) {
@@ -152,6 +157,7 @@ public class UserController {
 					if(isValidDate(day, month, year) == true) {
 						Date date1 = new GregorianCalendar(year, month-1, day).getTime();
 						try {
+							//Create new user
 							UserController.getInstance().createUser(cud.getUnameField().getText(), cud.getRoleChoice().getSelectedItem().toString(), date1 , cud.getAddressField().getText(), cud.getTelpField().getText());
 							JOptionPane.showMessageDialog(null, "Create User Success!");
 							MainController.getInstance().refreshContent(openCreateUserDisplay());
@@ -170,6 +176,7 @@ public class UserController {
 		return cud;
 	}
 	
+	//menampilkan semua user
 	public AllUserDisplay openAllUserDisplay() {
 		
 		ArrayList<User> user = getAllUser();
@@ -178,6 +185,7 @@ public class UserController {
 		allUserDisplay.getBtnDeleteUser().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum ada user yang dipilih
 				if(allUserDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select User");
 				}
@@ -219,9 +227,11 @@ public class UserController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				//belum pilih user
 				if(allUserDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select User");
 				}
+				//kalau passwordnya masih dob
 				else if((allUserDisplay.getPassField().getText()).equals(allUserDisplay.getDobField().getText())){
 						JOptionPane.showMessageDialog(null, "Password still default!");
 				}
@@ -277,9 +287,11 @@ public class UserController {
 				String oldPass = cp.getOldPassField().getText();
 				String newPass = cp.getNewPassField().getText();
 				
+				//kalau masih ada field yang kosong
 				if(oldPass.isEmpty() || newPass.isEmpty()) {	
 					JOptionPane.showMessageDialog(null, "Please Complete All Data");
 				}
+				//kalau panjang password tidak sesuai
 				else if(oldPass.length()<8 || oldPass.length()>12 || newPass.length()<8 || newPass.length()>12) {
 					JOptionPane.showMessageDialog(null, "Password length not valid!");
 				}
@@ -324,6 +336,8 @@ public class UserController {
 		
 		up.getUpdateButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				//jika masih ada field yang kosong
 				if(up.getUnameField().getText().isEmpty() ||up.getAddrField().getText().isEmpty() || up.getTelpField().getText().isEmpty() || ((String) up.getDayChoose().getSelectedItem()).isEmpty() || 
 						((String) up.getMonthChoose().getSelectedItem()).isEmpty() || ((String) up.getYearChoose().getSelectedItem()).isEmpty()) {
 					
@@ -374,6 +388,7 @@ public class UserController {
 		return up;
 	}
 	
+	//untuk search dan ambil data-data user yang sedang login
 	public User getUserBy(String uname, String pass) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		User user;
 		
@@ -437,6 +452,7 @@ public class UserController {
 	
 	public User createUser(String username, String role, Date DOB, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchObjectException {
 	
+		//validasi 
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken!");
 		} else if(validateUsernameLength(username) == false) {
@@ -537,11 +553,12 @@ public class UserController {
 	}
 	
 	public User changePassword(String oldPassword, String newPassword) throws NoSuchObjectException, NoSuchAlgorithmException, UnsupportedEncodingException {
-
+		//user yang sedang login
 		User user = Log.getInstance().getCurrentUser();
 		
 		oldPassword = SHA1Encryption.SHA1(oldPassword);
 		
+		//validasi apakah isi dari old password sudah sama dengan password sekarang
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
 			updateUser(user);
@@ -557,9 +574,9 @@ public class UserController {
 	public User updateProfile(String username, Date DOB, String address, String telp) throws NoSuchObjectException {
 
 		
-		
 		User user = Log.getInstance().getCurrentUser();
 		
+		//validasi update profile
 		if(validateUsername(username) == false) {
 			throw new IllegalArgumentException("Username has been taken!");
 		} else if(validateUsernameLength(username) == false) {

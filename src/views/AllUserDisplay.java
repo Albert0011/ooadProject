@@ -55,7 +55,9 @@ public class AllUserDisplay extends JPanel {
 			};
 		};
 		
+		
 		DefaultTableModel model = (DefaultTableModel) viewAllTable.getModel();
+		//NAMA KOLOM
 		model.addColumn("id");
 		model.addColumn("username");
 		model.addColumn("password");
@@ -64,6 +66,7 @@ public class AllUserDisplay extends JPanel {
 		model.addColumn("DOB");
 		model.addColumn("telp");
 		
+		//MENGISI TABEL DARI ARRAYLIST
 		Object[] row = new Object[7];
 		for(int i=0; i<list.size(); i++) {
 			row[0] = list.get(i).getId();

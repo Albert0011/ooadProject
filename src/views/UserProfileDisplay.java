@@ -20,18 +20,23 @@ public class UserProfileDisplay extends JPanel {
 	/**
 	 * Create the panel.
 	 */
+	
+	//panel UserProfileDisplay ini dibagi menjadi 2 panel yaitu topMenuPanel dan mainPanel 
+	//tujuan UserProfileDisplay dibuat agar button yang diatas tetap dan tidak berubah, yang diubah-ubah hanya mainPanelnya saja
+	
 	public UserProfileDisplay() {
 		this.setBackground(Color.LIGHT_GRAY);
 		this.setSize(628, 416);
 		this.setLayout(null);
 		
+		//main panel adalah panel yang dapat berubah-ubah sesuai command dari tiap button (yang berada di topMenuPanel) yang di klik
 		mainPanel = new JPanel();
 		mainPanel.setBackground(new Color(255, 255, 224));
 		mainPanel.setBounds(0, 40, 628, 376);
 		add(mainPanel);
 		mainPanel.setLayout(null);
 		
-		
+		//topMenuPanel adalah panel yang berisi 3 button yaitu button view profile, button change password, dan button update profile
 		topMenuPanel = new JPanel();
 		topMenuPanel.setBackground(new Color(255, 255, 224));
 		topMenuPanel.setBounds(0, 0, 628, 40);
@@ -62,6 +67,7 @@ public class UserProfileDisplay extends JPanel {
 	
 	
 	public void refreshContent(JPanel panel) {
+		//untuk mengubah mainPanel
 		mainPanel.removeAll();
 		mainPanel.repaint();
 		mainPanel.revalidate();

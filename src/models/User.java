@@ -55,6 +55,7 @@ public class User {
 		return new User(UUID.fromString(userID), username, password, role, address, DOB, telp);
 	}
 	
+	//untuk ambil data-data user yang sedang login
 	public static User getBy(String uname, String pass) throws SQLException {
 		String query = "SELECT * from users where username = ? and password = ?";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -79,8 +80,9 @@ public class User {
 	public static User create(String username, String role, Date dob, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		UUID userId = UUID.randomUUID();
 		java.sql.Date date= new java.sql.Date(dob.getTime());
+		
+		//password di encrypt
 		String password = SHA1Encryption.SHA1(date.toString());
-		//String password = date.toString();
 		
 		User user = new User(userId, username, password, role, address, date, telp);
 		return user;

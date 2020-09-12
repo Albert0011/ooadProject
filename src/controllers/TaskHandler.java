@@ -33,6 +33,7 @@ public class TaskHandler {
 		return taskHandler;
 	}
 	
+	//untuk menampilkan semua task
 	public AllTaskDisplay openAllTaskDisplay(ArrayList<Task> task) throws NoSuchObjectException, SQLException {
 		
 	
@@ -40,16 +41,20 @@ public class TaskHandler {
 		
 		String role = Log.getInstance().getCurrentUser().getRole();
 		
+		//Jika rolenya supervisor maka akan di add panel(panelSupervisor) yang berisi 4 button yaitu Button Approve, Update, Delete, Request revision
 		if(role.equalsIgnoreCase("Supervisor")) {
 			allTaskDisplay.add(allTaskDisplay.getPanelSupervisor());
 		}
+		//Jika rolenya worker maka akan di add panel(panelWorker) yang berisi button submit saja
 		else {
 			allTaskDisplay.add(allTaskDisplay.getPanelWorker());
 		}
 		
+		//APPROVE TASK
 		allTaskDisplay.getBtnApprove().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
@@ -58,6 +63,7 @@ public class TaskHandler {
 					String isSubmitted = allTaskDisplay.getViewAllTable().getValueAt(row, 6).toString();
 					Object approved_at = allTaskDisplay.getViewAllTable().getValueAt(row, 7);
 					
+					//jika task sudah disubmit dan belum diapprove
 					if(isSubmitted.equals("1") && approved_at == null) {
 						
 						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to approve this task?");
@@ -80,9 +86,9 @@ public class TaskHandler {
 							break;
 						}
 						
-					} else if(approved_at != null) { 
+					} else if(approved_at != null) { //jika sudah di approve
 						JOptionPane.showMessageDialog(null, "Task is already approved!");
-					} else {
+					} else { //jika task belum disubmit
 						JOptionPane.showMessageDialog(null, "Task is not submitted!");
 					}
 					
@@ -92,9 +98,11 @@ public class TaskHandler {
 			}
 		});
 		
+		//SUBMIT TASK
 		allTaskDisplay.getBtnSubmit().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
@@ -102,7 +110,7 @@ public class TaskHandler {
 					
 					int row = allTaskDisplay.getViewAllTable().getSelectedRow();
 					String isSubmitted = allTaskDisplay.getViewAllTable().getValueAt(row, 6).toString();
-					
+					//jika task belum disubmit
 					if(isSubmitted.equals("0")) {
 						
 						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to submit this task?");
@@ -137,9 +145,11 @@ public class TaskHandler {
 			}
 		});
 		
+		//REQUEST REVISION
 		allTaskDisplay.getBtnRequestRevision().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
@@ -148,7 +158,7 @@ public class TaskHandler {
 					String isSubmitted = allTaskDisplay.getViewAllTable().getValueAt(row, 6).toString();
 					Object approved_at = allTaskDisplay.getViewAllTable().getValueAt(row, 7);
 					
-					
+					//jika sudah disubmit dan belum di approve
 					if(isSubmitted.equals("1") && approved_at == null) {
 						
 						int jawab = JOptionPane.showConfirmDialog(null, "Request revision for this task?");
@@ -173,9 +183,9 @@ public class TaskHandler {
 							break;
 						}
 						
-					} else if(approved_at != null) { 
+					} else if(approved_at != null) { //jika task sudah di approve
 						JOptionPane.showMessageDialog(null, "Task is already approved!");
-					} else {
+					} else { //jika task belum disubmit
 						JOptionPane.showMessageDialog(null, "Task is not submitted!");
 					}
 
@@ -184,9 +194,11 @@ public class TaskHandler {
 			}
 		});
 		
+		//DELETE TASK
 		allTaskDisplay.getBtnDeleteTask().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
@@ -200,13 +212,10 @@ public class TaskHandler {
 							TaskHandler.getInstance().deleteTask(UUID.fromString(taskID));
 							
 							MainController.getInstance().refreshContent(openUserTaskDisplay());
-						} catch (NoSuchObjectException e2) {
+						} catch (NoSuchObjectException | SQLException e2) {
 							// TODO Auto-generated catch block
 							e2.printStackTrace();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						};
 
 							JOptionPane.showMessageDialog(null, "Delete Task Success!! ");
 							
@@ -222,10 +231,12 @@ public class TaskHandler {
 		
 			}
 		});
-				
+		
+		//UPDATE TASK
 		allTaskDisplay.getBtnUpdate().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
@@ -256,10 +267,12 @@ public class TaskHandler {
 		
 		});
 		
+		//SEARCH TASK
 		allTaskDisplay.getBtnSearch().addActionListener(new ActionListener() {	
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika field search task masih kosong
 				if(allTaskDisplay.getSearchField().equals(null)) {
 					JOptionPane.showMessageDialog(null, "Put something first in the search field");
 				}
@@ -268,6 +281,7 @@ public class TaskHandler {
 					ArrayList<Task> listTask = searchTask(query);
 					
 					try {
+						//membuka jframe SearchTaskResultDisplay
 						openSearchTaskResultDisplay(listTask);
 					} catch (NoSuchObjectException | SQLException e1) {
 						// TODO Auto-generated catch block
@@ -278,6 +292,7 @@ public class TaskHandler {
 		
 		});
 		
+		//SORT TASK
 		allTaskDisplay.getBtnSortTask().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -285,11 +300,13 @@ public class TaskHandler {
 				String sortBy = allTaskDisplay.getSortByItem();
 				String sortDir = allTaskDisplay.getSortDirItem();
 				
+				//jika belum memilih sortBy dan sortDir
 				if(sortBy.equalsIgnoreCase("Sort By") || sortDir.equalsIgnoreCase("Sort Dir")) {
 					JOptionPane.showMessageDialog(null, "Please Select Both Sorting Entities");
 				}else {
 					
 					try {
+						
 						ArrayList<Task> listTask = sortTask(sortBy, sortDir);
 						openUserTaskDisplay().refreshContent(openAllTaskDisplay(listTask));
 						
@@ -316,6 +333,7 @@ public class TaskHandler {
         
 	}
 	
+	//menampilkan Form Task Score
 	public TaskScoreForm openScoreDisplay(){
 		TaskScoreForm ts= new TaskScoreForm();
 		Task task;
@@ -351,6 +369,7 @@ public class TaskHandler {
 		return ts;
 	}
 	
+	//menampilkan form update task (jframe)
 	public UpdateTaskForm openUpdateTaskDisplay() throws NoSuchObjectException{
 		UpdateTaskForm ut = new UpdateTaskForm();
 		Task task;
@@ -372,6 +391,7 @@ public class TaskHandler {
 												UUID.fromString(ut.getWorkerIDField().getText()), ut.getTitleField().getText(), Integer.parseInt(ut.getScoreField().getText()), 
 												ut.getNoteField().getText());
 						
+						//jika sudah diupdate jframe update task akan ditutup dan halaman user task display akan di refresh
 						ut.dispose();
 						MainController.getInstance().refreshContent(openUserTaskDisplay());
 						
@@ -406,6 +426,7 @@ public class TaskHandler {
 		
 		ArrayList<Task> task = getAllTask();
 		try {
+			//AllTaskDisplay adalah mainPanel default dari UserTaskDisplay 
 			up.refreshContent(openAllTaskDisplay(task));
 		} catch (NoSuchObjectException e1) {
 			// TODO Auto-generated catch block
@@ -418,6 +439,7 @@ public class TaskHandler {
 		
 		MainController.getInstance().refreshContent(up);
 		
+				//VIEW ALL TASK
 				up.getViewAllTaskBtn().addActionListener(new ActionListener() {
 				
 					@Override
@@ -435,6 +457,7 @@ public class TaskHandler {
 					}
 				});
 			
+				//CREATE TASK
 				up.getCreateTaskBtn().addActionListener(new ActionListener() {
 					
 					@Override
@@ -453,13 +476,16 @@ public class TaskHandler {
 		return up;
 	}
 	
-
+	//menampilkan form create task
 	public TaskForm openCreateTaskForm() {
 		TaskForm tf = new TaskForm();
+		
+		//CREATE TASK
 		tf.getCreateTaskForm().addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika masih ada field yang kosong
 				if (tf.getTitleField().getText().isEmpty() || tf.getSupervisorIDField().getText().isEmpty()
 						|| tf.getWorkerIDField().getText().isEmpty() || tf.getNoteField().getText().isEmpty()) {
 
@@ -469,11 +495,21 @@ public class TaskHandler {
 					try {
 						TaskHandler.getInstance().createTask(tf.getTitleField().getText(), UUID.fromString(tf.getSupervisorIDField().getText()), UUID.fromString(tf.getWorkerIDField().getText()), 
 										 tf.getNoteField().getText());
-						JOptionPane.showMessageDialog(null, "Create Task Success!");
-					} catch (RequestFailedException | SQLException | NoSuchObjectException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage());
+						
+						String role = Log.getInstance().getCurrentUser().getRole().toString();
+						
+						if(role.equals("Supervisor")) {
+							JOptionPane.showMessageDialog(null, "Create Task Success!");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Create Task Request Success!");
+						}
+						
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
-				
+					
+					//semua field dikosongkan kembali
 					tf.getTitleField().setText("");
 					tf.getSupervisorIDField().setText("");
 					tf.getWorkerIDField().setText("");
@@ -485,7 +521,7 @@ public class TaskHandler {
 	}
 
 	public Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException, NoSuchObjectException{
-		
+		//validasi ketika create task
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
@@ -497,9 +533,13 @@ public class TaskHandler {
 		else if(validateExistID(workerID) == false){
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} 
-		else if(validateID(workerID, supervisorID) == false){
+		else if(validateID(workerID) == false){
+			throw new IllegalArgumentException("You cannot create task for different workerID");
+		}
+		else if(validateID(supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}
+		
 		Task task = null;
 
 		try {
@@ -527,6 +567,7 @@ public class TaskHandler {
 	}
 	
 	
+	//Validasi panjang note di form create task
 	private static boolean validateNote(String note) {
 		if(note.length()>=0 && note.length()<=50) {
 			return true;
@@ -534,6 +575,7 @@ public class TaskHandler {
 		return false;
 	}
 
+	//Validasi panjang title di form create task
 	private static boolean validateTitle(String title) {
 		if(title.length()>=5 && title.length()<=20) {
 			return true;
@@ -541,6 +583,7 @@ public class TaskHandler {
 		return false;
 	}
 	
+	//Validasi apakah id yang diinput ada di dalam database atau tidak
 	private static boolean validateExistID(UUID id) throws NoSuchObjectException{
 		ArrayList<User> userList = getAllUser();
 		for(User user: userList) {
@@ -563,26 +606,20 @@ public class TaskHandler {
 		return user;
 	}
 
-	
-	private static boolean validateID(UUID idWorker, UUID idSupervisor){
-		String role = null;
+	//Validasi apakah id yang diinput sama dengan id user yang sedang login atau tidak
+	private static boolean validateID(UUID id){
+		
 		UUID roleid = null;
 		try {
-			role = Log.getInstance().getCurrentUser().getRole();
 			roleid = Log.getInstance().getCurrentUser().getId();
 		} catch (NoSuchObjectException e) {
 			e.printStackTrace();
 		}
-		if(role.equals("Supervisor")){
-			if(roleid.equals(idSupervisor)){
-				return true;
-			}
+		
+		if(roleid.equals(id)){
+			return true;
 		}
-		else if(role.equals("Worker")){
-			if(roleid.equals(idWorker)){
-				return true;
-			}
-		}
+		
 		
 		return false;
 	}
@@ -640,7 +677,7 @@ public class TaskHandler {
 	}
 	
 	public Task updateTask(UUID taskID, UUID supervisorID, UUID workerID, String title,Integer score, String note) throws NoSuchObjectException, IllegalArgumentException{
-
+		//validasi form update task
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
@@ -663,6 +700,7 @@ public class TaskHandler {
 		return task;
 	}
 	
+	//validasi range score task
 	private static boolean validateScore(Integer score) {
 
 		if(score<1 || score>100) {
@@ -693,11 +731,12 @@ public class TaskHandler {
 	}
 	
 	public Task approveTask(UUID taskID, Integer score) throws NoSuchObjectException{
-		
+		//cek score
 		if(validateScore(score) == false) {
 			throw new IllegalArgumentException("Score must be between 1-100!");
 		} 
 		
+		//mengambil waktu saat klik button approve task
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Task task;
 		task = Task.get(taskID);

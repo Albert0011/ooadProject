@@ -33,7 +33,7 @@ public class TaskRequestHandler {
 		try {
 			TaskRequest taskReq = TaskRequest.create(workerID, supervisorID, title, note);
 			taskReq.save();
-			JOptionPane.showMessageDialog(null, "Create Task Request Success!");
+			
 			return taskReq;
 			
 		} catch (Exception e) {
