@@ -127,10 +127,28 @@ public class User {
 	
 	//delete user
 	public void delete() throws SQLException {
-		String query = "delete from users where id = ?";
-		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
+		
+		String query1 = "delete from notifications where user_id = ?";
+		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query1);
 		ps.setString(1, this.id.toString());
 		ps.execute();
+		
+		String query2 = "delete from task_requests where worker_id = ? OR supervisor_id = ?";
+		PreparedStatement ps2 = (PreparedStatement) Connector.getConnection().prepareStatement(query2);
+		ps2.setString(1, this.id.toString());
+		ps2.setString(2, this.id.toString());
+		ps2.execute();
+		
+		String query3 = "delete from tasks where worker_id = ? OR supervisor_id = ?";
+		PreparedStatement ps3 = (PreparedStatement) Connector.getConnection().prepareStatement(query3);
+		ps3.setString(1, this.id.toString());
+		ps3.setString(2, this.id.toString());
+		ps3.execute();
+		
+		String query4 = "delete from users where id = ?";
+		PreparedStatement ps4 = (PreparedStatement) Connector.getConnection().prepareStatement(query4);
+		ps4.setString(1, this.id.toString());
+		ps4.execute();
 
 	}
 	

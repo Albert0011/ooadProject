@@ -199,11 +199,11 @@ public class UserController {
 							
 						try {
 							MainController.getInstance().refreshContent(openAllUserDisplay());
+							
 						} catch (NoSuchObjectException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-							JOptionPane.showMessageDialog(null, "Delete User Success!! ");
 							
 						break;
 					case JOptionPane.NO_OPTION:
@@ -534,10 +534,11 @@ public class UserController {
 		User user = getUser(id);
 		try {
 			user.delete();
-			
+			JOptionPane.showMessageDialog(null, "Delete User Success!! ");
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Delete User Failed!! "+e.getMessage());
 		}
+		
 	}
 	
 	public User resetPassword(String id) throws NoSuchAlgorithmException, UnsupportedEncodingException {
