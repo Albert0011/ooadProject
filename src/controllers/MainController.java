@@ -241,7 +241,7 @@ public class MainController {
 		mainDisplay.repaint();
 	}
 	
-	//refresh panel
+	//refresh the panel
 	public void refreshContent(JPanel panel) throws NoSuchObjectException {
 		User user = Log.getInstance().getCurrentUser();
 		if(user.getRole().equalsIgnoreCase("Admin")) {
