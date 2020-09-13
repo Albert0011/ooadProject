@@ -233,7 +233,7 @@ public class MainController {
 		loginDisplay.dispose();
 	}
 
-	//add panel
+	//add the panel
 	public void addPanel(JPanel panel) {
 		mainDisplay = new MainDisplay();
 		mainDisplay.add(panel);
