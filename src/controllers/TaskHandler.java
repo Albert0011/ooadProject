@@ -69,7 +69,7 @@ public class TaskHandler {
 					//jika task sudah disubmit dan belum diapprove
 					if(isSubmitted.equals("1") && approved_at == null) {
 						
-						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to approve this task?");
+						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to approve this task?","Confirm?", JOptionPane.YES_NO_OPTION);
 						switch (jawab) {
 						case JOptionPane.YES_OPTION:
 							//menyimpan id task yang akan di approve
@@ -117,7 +117,7 @@ public class TaskHandler {
 					//jika task belum disubmit
 					if(isSubmitted.equals("0")) {
 						
-						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to submit this task?");
+						int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to submit this task?","Confirm?", JOptionPane.YES_NO_OPTION);
 						switch (jawab) {
 						case JOptionPane.YES_OPTION:
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
@@ -165,7 +165,7 @@ public class TaskHandler {
 					//jika sudah disubmit dan belum di approve
 					if(isSubmitted.equals("1") && approved_at == null) {
 						
-						int jawab = JOptionPane.showConfirmDialog(null, "Request revision for this task?");
+						int jawab = JOptionPane.showConfirmDialog(null, "Request revision for this task?","Confirm?", JOptionPane.YES_NO_OPTION);
 						switch (jawab) {
 						case JOptionPane.YES_OPTION:
 							String taskID = (allTaskDisplay.getViewAllTable().getValueAt(row, 0)).toString();
@@ -189,6 +189,7 @@ public class TaskHandler {
 						
 					} else if(approved_at != null) { //jika task sudah di approve
 						JOptionPane.showMessageDialog(null, "Task is already approved!");
+						
 					} else { //jika task belum disubmit
 						JOptionPane.showMessageDialog(null, "Task is not submitted!");
 					}
@@ -207,7 +208,7 @@ public class TaskHandler {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Delete this task?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Delete this task?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskDisplay.getViewAllTable().getSelectedRow();
@@ -245,7 +246,7 @@ public class TaskHandler {
 					JOptionPane.showMessageDialog(null, "Please Select Task");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Update this task?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Update this task?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						int row = allTaskDisplay.getViewAllTable().getSelectedRow();
@@ -529,6 +530,11 @@ public class TaskHandler {
 
 	public Task createTask(String title, UUID supervisorID, UUID workerID, String note) throws RequestFailedException, SQLException, NoSuchObjectException{
 		//validasi ketika create task
+		
+		
+//		menampung role dari user yang sedang login tersebut
+		String role = Log.getInstance().getCurrentUser().getRole();
+		
 		if(validateTitle(title) == false) {
 			throw new IllegalArgumentException("Title length must be between 5-20 characters length!");
 		} else if(validateNote(note) == false) {
@@ -540,10 +546,10 @@ public class TaskHandler {
 		else if(validateExistID(workerID) == false){
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} 
-		else if(validateID(workerID) == false){
+		else if(role.equalsIgnoreCase("worker") && validateID(workerID) == false){
 			throw new IllegalArgumentException("You cannot create task for different workerID");
 		}
-		else if(validateID(supervisorID) == false){
+		else if(role.equalsIgnoreCase("supervisor") && validateID(supervisorID) == false){
 			throw new IllegalArgumentException("You cannot create task for different supervisorID");
 		}
 		
@@ -551,23 +557,26 @@ public class TaskHandler {
 
 		try {
 			
-			//menampung role dan username dari user yang sedang login tersebut
-			String role = Log.getInstance().getCurrentUser().getRole();
+//			menampung username dari user yang sedang login tersebut
 			String uname = Log.getInstance().getCurrentUser().getUsername();
 			String message;
 			
 			//melakukan pengecekan role
 			if(role.equalsIgnoreCase("Supervisor")) {
+				
 				//membuat task untuk worker
 				task = Task.create(supervisorID, workerID, title, note);
 				task.save();
 				message = uname + " has assigned you a new task \"" + title + "\"";
+				
 				//mengirimkan notifikasi kepada worker tentang task baru
 				NotificationController.getInstance().createNotification(workerID, message);
 			}
 			else {
 				//membuat taskrequest untuk supervisor agar supervisor melakukan supervise kepada worker tersebut 
+				
 				TaskRequestHandler.getInstance().createTaskRequest(title, supervisorID, workerID, note);
+				
 				//mengirimkan notifikasi kepada supervisor tentang task request baru
 				message = uname +" has requested you to supervise a new task \"" + title + "\"";
 				NotificationController.getInstance().createNotification(supervisorID, message);

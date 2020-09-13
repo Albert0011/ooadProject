@@ -10,7 +10,6 @@ import java.util.UUID;
 import javax.swing.JOptionPane;
 
 import helpers.Log;
-import models.Task;
 import models.TaskRequest;
 import models.User;
 import views.AllTaskRequestDisplay;
@@ -133,7 +132,7 @@ public class TaskRequestHandler {
 					JOptionPane.showMessageDialog(null, "Please Select Task Request");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reject this task request?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reject this task request?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();
@@ -176,7 +175,7 @@ public class TaskRequestHandler {
 					JOptionPane.showMessageDialog(null, "Please Select Task Request");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to accept this task request?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to accept this task request?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 							int row = allTaskRequestDisplay.getViewAllTable().getSelectedRow();

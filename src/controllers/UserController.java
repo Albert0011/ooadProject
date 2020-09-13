@@ -190,7 +190,7 @@ public class UserController {
 					JOptionPane.showMessageDialog(null, "Please Select User");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to delete this user?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to delete this user?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 							int row = allUserDisplay.getViewAllTable().getSelectedRow();
@@ -237,7 +237,7 @@ public class UserController {
 				}
 				else {
 
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reset this user password?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to reset this user password?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						int row = allUserDisplay.getViewAllTable().getSelectedRow();
@@ -296,19 +296,19 @@ public class UserController {
 					JOptionPane.showMessageDialog(null, "Password length not valid!");
 				}
 				else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to change your password?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						
 						try {
 							UserController.getInstance().changePassword(oldPass, newPass);
-							JOptionPane.showMessageDialog(null, "Change password Success!!");
 							cp.emptyPassField();
 
 						} catch (NoSuchObjectException | NoSuchAlgorithmException | UnsupportedEncodingException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						};
+						
 						
 						break;
 					case JOptionPane.NO_OPTION:
@@ -344,7 +344,7 @@ public class UserController {
 					JOptionPane.showMessageDialog(null, "Please Complete All Data");
 				
 				} else {
-					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to update your profile?");
+					int jawab = JOptionPane.showConfirmDialog(null, "Are you sure to update your profile?","Confirm?", JOptionPane.YES_NO_OPTION);
 					switch (jawab) {
 					case JOptionPane.YES_OPTION:
 						int year = Integer.parseInt(up.getYearChoose().getSelectedItem().toString());
@@ -562,7 +562,7 @@ public class UserController {
 		if(oldPassword.equals(user.getPassword())) {
 			user.setPassword(newPassword);
 			updateUser(user);
-			
+			JOptionPane.showMessageDialog(null, "Change password Success!!");
 			return user;
 		}
 		else {

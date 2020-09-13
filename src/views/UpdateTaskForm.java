@@ -3,10 +3,8 @@ package views;
 
 import java.awt.Color;
 
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.util.UUID;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

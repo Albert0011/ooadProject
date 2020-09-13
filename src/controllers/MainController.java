@@ -2,9 +2,7 @@ package controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.UnsupportedEncodingException;
 import java.rmi.NoSuchObjectException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.swing.JPanel;
@@ -45,16 +43,9 @@ public class MainController {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					UserController.getInstance().getUserBy(loginDisplay.getUnameField().getText(), loginDisplay.getPassField().getText());
-				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
+				} catch (Exception e1) {
 					e1.printStackTrace();
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}		
+				}	
 			}
 		});
 		
@@ -109,7 +100,6 @@ public class MainController {
 				try {
 					supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 				} catch (NoSuchObjectException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -123,7 +113,6 @@ public class MainController {
 				try {
 					supervisorHomepage.refreshContent(TaskHandler.getInstance().openUserTaskDisplay());
 				} catch (NoSuchObjectException | SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				

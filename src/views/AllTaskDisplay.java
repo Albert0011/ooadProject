@@ -24,8 +24,6 @@ import models.Task;
 import models.User;
 
 import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 
 public class AllTaskDisplay extends JPanel {

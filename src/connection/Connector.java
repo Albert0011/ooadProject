@@ -9,6 +9,7 @@ import helpers.Env;
 
 public class Connector {
 
+	//connector to database
 	private static Connection connection;
 	
 	public Connector() {
