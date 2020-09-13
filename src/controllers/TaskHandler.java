@@ -540,10 +540,10 @@ public class TaskHandler {
 		} else if(validateNote(note) == false) {
 			throw new IllegalArgumentException("Note length must be between 0-50 characters length!");
 		} 
-		else if(validateExistID(supervisorID) == false){
+		else if(validateExistID(supervisorID,role) == false){
 			throw new IllegalArgumentException("The supervisorID doesn't exist in database");
 		}
-		else if(validateExistID(workerID) == false){
+		else if(validateExistID(workerID,role) == false){
 			throw new IllegalArgumentException("The workerID doesn't exist in database");
 		} 
 		else if(role.equalsIgnoreCase("worker") && validateID(workerID) == false){
@@ -608,10 +608,10 @@ public class TaskHandler {
 	}
 	
 	//Validasi apakah id yang diinput ada di dalam database atau tidak
-	private static boolean validateExistID(UUID id) throws NoSuchObjectException{
+	private static boolean validateExistID(UUID id, String role) throws NoSuchObjectException{
 		ArrayList<User> userList = getAllUser();
 		for(User user: userList) {
-			if(user.getId().equals(id) == true) {
+			if(user.getId().equals(id) == true && user.getRole() == role) {
 				return true;
 			}
 		}
