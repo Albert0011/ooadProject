@@ -6,7 +6,7 @@ import controllers.MainController;
 
 public class Main {
 	
-//	main
+//	main model
 	public Main() {
 		MainController.getInstance().displayLogin();
 	}
