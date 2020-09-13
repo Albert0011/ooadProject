@@ -193,7 +193,7 @@ private static final long serialVersionUID = 1L;
 		this.setVisible(true);
 	}
 
-
+	//setter getter
 	public JTable getViewAllTable() {
 		return viewAllTable;
 	}

@@ -27,7 +27,8 @@ public class TaskForm extends JPanel {
 		this.setBackground(new Color(240, 248, 255));
 		this.setSize(628, 416);
 		this.setLayout(null);
-
+		
+		//LABEL
 		JLabel titleTaskForm = new JLabel("Create New Task Form");
 		titleTaskForm.setHorizontalAlignment(SwingConstants.CENTER);
 		titleTaskForm.setFont(new Font("Segoe UI", Font.BOLD, 30));
@@ -60,7 +61,7 @@ public class TaskForm extends JPanel {
 		note.setBounds(82, 222, 59, 26);
 		add(note);
 
-		// user field
+		//FIELD
 		titleField = new JTextArea();
 		titleField.setForeground(Color.BLACK);
 		titleField.setWrapStyleWord(true);
@@ -89,7 +90,7 @@ public class TaskForm extends JPanel {
 		noteField.setBounds(266, 220, 277, 90);
 		add(noteField);
 
-		// create
+		//BUTTON
 		createTaskForm = new JButton("Create Task");
 		createTaskForm.setFont(new Font("Tahoma", Font.BOLD, 14));
 		createTaskForm.setBackground(new Color(255, 255, 255));
@@ -98,7 +99,8 @@ public class TaskForm extends JPanel {
 
 		this.setVisible(true);
 	}
-
+	
+	//setter getter
 	public JTextArea getTitleField() {
 		return titleField;
 	}

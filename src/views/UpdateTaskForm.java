@@ -76,24 +76,8 @@ public class UpdateTaskForm extends JFrame {
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTitle.setBounds(83, 183, 84, 23);
 		getContentPane().add(lblTitle);
-		
-		
-		//button
-		btnUpdate = new JButton("Update");
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnUpdate.setBounds(470, 330, 89, 23);
-		getContentPane().add(btnUpdate);
-		
-		btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCancel.setBounds(334, 330, 89, 23);
-		getContentPane().add(btnCancel);
-		getContentPane().setLayout(null);
-		setBackground(Color.CYAN);
-		getContentPane().setLayout(null);
-		
-
-		
+	
+		//FIELD
 		taskIDField = new JTextField();
 		taskIDField.setEditable(false);
 		taskIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -133,21 +117,24 @@ public class UpdateTaskForm extends JFrame {
 		noteField.setBounds(224, 252, 335, 55);
 		getContentPane().add(noteField);
 		
+		//button
+		btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnUpdate.setBounds(470, 330, 89, 23);
+		getContentPane().add(btnUpdate);
+		
+		btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(334, 330, 89, 23);
+		getContentPane().add(btnCancel);
+		getContentPane().setLayout(null);
+		setBackground(Color.CYAN);
+		getContentPane().setLayout(null);
 	
 		this.setVisible(true);
 	}
-	
-//	public void refreshContent(JPanel panel) {
-//		mainPanel.removeAll();
-//		mainPanel.repaint();
-//		mainPanel.revalidate();
-//		
-//		mainPanel.add(panel);
-//		mainPanel.repaint();
-//		mainPanel.revalidate();
-//	}
-	
 
+	//setter getter
 	public JTextField getTaskIDField() {
 		return taskIDField;
 	}

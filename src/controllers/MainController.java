@@ -26,6 +26,7 @@ public class MainController {
 	private static SupervisorHomepage supervisorHomepage;
 	private static WorkerHomepage workerHomepage;
 	
+	//singleton
 	public static MainController getInstance() {
 		if(mainController == null) {
 			mainController = new MainController();
@@ -33,9 +34,11 @@ public class MainController {
 		return mainController;
 	}
 	
+	//LOGIN DISPLAY
 	public LoginDisplay displayLogin() {
 		loginDisplay = new LoginDisplay();
 		
+		//LOGIN
 		loginDisplay.getLoginButton().addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			@Override
@@ -59,16 +62,19 @@ public class MainController {
 		
 	}
 	
-	
+	//ADMIN HOMEPAGE DISPLAY
 	public AdminHomepage displayAdminHomepage() {
 		adminHomepage = new AdminHomepage();
 		adminHomepage.refreshContent(UserController.getInstance().openAllUserDisplay());
+		
+		//VIEW ALL USER
 		adminHomepage.btnViewAllUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adminHomepage.refreshContent(UserController.getInstance().openAllUserDisplay());
 			}
 		});
 		
+		//CREATE USER
 		adminHomepage.btnCreateUser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -76,6 +82,7 @@ public class MainController {
 			}
 		});
 		
+		//LOG OUT
 		adminHomepage.getLogoutBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -89,12 +96,13 @@ public class MainController {
 		return adminHomepage;
 	}
 	
-	
+	//SUPERVISOR HOMEPAGE DISPLAY
 	public SupervisorHomepage displaySupervisorHomepage() throws NoSuchObjectException {
 		supervisorHomepage = new SupervisorHomepage();
 		
 		supervisorHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 		
+		//PROFILE
 		supervisorHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -107,6 +115,7 @@ public class MainController {
 			}
 		});
 		
+		//TASK
 		supervisorHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -121,6 +130,7 @@ public class MainController {
 			}
 		});
 		
+		///TASK REQUEST
 		supervisorHomepage.getTaskReqBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -137,6 +147,7 @@ public class MainController {
 			}
 		});
 		
+		//NOTIFICATION
 		supervisorHomepage.getNotifBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -151,6 +162,7 @@ public class MainController {
 			}
 		});
 		
+		//LOG OUT
 		supervisorHomepage.getLogoutBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -164,11 +176,13 @@ public class MainController {
 		return supervisorHomepage;
 	}
 	
+	//WORKER HOMEPAGE DISPLAY
 	public WorkerHomepage displayWorkerHomepage() throws NoSuchObjectException {
 		workerHomepage = new WorkerHomepage();
 		
 		workerHomepage.refreshContent(UserController.getInstance().openUserProfileDisplay());
 		
+		//PROFILE
 		workerHomepage.getProfileBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -181,6 +195,7 @@ public class MainController {
 			}
 		});
 		
+		//TASK
 		workerHomepage.getTaskBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -196,6 +211,7 @@ public class MainController {
 			}
 		});
 		
+		//NOTIFICATION
 		workerHomepage.getNotifBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -209,7 +225,7 @@ public class MainController {
 			}
 		});
 		
-		
+		//LOG OUT
 		workerHomepage.getLogoutBtn().addActionListener(new ActionListener() {
 			
 			@Override
@@ -223,12 +239,12 @@ public class MainController {
 		return workerHomepage;
 	}
 	
+	//menutup login display
 	public void disposeLoginFrame() {
 		loginDisplay.dispose();
 	}
 
-	
-	
+	//add panel
 	public void addPanel(JPanel panel) {
 		mainDisplay = new MainDisplay();
 		mainDisplay.add(panel);
@@ -236,20 +252,16 @@ public class MainController {
 		mainDisplay.repaint();
 	}
 	
+	//refresh panel
 	public void refreshContent(JPanel panel) throws NoSuchObjectException {
 		User user = Log.getInstance().getCurrentUser();
-//		System.out.println("masuk");
 		if(user.getRole().equalsIgnoreCase("Admin")) {
 			adminHomepage.refreshContent(panel);			
-//			System.out.println("admin homepage");
 		} else if(user.getRole().equalsIgnoreCase("Worker")) {
 			workerHomepage.refreshContent(panel);
-//			System.out.println("worker homepage");
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")) {
 			supervisorHomepage.refreshContent(panel);
-//			System.out.println("superv homepage");
 		} else {
-//			System.out.println("gagal cok");
 		}
 		
 	}

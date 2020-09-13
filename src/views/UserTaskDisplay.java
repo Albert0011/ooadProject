@@ -70,7 +70,7 @@ public class UserTaskDisplay extends JPanel {
 		mainPanel.revalidate();
 	}
 
-
+	//setter getter
 	public JPanel getTopMenuPanel() {
 		return topMenuPanel;
 	}

@@ -26,7 +26,7 @@ public class Task {
 	private Timestamp approveAt;
 	private String note;
 	
-	
+	//constructor
 	public Task(UUID id, UUID supervisorID, UUID workerID, String title, Integer revisionCount, Integer score,
 			Integer isSubmitted, Timestamp approveAt, String note) {
 		super();
@@ -41,28 +41,34 @@ public class Task {
 		this.note = note;
 	}
 
+	
+	//untuk mencari task
 	public static ArrayList<Task> Search(String query) throws SQLException, NoSuchObjectException{
 		ArrayList<Task> listTask = new ArrayList<Task>();
+		//menampung data user yang sedang login 
 		User user = Log.getInstance().getCurrentUser();
 		String queryFinal = "";
 		String type = null;
+		//cek role dari user yang sedang login
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
+			//membuat query untuk mencari task dari user yang sedang login dan title beserta username yang di input user tersebut
 			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.worker_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
 			type = "supervisor_id";
+			//membuat query untuk mencari task dari user yang sedang login dan title beserta username yang di input user tersebut
 			queryFinal = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id where ts.supervisor_id = '"+user.getId()+"' AND us.username"
 					+ " LIKE '%"+query+"%' OR title LIKE '%"+query+"%'";
 		}
 		
 		
-//		System.out.println(queryFinal);
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
 		ResultSet rs = ps.executeQuery(queryFinal);
 		Task task;
+		//menampung task yang dicari dan dimasukkan kedalam array list
 		while(rs.next()) {
 			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
 			listTask.add(task);
@@ -72,10 +78,13 @@ public class Task {
 		return listTask;
 	}
 	
+	//get all task
 	public static ArrayList<Task> getAll(UUID userID) throws SQLException {
 		ArrayList<Task> listTask = new ArrayList<Task>();
 		User user = User.get(userID.toString());
 		String type = null;
+		
+		//cek role user 
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
@@ -84,9 +93,9 @@ public class Task {
 		
 		String query = "select * from tasks where "+type+" = '"+userID.toString()+"'"+" order by is_submitted asc";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
-//		ps.setString(1, userID.toString());
 		ResultSet rs = ps.executeQuery(query);
 		Task task;
+		//menampung task dan dimasukkan kedalam array list
 		while(rs.next()) {
 			task = new Task(UUID.fromString(rs.getString(1)),UUID.fromString(rs.getString(2)),UUID.fromString(rs.getString(3)), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getTimestamp(8), rs.getString(9));
 			listTask.add(task);
@@ -97,8 +106,8 @@ public class Task {
 	}
 	
 
-
-	 public static Task get(UUID id) {
+	//select data task berdasarkan id
+	public static Task get(UUID id) {
 	        String query = "SELECT * from tasks where id  = ?";
 
 	        try {
@@ -128,7 +137,7 @@ public class Task {
 
 	    }
 	
-	
+	//create task
 	public static Task create(UUID supervisorID, UUID workerID, String title, String note){
 		UUID taskId = UUID.randomUUID();
 		Task task = new Task(taskId, supervisorID, workerID, title, 0, 0, 0, null, note);
@@ -136,6 +145,7 @@ public class Task {
 		return task;
 	}
 	
+	//save ke database
 	public Task save() throws SQLException{
 		String query = "insert into tasks values (?,?,?,?,?,?,?,?,?)";
 		
@@ -163,6 +173,7 @@ public class Task {
 		return this;
 	}
 	
+	//delete task berdasarkan id
 	public void delete() {
         String query = "delete from tasks where id = ?";
         try {
@@ -177,6 +188,7 @@ public class Task {
         }
     }
 	
+	//update task
 	public Task update() {
         String query = "update tasks set supervisor_id = ?, worker_id = ?, title = ?, revision_count = ?, score = ?, is_submitted = ?, approved_at = ?,note = ? where id = ?";
         try {
@@ -207,25 +219,28 @@ public class Task {
         return null;
     }
 	
+	//sorting task
 	public static ArrayList<Task> sort(String sortBy, String sortDir) throws NoSuchObjectException, SQLException {
 		
 		ArrayList<Task> listTask = new ArrayList<Task>();
-	
+		//menampung data user yang sedang login
 		User user = Log.getInstance().getCurrentUser();
 		String query= "";
 		String type = null;
+		//cek role dari user yang sedang login
 		if(user.getRole().equalsIgnoreCase("Worker")) {
 			type = "worker_id";
 		} else if(user.getRole().equalsIgnoreCase("Supervisor")){
 			type = "supervisor_id";
 		}
 		
+		//jika sortby berdasarkan role
 		if(sortBy.equalsIgnoreCase("supervisor") || sortBy.equalsIgnoreCase("worker")) {
 			sortBy = "username";
 			query = "select distinct ts.id, ts.supervisor_id, ts.worker_id, ts.title, ts.revision_count, ts.score, "
 					+ "ts.is_submitted, ts.approved_at, ts.note from tasks ts JOIN users us on ts.worker_id = us.id OR ts.supervisor_id = us.id "
 					+ "where ts."+type+" = '"+user.getId().toString()+"'"+" order by us."+sortBy+" "+sortDir;
-		} else {
+		} else {//jika sortby selain role
 			query = "select * from tasks where worker_id = '"+user.getId().toString()+"' OR supervisor_id = '"+user.getId().toString()+"' order by "+sortBy+" "+sortDir;
 		}
 		
@@ -243,7 +258,9 @@ public class Task {
 		return listTask;
 		
 	}
-
+	
+	
+	//setter getter
 	public UUID getId() {
 		return id;
 	}

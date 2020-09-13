@@ -77,6 +77,8 @@ public class NotificationHistoryDisplay extends JPanel {
 		this.setVisible(true);
 		
 	}
+	
+	//setter getter
 	public JTable getNotificationTable() {
 		return notificationTable;
 	}

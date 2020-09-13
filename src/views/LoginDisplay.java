@@ -125,6 +125,7 @@ public class LoginDisplay extends JFrame{
 		
 	}
 
+	//setter getter
 	public JButton getLoginButton() {
 		return loginButton;
 	}

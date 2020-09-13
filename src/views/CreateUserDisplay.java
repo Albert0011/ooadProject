@@ -159,7 +159,8 @@ public class CreateUserDisplay extends JPanel{
 		
 		
 	}
-
+	
+	//setter getter
 	public JButton getCreateUserButton() {
 		return createUserButton;
 	}

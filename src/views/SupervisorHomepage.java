@@ -147,7 +147,8 @@ public class SupervisorHomepage extends JFrame {
 		mainPanel.repaint();
 		mainPanel.revalidate();
 	}
-
+	
+	//setter getter
 	public JButton getTaskBtn() {
 		return taskBtn;
 	}

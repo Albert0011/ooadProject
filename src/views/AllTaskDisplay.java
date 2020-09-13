@@ -76,9 +76,82 @@ public class AllTaskDisplay extends JPanel {
 		add(mainPanel);
 		mainPanel.setLayout(null);
 		
+		//TITLE
+		Label allTask = new Label("All Task Display");
+		allTask.setBounds(249, 10, 145, 22);
+		mainPanel.add(allTask);
+		allTask.setFont(new Font("Dialog", Font.BOLD, 18));
 		
+		//FIELD
+		searchField = new JTextField();
+		searchField.setBounds(422, 42, 118, 22);
+		mainPanel.add(searchField);
+		searchField.setColumns(10);
+				
+		//BUTTON
+		btnSortTask = new JButton("Sort");
+		btnSortTask.setBounds(186, 42, 69, 22);
+		mainPanel.add(btnSortTask);
+		btnSortTask.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		//TABEL
+		btnSearch = new JButton("Search");
+		btnSearch.setBounds(545, 42, 77, 23);
+		mainPanel.add(btnSearch);
+				
+		//sortBox
+		sortByBox = new JComboBox<String>();
+		sortByBox.setBounds(10, 44, 78, 20);
+		mainPanel.add(sortByBox);
+		sortByBox.setModel(new DefaultComboBoxModel<String>(SORT_BY));
+				
+		sortDirBox = new JComboBox<String>();
+		sortDirBox.setBounds(98, 44, 78, 20);
+		mainPanel.add(sortDirBox);
+		sortDirBox.setModel(new DefaultComboBoxModel<String>(SORT_DIR));
+		
+		//PANEL WORKER
+		panelWorker = new JPanel();
+		panelWorker.setBackground(new Color(240, 248, 255));
+		panelWorker.setBounds(0, 343, 628, 34);
+		//add(panelWorker);
+		panelWorker.setLayout(null);
+		
+		//BUTTON
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setBackground(new Color(224, 255, 255));
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnSubmit.setBounds(251, 0, 125, 34);
+		panelWorker.add(btnSubmit);
+		
+		//PANEL SUPERVISOR
+		panelSupervisor = new JPanel();
+		panelSupervisor.setBackground(new Color(240, 248, 255));
+		panelSupervisor.setBounds(0, 343, 628, 34);
+		//add(panelSupervisor);
+		panelSupervisor.setLayout(new GridLayout(0, 4, 0, 0));
+		
+		//BUTTON
+		btnApprove = new JButton("Approve");
+		btnApprove.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnApprove.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnApprove);
+				
+		btnUpdate = new JButton("Update");
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnUpdate.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnUpdate);
+				
+		btnDeleteTask = new JButton("Delete");
+		btnDeleteTask.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnDeleteTask.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnDeleteTask);
+				
+		btnRequestRevision = new JButton("Request Revision");
+		btnRequestRevision.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnRequestRevision.setBackground(new Color(224, 255, 255));
+		panelSupervisor.add(btnRequestRevision);
+		
+		//TABEL ALL TASK
 		viewAllTable = new JTable() {
 			private static final long serialVersionUID = 1L;
 			
@@ -87,6 +160,7 @@ public class AllTaskDisplay extends JPanel {
 			};
 		};
 		
+		//HEADER TABEL
 		model = (DefaultTableModel) viewAllTable.getModel();
 		model.addColumn("id");
 		model.addColumn("supervisor");
@@ -98,7 +172,7 @@ public class AllTaskDisplay extends JPanel {
 		model.addColumn("approveAt");
 		model.addColumn("note");
 		
-
+		//ISI DARI TABEL
 		Object[] row = new Object[9];
 		for(int i=0; i<list.size(); i++) {
 			row[0] = list.get(i).getId();
@@ -152,137 +226,68 @@ public class AllTaskDisplay extends JPanel {
 		
 		scrollPane.setViewportView(viewAllTable);
 		
+		
+		
+		
+		
+		//FORM YG KANAN
+		//LABEL
+		JLabel note = new JLabel("note");
+		note.setBounds(429, 236, 69, 14);
+		mainPanel.add(note);
+				
+		JLabel title = new JLabel("title");
+		title.setBounds(429, 196, 46, 14);
+		mainPanel.add(title);
+				
+		JLabel supervisorID = new JLabel("supervisor");
+		supervisorID.setBounds(429, 156, 83, 14);
+		mainPanel.add(supervisorID);
+				
+		JLabel workerID = new JLabel("worker");
+		workerID.setBounds(429, 116, 63, 14);
+		mainPanel.add(workerID);
+		
+		JLabel lblId = new JLabel("id");
+		lblId.setBounds(429, 76, 46, 14);
+		mainPanel.add(lblId);
+		
+		//FIELD
 		noteField = new JTextField();
 		noteField.setBounds(429, 250, 179, 75);
 		mainPanel.add(noteField);
 		noteField.setEditable(false);
 		noteField.setColumns(10);
-		
-		JLabel note_1 = new JLabel("note");
-		note_1.setBounds(429, 236, 69, 14);
-		mainPanel.add(note_1);
-		
+				
 		titleField = new JTextField();
 		titleField.setBounds(429, 210, 179, 20);
 		mainPanel.add(titleField);
 		titleField.setEditable(false);
 		titleField.setColumns(10);
-		
-		JLabel title_1 = new JLabel("title");
-		title_1.setBounds(429, 196, 46, 14);
-		mainPanel.add(title_1);
-		
+				
 		supervisorIDField = new JTextField();
 		supervisorIDField.setBounds(429, 170, 179, 20);
 		mainPanel.add(supervisorIDField);
 		supervisorIDField.setEditable(false);
 		supervisorIDField.setColumns(10);
-		
-		JLabel supervisorID_1 = new JLabel("supervisor");
-		supervisorID_1.setBounds(429, 156, 83, 14);
-		mainPanel.add(supervisorID_1);
-		
-		
+				
 		workerIDField = new JTextField();
 		workerIDField.setBounds(429, 130, 179, 20);
 		mainPanel.add(workerIDField);
 		workerIDField.setEditable(false);
 		workerIDField.setColumns(10);
-		
-		JLabel workerID_1 = new JLabel("worker");
-		workerID_1.setBounds(429, 116, 63, 14);
-		mainPanel.add(workerID_1);
-		
-		//field
+				
 		idField = new JTextField();
 		idField.setBounds(429, 90, 179, 20);
 		mainPanel.add(idField);
 		idField.setEditable(false);
 		idField.setColumns(10);
 		
-		//FORM YG KANAN
-		JLabel lblNewLabel = new JLabel("id");
-		lblNewLabel.setBounds(429, 76, 46, 14);
-		mainPanel.add(lblNewLabel);
-		
-	
-		//TITLE
-		Label allTask = new Label("All Task Display");
-		allTask.setBounds(249, 10, 145, 22);
-		mainPanel.add(allTask);
-		allTask.setFont(new Font("Dialog", Font.BOLD, 18));
-		
-		searchField = new JTextField();
-		searchField.setBounds(422, 42, 118, 22);
-		mainPanel.add(searchField);
-		searchField.setColumns(10);
-		
-		btnSearch = new JButton("Search");
-		btnSearch.setBounds(545, 42, 77, 23);
-		mainPanel.add(btnSearch);
-		
-		//button
-		btnSortTask = new JButton("Sort");
-		btnSortTask.setBounds(186, 42, 69, 22);
-		mainPanel.add(btnSortTask);
-		btnSortTask.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		//sortBox
-		sortByBox = new JComboBox<String>();
-		sortByBox.setBounds(10, 44, 78, 20);
-		mainPanel.add(sortByBox);
-		sortByBox.setModel(new DefaultComboBoxModel<String>(SORT_BY));
-		
-		sortDirBox = new JComboBox<String>();
-		sortDirBox.setBounds(98, 44, 78, 20);
-		mainPanel.add(sortDirBox);
-		sortDirBox.setModel(new DefaultComboBoxModel<String>(SORT_DIR));
-		
-		
-		panelWorker = new JPanel();
-		panelWorker.setBackground(new Color(240, 248, 255));
-		panelWorker.setBounds(0, 343, 628, 34);
-		//add(panelWorker);
-		panelWorker.setLayout(null);
-		
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setBackground(new Color(224, 255, 255));
-		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSubmit.setBounds(251, 0, 125, 34);
-		panelWorker.add(btnSubmit);
-		
-		panelSupervisor = new JPanel();
-		panelSupervisor.setBackground(new Color(240, 248, 255));
-		panelSupervisor.setBounds(0, 343, 628, 34);
-		//add(panelSupervisor);
-		panelSupervisor.setLayout(new GridLayout(0, 4, 0, 0));
-		
-		btnApprove = new JButton("Approve");
-		btnApprove.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnApprove.setBackground(new Color(224, 255, 255));
-		panelSupervisor.add(btnApprove);
-		
-		btnUpdate = new JButton("Update");
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnUpdate.setBackground(new Color(224, 255, 255));
-		panelSupervisor.add(btnUpdate);
-		
-		btnDeleteTask = new JButton("Delete");
-		btnDeleteTask.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnDeleteTask.setBackground(new Color(224, 255, 255));
-		panelSupervisor.add(btnDeleteTask);
-		
-		btnRequestRevision = new JButton("Request Revision");
-		btnRequestRevision.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnRequestRevision.setBackground(new Color(224, 255, 255));
-		panelSupervisor.add(btnRequestRevision);
-		
-		
 		this.setVisible(true);
 	}
 	
 	
-	
+	//setter getter
 	public JButton getBtnDeleteTask() {
 		return btnDeleteTask;
 	}

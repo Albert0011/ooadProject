@@ -124,10 +124,11 @@ public class TaskRequestHandler {
 		ArrayList<TaskRequest> taskReq = getAllTaskRequest();
 		AllTaskRequestDisplay allTaskRequestDisplay = new AllTaskRequestDisplay(taskReq);
 		
-		//REJECT TASK
+		//REJECT TASK REQUEST
 		allTaskRequestDisplay.getBtnRejectTaskRequest().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskRequestDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task Request");
 				}
@@ -166,10 +167,11 @@ public class TaskRequestHandler {
 			}
 		});
 		
-		//ACCEPT TASK
+		//ACCEPT TASK REQUEST
 		allTaskRequestDisplay.getBtnAcceptTaskRequest().addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//jika belum select task dari tabel
 				if(allTaskRequestDisplay.getViewAllTable().getSelectedRow() == -1) {
 					JOptionPane.showMessageDialog(null, "Please Select Task Request");
 				}

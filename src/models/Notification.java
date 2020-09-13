@@ -20,7 +20,7 @@ public class Notification {
 	private String message;
 	private Timestamp readAt;
 
-	
+	//constructor
 	public Notification(UUID id, UUID userID, String message, Timestamp readAt) {
 		super();
 		this.id = id;
@@ -28,7 +28,8 @@ public class Notification {
 		this.message = message;
 		this.readAt = readAt;
 	}
-
+	
+	//save notification kedalam database
 	public Notification save() {
 		String query = "insert into notifications values (?,?,?,?)";
 
@@ -49,7 +50,8 @@ public class Notification {
 		}
 		return null;
 	}
-
+	
+	//update notification 
 	public Notification update() throws SQLException {
 		String query = "update notifications set user_id =?, message = ?, read_at = ? where id = ?";
 		
@@ -64,12 +66,14 @@ public class Notification {
 	
 	}
 	
+	//create notification
 	public static Notification create(UUID userID, String message, Timestamp readAt) {
 		UUID notifID = UUID.randomUUID();
 		Notification notif = new Notification(notifID, userID, message, readAt);
 		return notif;
 	}
 	
+	//get all notification
 	public static ArrayList<Notification> getAll(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
 		
@@ -94,8 +98,10 @@ public class Notification {
 		return null;
 	}
 	
+	//get all notification yang belum terbaca
 	public static ArrayList<Notification> getAllUnread(UUID userID){
 		ArrayList<Notification> listNotification = new ArrayList<Notification>();
+		//query mendapat notification yang belum terbaca dengan cara cek read_at nya yang masih null
 		String query = "select * from notifications where user_id = '" + userID.toString() + "'AND read_at IS NULL";
 		try {
 			
@@ -117,7 +123,9 @@ public class Notification {
 		}
 		return null;
 	}
-
+	
+	
+	//setter getter
 	public UUID getId() {
 		return id;
 	}

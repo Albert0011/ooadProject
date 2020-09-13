@@ -203,7 +203,7 @@ public class AllTaskRequestDisplay extends JPanel {
 		this.setVisible(true);
 	}
 
-
+	//setter getter
 	public JTable getViewAllTable() {
 		return viewAllTable;
 	}

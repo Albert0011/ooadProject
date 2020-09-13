@@ -19,10 +19,10 @@ public class UpdateProfileForm extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField unameField;
+	private JTextField usernameField;
 	private JTextField telpField;
 	private JButton updateButton;
-	private JTextArea addrField;
+	private JTextArea addressField;
 	private JComboBox<Object> yearChoose;
 	private JComboBox<Object> monthChoose;
 	private JComboBox<Object> dayChoose;
@@ -33,40 +33,42 @@ public class UpdateProfileForm extends JPanel {
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Update Profile Form");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel.setBounds(209, 11, 186, 29);
-		this.add(lblNewLabel);
+		//TITLE
+		JLabel lblUpdateProfileForm = new JLabel("Update Profile Form");
+		lblUpdateProfileForm.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblUpdateProfileForm.setBounds(209, 11, 186, 29);
+		this.add(lblUpdateProfileForm);
 		
-		JLabel lblNewLabel_1 = new JLabel("Username");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(160, 75, 89, 14);
-		this.add(lblNewLabel_1);
+		//LABEL
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblUsername.setBounds(160, 75, 89, 14);
+		this.add(lblUsername);
 		
-		JLabel lblNewLabel_2 = new JLabel("DOB");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(160, 118, 78, 14);
-		this.add(lblNewLabel_2);
+		JLabel lblDOB = new JLabel("DOB");
+		lblDOB.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDOB.setBounds(160, 118, 78, 14);
+		this.add(lblDOB);
 		
-		JLabel lblNewLabel_3 = new JLabel("Address");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_3.setBounds(160, 161, 78, 14);
-		this.add(lblNewLabel_3);
+		JLabel lblAddress = new JLabel("Address");
+		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblAddress.setBounds(160, 161, 78, 14);
+		this.add(lblAddress);
 		
-		JLabel lblNewLabel_4 = new JLabel("Telp");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_4.setBounds(160, 251, 78, 14);
-		this.add(lblNewLabel_4);
+		JLabel lblTelp = new JLabel("Telp");
+		lblTelp.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTelp.setBounds(160, 251, 78, 14);
+		this.add(lblTelp);
 		
 		
-		unameField = new JTextField();
-		unameField.setBounds(249, 73, 206, 20);
-		this.add(unameField);
-		unameField.setColumns(10);
+		usernameField = new JTextField();
+		usernameField.setBounds(249, 73, 206, 20);
+		this.add(usernameField);
+		usernameField.setColumns(10);
 		
-		addrField = new JTextArea();
-		addrField.setBounds(249, 158, 206, 69);
-		this.add(addrField);
+		addressField = new JTextArea();
+		addressField.setBounds(249, 158, 206, 69);
+		this.add(addressField);
 		
 		yearChoose = new JComboBox<Object>();
 		yearChoose.setModel(new DefaultComboBoxModel<Object>(new String[] {"2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970"}));
@@ -88,35 +90,35 @@ public class UpdateProfileForm extends JPanel {
 		this.add(telpField);
 		telpField.setColumns(10);
 		
-		JLabel lblNewLabel_5 = new JLabel("5 - 15 characters");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5.setBounds(367, 93, 88, 14);
-		this.add(lblNewLabel_5);
+		JLabel lblCharacter1 = new JLabel("5 - 15 characters");
+		lblCharacter1.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblCharacter1.setBounds(367, 93, 88, 14);
+		this.add(lblCharacter1);
 		
-		JLabel lblNewLabel_5_1 = new JLabel("yyyy");
-		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5_1.setBounds(249, 135, 32, 14);
-		this.add(lblNewLabel_5_1);
+		JLabel lblyyyy = new JLabel("yyyy");
+		lblyyyy.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblyyyy.setBounds(249, 135, 32, 14);
+		this.add(lblyyyy);
 		
-		JLabel lblNewLabel_5_1_1 = new JLabel("mm");
-		lblNewLabel_5_1_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5_1_1.setBounds(332, 135, 32, 14);
-		this.add(lblNewLabel_5_1_1);
+		JLabel lblmm = new JLabel("mm");
+		lblmm.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblmm.setBounds(332, 135, 32, 14);
+		this.add(lblmm);
 		
-		JLabel lblNewLabel_5_1_2 = new JLabel("dd");
-		lblNewLabel_5_1_2.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5_1_2.setBounds(395, 135, 32, 14);
-		this.add(lblNewLabel_5_1_2);
+		JLabel lbldd = new JLabel("dd");
+		lbldd.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lbldd.setBounds(395, 135, 32, 14);
+		this.add(lbldd);
 		
-		JLabel lblNewLabel_5_2 = new JLabel("10 - 100 characters");
-		lblNewLabel_5_2.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5_2.setBounds(358, 229, 97, 14);
-		this.add(lblNewLabel_5_2);
+		JLabel lblCharacter2 = new JLabel("10 - 100 characters");
+		lblCharacter2.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblCharacter2.setBounds(358, 229, 97, 14);
+		this.add(lblCharacter2);
 		
-		JLabel lblNewLabel_5_2_1 = new JLabel("10 - 13 characters");
-		lblNewLabel_5_2_1.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		lblNewLabel_5_2_1.setBounds(367, 270, 90, 14);
-		this.add(lblNewLabel_5_2_1);
+		JLabel lblCharacter3 = new JLabel("10 - 13 characters");
+		lblCharacter3.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		lblCharacter3.setBounds(367, 270, 90, 14);
+		this.add(lblCharacter3);
 		
 		
 		updateButton = new JButton("Update Profile");
@@ -129,12 +131,13 @@ public class UpdateProfileForm extends JPanel {
 		this.setVisible(true);
 	}
 
+	//setter getter
 	public JTextField getUnameField() {
-		return unameField;
+		return usernameField;
 	}
 
 	public void setUnameField(JTextField unameField) {
-		this.unameField = unameField;
+		this.usernameField = unameField;
 	}
 
 	public JTextField getTelpField() {
@@ -154,11 +157,11 @@ public class UpdateProfileForm extends JPanel {
 	}
 
 	public JTextArea getAddrField() {
-		return addrField;
+		return addressField;
 	}
 
 	public void setAddrField(JTextArea addrField) {
-		this.addrField = addrField;
+		this.addressField = addrField;
 	}
 
 	public JComboBox<Object> getYearChoose() {
@@ -186,8 +189,8 @@ public class UpdateProfileForm extends JPanel {
 	}
 	
 	public void emptyUpdateField() {
-		this.unameField.setText("");
-		this.addrField.setText("");
+		this.usernameField.setText("");
+		this.addressField.setText("");
 		this.telpField.setText("");
 	}
 	

@@ -26,7 +26,8 @@ public class NotificationController {
 		}
 		return notificationController;
 	}
-
+	
+	//NOTIFICATION DISPLAY
 	public NotificationHistoryDisplay openNotificationDisplay() throws NoSuchObjectException {
 		
 		NotificationHistoryDisplay nh = new NotificationHistoryDisplay(getAllNotification());
@@ -51,6 +52,7 @@ public class NotificationController {
 		return nh;
 	}
 	
+	//create notification
 	public Notification createNotification(UUID userID, String message) {
 		try {
 			Notification notification = Notification.create(userID, message, null);
@@ -62,6 +64,7 @@ public class NotificationController {
 		}
 	}
 	
+	//get all notification
 	public ArrayList<Notification> getAllNotification() throws NoSuchObjectException{
 		ArrayList<Notification> notif = null;
 		User currentUser = Log.getInstance().getCurrentUser();
@@ -70,14 +73,15 @@ public class NotificationController {
 		return notif;
 	}
 	
+	//read all notification
 	public void readAllNotification(UUID userID) {
-		
+		//menampung semua notification dari user tersebut yang belum terbaca
 		ArrayList<Notification> listNotif = Notification.getAllUnread(userID);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		
 		int success = 0;
 		
-		
+		//setiap notification tersebut di set readAt nya dan diupdate kedalam database
 		for (Notification notification : listNotif) {
 			
 			notification.setReadAt(timestamp);

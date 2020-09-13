@@ -22,7 +22,7 @@ public class User {
 	private Date DOB;
 	private String telp;
 
-	
+	//constructor
 	public User(UUID id, String username, String password, String role, String address, Date dOB, String telp) {
 		super();
 		this.id = id;
@@ -34,7 +34,7 @@ public class User {
 		this.telp = telp;
 	}
 
-
+	//select data berdasarkan id
 	public static User get(String id) throws SQLException {
 		String query = "SELECT * from users where id  = ?";
 	
@@ -76,7 +76,7 @@ public class User {
 		
 	}
 	
-	
+	//create user
 	public static User create(String username, String role, Date dob, String address, String telp) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		UUID userId = UUID.randomUUID();
 		java.sql.Date date= new java.sql.Date(dob.getTime());
@@ -88,6 +88,7 @@ public class User {
 		return user;
 	}
 	
+	//save ke database
 	public User save() throws SQLException {
 		String query = "insert into users values (?,?,?,?,?,?,?)";
 
@@ -107,6 +108,7 @@ public class User {
 
 	}
 	
+	//get all user
 	public static ArrayList<User> getAll() throws SQLException {
 		ArrayList<User> listUser = new ArrayList<User>();
 		String query = "select * from users";
@@ -123,6 +125,7 @@ public class User {
 
 	}
 	
+	//delete user
 	public void delete() throws SQLException {
 		String query = "delete from users where id = ?";
 		PreparedStatement ps = (PreparedStatement) Connector.getConnection().prepareStatement(query);
@@ -131,6 +134,7 @@ public class User {
 
 	}
 	
+	//update user
 	public void update() throws SQLException {
 		String query = "update users set password = ?, username = ?, address = ?, DOB = ?, telp = ? where id = ?";
 
@@ -146,7 +150,7 @@ public class User {
 	
 	}
 	
-
+	//setter getter
 	public UUID getId() {
 		return id;
 	}
@@ -179,7 +183,6 @@ public class User {
 
 	public void setPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		this.password = SHA1Encryption.SHA1(password);
-		//this.password = password;
 	}
 
 

@@ -551,7 +551,7 @@ public class TaskHandler {
 
 		try {
 			
-			//menyimpan role dan username dari user yang sedang login tersebut
+			//menampung role dan username dari user yang sedang login tersebut
 			String role = Log.getInstance().getCurrentUser().getRole();
 			String uname = Log.getInstance().getCurrentUser().getUsername();
 			String message;
@@ -681,7 +681,7 @@ public class TaskHandler {
 		Task task;
 		task = Task.get(taskID);
 		
-		//menyimpan username dari user yang sedang login tersebut
+		//menampung username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 	
 		try {
@@ -709,7 +709,7 @@ public class TaskHandler {
 		} else if(validateScore(score) == false) {//validasi score
 			throw new IllegalArgumentException("Score must be between 1-100!");
 		} 
-		//menyimpan username dari user yang sedang login tersebut
+		//menampung username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		 
 		//memperbaharui title, note, score yang di input
@@ -739,7 +739,7 @@ public class TaskHandler {
 	}
 
 	public void deleteTask(UUID taskID) throws NoSuchObjectException{
-		//menyimpan username dari user yang sedang login tersebut
+		//menampung username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		Task task;
 		try {
@@ -769,7 +769,7 @@ public class TaskHandler {
 		Task task;
 		task = Task.get(taskID);
 		
-		//menyimpan role dan username dari user yang sedang login tersebut
+		//menampung role dan username dari user yang sedang login tersebut
 		String role = Log.getInstance().getCurrentUser().getRole();
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
@@ -795,7 +795,7 @@ public class TaskHandler {
 		Task task;
 		task = Task.get(taskID);
 		
-		//menyimpan username dari user yang sedang login tersebut
+		//menampung username dari user yang sedang login tersebut
 		String uname = Log.getInstance().getCurrentUser().getUsername();
 		
 		

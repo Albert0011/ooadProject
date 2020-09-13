@@ -41,6 +41,7 @@ public class TaskScoreForm extends JFrame {
 		lblTaskID.setBounds(83, 78, 61, 36);
 		getContentPane().add(lblTaskID);
 		
+		//LABEL
 		JLabel lblWorkerID = new JLabel("workerID");
 		lblWorkerID.setToolTipText("");
 		lblWorkerID.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -69,24 +70,8 @@ public class TaskScoreForm extends JFrame {
 		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblTitle.setBounds(83, 183, 84, 23);
 		getContentPane().add(lblTitle);
-		
-		
-		//button
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSubmit.setBounds(470, 284, 89, 23);
-		getContentPane().add(btnSubmit);
-		
-		btnCancel = new JButton("Cancel");
-		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnCancel.setBounds(334, 284, 89, 23);
-		getContentPane().add(btnCancel);
-		getContentPane().setLayout(null);
-		setBackground(Color.CYAN);
-		getContentPane().setLayout(null);
-		
 
-		
+		//FIELD
 		taskIDField = new JTextField();
 		taskIDField.setEditable(false);
 		taskIDField.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -123,21 +108,25 @@ public class TaskScoreForm extends JFrame {
 		scoreField.setBounds(224, 218, 84, 54);
 		getContentPane().add(scoreField);
 		
-	
+		//button
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSubmit.setBounds(470, 284, 89, 23);
+		getContentPane().add(btnSubmit);
+				
+		btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCancel.setBounds(334, 284, 89, 23);
+		getContentPane().add(btnCancel);
+		getContentPane().setLayout(null);
+		setBackground(Color.CYAN);
+		getContentPane().setLayout(null);
+		
+		
 		this.setVisible(true);
 	}
 	
-//	public void refreshContent(JPanel panel) {
-//		mainPanel.removeAll();
-//		mainPanel.repaint();
-//		mainPanel.revalidate();
-//		
-//		mainPanel.add(panel);
-//		mainPanel.repaint();
-//		mainPanel.revalidate();
-//	}
-	
-
+	//setter getter
 	public JTextField getTaskIDField() {
 		return taskIDField;
 	}

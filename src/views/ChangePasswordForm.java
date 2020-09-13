@@ -84,6 +84,7 @@ public class ChangePasswordForm extends JPanel {
 		this.setVisible(true);
 	}
 
+	//setter getter
 	public JPasswordField getOldPassField() {
 		return oldPassField;
 	}

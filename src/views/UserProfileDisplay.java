@@ -77,6 +77,7 @@ public class UserProfileDisplay extends JPanel {
 		mainPanel.revalidate();
 	}
 	
+	//setter getter
 	public JPanel getTopMenuPanel() {
 		return topMenuPanel;
 	}

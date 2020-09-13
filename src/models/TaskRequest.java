@@ -19,7 +19,7 @@ public class TaskRequest {
 	private String title;
 	private String note;
 	
-	
+	//constructor
 	public TaskRequest(UUID id, UUID workerID, UUID supervisorID, String title, String note) {
 		super();
 		this.id = id;
@@ -28,7 +28,8 @@ public class TaskRequest {
 		this.title = title;
 		this.note = note;
 	}
-
+	
+	//get all task request
 	public static ArrayList<TaskRequest> getAll(UUID userID){
 		ArrayList<TaskRequest> listTaskRequest = new ArrayList<TaskRequest>();
 
@@ -52,6 +53,7 @@ public class TaskRequest {
 		return null;
 	}
 	
+	//select task request berdasarkan id
 	public static TaskRequest get(UUID id) {
 		String query = "SELECT * from task_requests where id  ='"+ id.toString()+"'";
 		
@@ -78,6 +80,7 @@ public class TaskRequest {
 		
 	}
 	
+	//save task request kedalam database
 	public TaskRequest save() throws SQLException {
 		String query = "insert into task_requests values (?,?,?,?,?)";
 
@@ -96,7 +99,8 @@ public class TaskRequest {
 		
 		
 	}
-
+	
+	//update task request
 	public TaskRequest update() {
 		String query = "update task_requests set worker_id =?, supervisor_id =?, title =?, note =? where id =?";
 		try {
@@ -118,6 +122,7 @@ public class TaskRequest {
 		return null;
 	}
 	
+	//delete task request berdasarkan id
 	public void delete() {
 		String query = "delete from task_requests where id =?";
 		try {
@@ -132,12 +137,14 @@ public class TaskRequest {
 		}
 	}
 	
+	//create task request
 	public static TaskRequest create(UUID workerID, UUID supervisorID, String title, String note) {
 		UUID taskReqID = UUID.randomUUID();
 		TaskRequest taskReq = new TaskRequest(taskReqID, workerID, supervisorID, title, note);
 		return taskReq;
 	}
 	
+	//setter getter
 	public UUID getId() {
 		return id;
 	}

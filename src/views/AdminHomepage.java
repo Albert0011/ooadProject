@@ -122,6 +122,7 @@ public class AdminHomepage extends JFrame {
 		mainPanel.revalidate();
 	}
 
+	//setter getter
 	public JButton getLogoutBtn() {
 		return logoutBtn;
 	}

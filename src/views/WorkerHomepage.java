@@ -132,6 +132,7 @@ public class WorkerHomepage extends JFrame {
 		mainPanel.revalidate();
 	}
 
+	//setter getter
 	public JButton getTaskBtn() {
 		return taskBtn;
 	}
